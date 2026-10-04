@@ -31,6 +31,10 @@ export default defineConfig({
 			outDir: 'dist/types',
 			// Types-only modules never reach the bundle graph; list sources explicitly.
 			include: ['src'],
+			// Keep `@dynamix-layout/core` as a package import in the .d.ts files; the
+			// tsconfig path to its sources is only for developing in this repo.
+			aliasesExclude: [/^@dynamix-layout\/core/],
+			pathsToAliases: false,
 			exclude: ['node_modules/**', 'src/test/**'],
 			staticImport: true,
 		}),

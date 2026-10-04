@@ -31,6 +31,11 @@ export default defineConfig({
 	plugins: [
 		solidPlugin(),
 		dts({
+			include: ['src'],
+			// Keep `@dynamix-layout/core` as a package import in the .d.ts files; the
+			// tsconfig path to its sources is only for developing in this repo.
+			aliasesExclude: [/^@dynamix-layout\/core/],
+			pathsToAliases: false,
 			outDir: 'dist/types',
 			exclude: ['node_modules/**', 'src/test/**'],
 			staticImport: true,
