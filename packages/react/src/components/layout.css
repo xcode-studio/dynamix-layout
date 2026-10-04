@@ -4,26 +4,76 @@
 /* --- Tab Label State --- */
 /* Controls the background color of the DefaultWrapTabLabel component based on its state. */
 .DefaultWrapTabLabel[data-state='active'] {
-  background-color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+	background-color: #ffffff;
+	font-family: 'Poppins', sans-serif;
 }
 
 .DefaultWrapTabLabel[data-state='inactive'] {
-  background-color: #dfdfdf;
-  font-family: 'Poppins', sans-serif;
+	background-color: #dfdfdf;
+	font-family: 'Poppins', sans-serif;
 }
 
 /* --- Scrollbar Hiding --- */
 /* Hides the scrollbar for WebKit-based browsers (Chrome, Safari, Opera) 
    in components using the 'hide-scrollbar' class. */
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
 /* --- Dragging State --- */
 /* Prevents child elements (like a text editor) inside DefaultWrapTabBody 
    from capturing mouse events when a parent container has the 'is-dragging' class. 
    This ensures smooth drag-and-drop behavior. */
-.is-dragging .DefaultWrapTabBody>* {
-  pointer-events: none;
+.is-dragging .DefaultWrapTabBody > * {
+	pointer-events: none;
+}
+/* --- Tabset toolbar (maximize / fold) --- */
+/* Shown while the tab bar is hovered or focused, like LeetCode. Folded strips
+   always show it so they can be unfolded. */
+.DefaultTabsetToolbar {
+	position: absolute;
+	top: 0;
+	right: 6px;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+[data-tabbar]:hover .DefaultTabsetToolbar,
+[data-tabbar][data-folded] .DefaultTabsetToolbar,
+.DefaultTabsetToolbar:focus-within {
+	opacity: 1;
+}
+
+@media (hover: none) {
+	.DefaultTabsetToolbar {
+		opacity: 1;
+	}
+}
+
+.DefaultTabsetToolbarButton {
+	display: grid;
+	place-items: center;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: 0;
+	border-radius: 4px;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+}
+
+.DefaultTabsetToolbarButton:hover,
+.DefaultTabsetToolbarButton:focus-visible {
+	background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Hidden while another tabset is maximized. An attribute (not inline display)
+   keeps each component's own display value intact. */
+[data-dx-hidden] {
+	display: none !important;
 }

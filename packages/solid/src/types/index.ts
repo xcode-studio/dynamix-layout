@@ -91,6 +91,28 @@ export interface LayoutProps {
 	RootSplitterHoverElClass?: string
 	rootId?: string
 	tabNames?: Map<string, string | JSX.Element>
+	/** Show the maximize button on tab bars (default true). */
+	enableMaximize?: boolean
+	/** Show the fold button on tab bars (default true; needs the tab bar). */
+	enableCollapse?: boolean
+	/** Double-click a tab bar to maximize or restore it (default true). */
+	enableDoubleClickMaximize?: boolean
+	/** Alt/Option + "+" maximizes, Alt/Option + "-" folds the active tabset (default true). */
+	keyboardShortcuts?: boolean
+	TabsetToolbar?: (props: TabsetToolbarProps) => JSX.Element
+}
+
+export interface TabsetToolbarProps {
+	maximized: boolean
+	folded: boolean
+	/** The tab bar is drawn as a rotated vertical strip (folded, side-by-side row). */
+	rotated: boolean
+	/** The tabset's row lays its children out side by side. */
+	rowIsHorizontal: boolean
+	showMaximize: boolean
+	showFold: boolean
+	onToggleMaximize: () => void
+	onToggleFold: () => void
 }
 
 export interface useDynamixLayoutOptions {
@@ -109,4 +131,6 @@ export interface useDynamixLayoutOptions {
 	minTabHeight: number
 	minTabWidth: number
 	tabHeadHeight: number
+	keyboardShortcuts?: boolean
+	enableDoubleClickMaximize?: boolean
 }

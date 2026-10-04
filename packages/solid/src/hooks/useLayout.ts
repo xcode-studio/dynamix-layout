@@ -10,7 +10,9 @@ import {
 	getRootSplitPreview,
 	getTabBodyRect,
 	getTabsetDropPreview,
+	getTabbarPlacement,
 	isSameDropPreview,
+	placeTabbar,
 	setElementRect,
 } from '@dynamix-layout/core'
 import { createSignal, onCleanup, onMount } from 'solid-js'
@@ -31,6 +33,8 @@ export const useDynamixLayout = ({
 	windowResizeTimeout,
 	disableSliderTimeout,
 	disableResizeTimeout,
+	keyboardShortcuts = true,
+	enableDoubleClickMaximize = true,
 }: useDynamixLayoutOptions) => {
 	const tabsetsRef = new Map<string, HTMLDivElement>()
 	const slidersRef = new Map<string, HTMLDivElement>()
@@ -84,6 +88,8 @@ export const useDynamixLayout = ({
 		bond: bondWidth,
 		uqid: rootId,
 		tabsIds: tabOutput.name,
+		// A folded tabset shrinks to its tab bar.
+		collapsedSize: enableTabbar ? tabHeadHeight : minLayoutHeight,
 	})
 
 	const updateTabsets = (nodes: Map<string, NodeOptions>) => {
@@ -107,7 +113,9 @@ export const useDynamixLayout = ({
 			setElementRect(tabEl, body)
 			// Empty bodies stay hidden so their borders/shadows don't bleed onto
 			// the slider below.
-			tabEl.style.display = node.nodOpen && body.h > 0 ? 'block' : 'none'
+			const visible =
+				node.nodOpen && !node.nodFold && !node.nodHidden && body.h > 0
+			tabEl.style.display = visible ? 'block' : 'none'
 		})
 	}
 
@@ -119,10 +127,11 @@ export const useDynamixLayout = ({
 
 				const tabsetEl = tabsetsRef.get(id)
 				if (tabsetEl && enableTabbar) {
-					setElementRect(tabsetEl, {
-						...node.nodDims,
-						h: tabHeadHeight,
-					})
+					tabsetEl.toggleAttribute('data-dx-hidden', !!node.nodHidden)
+					placeTabbar(
+						tabsetEl,
+						getTabbarPlacement(node, tabHeadHeight)
+					)
 				}
 			})
 		}
@@ -136,7 +145,10 @@ export const useDynamixLayout = ({
 		(nodes: Map<string, NodeOptions>) => {
 			nodes.forEach((node: NodeOptions, id: string) => {
 				const sliderEl = slidersRef.get(id)
-				if (sliderEl) setElementRect(sliderEl, node.nodDims)
+				if (!sliderEl) return
+				setElementRect(sliderEl, node.nodDims)
+				sliderEl.toggleAttribute('data-dx-hidden', !!node.nodHidden)
+				sliderEl.style.pointerEvents = node.nodLocked ? 'none' : ''
 			})
 		}
 	)
@@ -222,9 +234,12 @@ export const useDynamixLayout = ({
 		}
 
 		const navbarElement = e.currentTarget as HTMLDivElement
+		// Only tab labels: the tab bar also holds the maximize/fold toolbar.
 		const tabElems = Array.from(
-			navbarElement.childNodes
-		) as HTMLDivElement[]
+			navbarElement.querySelectorAll<HTMLDivElement>(
+				':scope > [data-type="tab"]'
+			)
+		)
 		if (!hoverElementRef.current || !dragElemRef) return
 
 		const preview = getNavbarDropPreview(
@@ -275,8 +290,58 @@ export const useDynamixLayout = ({
 		lastHoverState = preview
 	}
 
+	// --- Maximize / fold ---
+	let activeTabset: string | null = null
+
+	const refreshViewState = () => {
+		updateTabsets(Node.cache.nodOpts.get())
+		updateSliders(Node.cache.bndOpts.get())
+		updateAllTabBodyStyles()
+		if (updateJSON) updateJSON(DynamixLayoutCore._root.toJSON())
+	}
+
+	const toggleMaximize = (tabsetId: string) => {
+		if (layoutInstance.toggleMaximize(tabsetId)) refreshViewState()
+	}
+
+	const toggleCollapse = (tabsetId: string) => {
+		if (layoutInstance.toggleCollapse(tabsetId)) refreshViewState()
+	}
+
+	/** Remembers which tabset the user last touched, for the shortcuts. */
+	const onRootPointerDown = (e: PointerEvent) => {
+		const el = (e.target as HTMLElement).closest<HTMLElement>('[data-uid]')
+		const node = el?.dataset.uid
+			? Node.cache.mapElem.get(el.dataset.uid)
+			: undefined
+		if (!(node instanceof Node)) return
+		if (node.type === 'tabset') activeTabset = node.unId
+		else if (node.type === 'tab' && node.host) activeTabset = node.host.unId
+	}
+
+	const onTabbarDoubleClick = (e: MouseEvent) => {
+		const id = (e.currentTarget as HTMLElement).dataset.uid
+		if (enableDoubleClickMaximize && id) toggleMaximize(id)
+	}
+
+	const onKeyDown = (e: KeyboardEvent) => {
+		if (!keyboardShortcuts || !e.altKey || e.ctrlKey || e.metaKey) return
+		const id = activeTabset ?? layoutInstance.maximizedId
+		if (!id) return
+
+		if (e.code === 'Equal' || e.code === 'NumpadAdd') {
+			e.preventDefault()
+			toggleMaximize(id)
+		} else if (e.code === 'Minus' || e.code === 'NumpadSubtract') {
+			e.preventDefault()
+			toggleCollapse(id)
+		}
+	}
+
 	const onDragStart = (e: DragEvent) => {
 		e.stopPropagation()
+		// Every drop target must be visible while dragging.
+		if (layoutInstance.restore()) refreshViewState()
 		setDragging(true)
 		document.body.style.cursor = 'move'
 		if (e.currentTarget) {
@@ -510,6 +575,7 @@ export const useDynamixLayout = ({
 		const handler = () => updateDimension(disableResizeTimeout ?? false)
 
 		window.addEventListener('resize', handler)
+		window.addEventListener('keydown', onKeyDown)
 
 		updateTabsets(Node.cache.nodOpts.get())
 		updateSliders(Node.cache.bndOpts.get())
@@ -520,6 +586,7 @@ export const useDynamixLayout = ({
 
 		onCleanup(() => {
 			window.removeEventListener('resize', handler)
+			window.removeEventListener('keydown', onKeyDown)
 			offNodes()
 			offBonds()
 			offTabs()
@@ -565,5 +632,9 @@ export const useDynamixLayout = ({
 		updateActiveTab,
 		handleRootSplit,
 		handleNavbarDragOver,
+		toggleMaximize,
+		toggleCollapse,
+		onRootPointerDown,
+		onTabbarDoubleClick,
 	}
 }

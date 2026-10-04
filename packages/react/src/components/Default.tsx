@@ -1,4 +1,5 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
+import type { TabsetToolbarProps } from '../types'
 
 type DefaultWrapTabLabelProps = HTMLAttributes<HTMLDivElement> & {
 	active?: boolean
@@ -297,3 +298,87 @@ export const RootSplitterHoverEl = forwardRef<
 	}
 )
 RootSplitterHoverEl.displayName = 'RootSplitterHoverEl'
+
+const ToolbarIcon = ({
+	path,
+	rotate = 0,
+}: {
+	path: string
+	rotate?: number
+}) => (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="14"
+		height="14"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		aria-hidden="true"
+		style={{ transform: rotate ? `rotate(${rotate}deg)` : undefined }}
+	>
+		<path d={path} />
+	</svg>
+)
+
+const ICON_MAXIMIZE =
+	'M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3'
+const ICON_RESTORE =
+	'M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3'
+const ICON_CHEVRON_LEFT = 'm15 18-6-6 6-6'
+
+export const DefaultTabsetToolbar = ({
+	maximized,
+	folded,
+	rotated,
+	rowIsHorizontal,
+	showMaximize,
+	showFold,
+	onToggleMaximize,
+	onToggleFold,
+}: TabsetToolbarProps) => {
+	// Fold points back along the row (left or up); unfold points the other way.
+	// Inside a rotated strip the icons are turned back so they read upright.
+	const chevronTurn = (rowIsHorizontal ? 0 : 90) + (folded ? 180 : 0)
+	const upright = rotated ? -90 : 0
+
+	return (
+		<div
+			className="DefaultTabsetToolbar"
+			onDoubleClick={(e) => e.stopPropagation()}
+		>
+			{showMaximize && (
+				<button
+					type="button"
+					className="DefaultTabsetToolbarButton"
+					aria-label={maximized ? 'Restore' : 'Maximize'}
+					aria-pressed={maximized}
+					title={maximized ? 'Restore (⌥ +)' : 'Maximize (⌥ +)'}
+					onClick={onToggleMaximize}
+				>
+					<ToolbarIcon
+						path={maximized ? ICON_RESTORE : ICON_MAXIMIZE}
+						rotate={upright}
+					/>
+				</button>
+			)}
+			{showFold && (
+				<button
+					type="button"
+					className="DefaultTabsetToolbarButton"
+					aria-label={folded ? 'Unfold' : 'Fold'}
+					aria-expanded={!folded}
+					title={folded ? 'Unfold (⌥ -)' : 'Fold (⌥ -)'}
+					onClick={onToggleFold}
+				>
+					<ToolbarIcon
+						path={ICON_CHEVRON_LEFT}
+						rotate={chevronTurn + upright}
+					/>
+				</button>
+			)}
+		</div>
+	)
+}
