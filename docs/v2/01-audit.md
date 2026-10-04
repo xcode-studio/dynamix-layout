@@ -18,7 +18,7 @@ Status: **draft for review**. No source code was changed in this phase.
 | Packaging | **Confirmed**, plus two new problems: (a) the React bundle *inlines React 19's `jsx-runtime`*, so the package can't work with React 18; (b) the React package has no `test` script (CI still runs its one smoke test through the root Vitest projects; see P13). |
 | Public API | About 60 exports across core and react. Most are internals. Three exported React types describe an API that doesn't exist. |
 | Serialized format | Documented in §5. Tab identity is the tab **label** (`nodName`); `uidNode` of tabs is a per-session random id and is ignored on load. |
-| New bugs | 29 items in §4. The most important are B1–B6 and B25. B26–B29 were found later, by the characterization fixtures. |
+| New bugs | 30 items in §4. The most important are B1–B6 and B25. B26–B29 were found later by the characterization fixtures, and B30 while building v2. |
 
 ---
 
@@ -283,6 +283,7 @@ Severity: **H** = data loss, crash or wrong behaviour in normal use; **M** = wro
 | B27 | M | **Splitting beside a folded tabset leaves a row stuck at its minimum size.** The tabset turns into a row but keeps `collapsed`, so the row gets no extra space, its splitters lock, and no toolbar can unfold it. The flag is also saved (`nodFold` on a row). | Fixtures (scenarios 7 and 15); `tree-mutations.ts:409-444`. |
 | B28 | M | **A row whose open children all have weight 0 keeps stale sizes**, sometimes drawn outside the row. A splitter dragged fully to one side writes weight 0; once the other sibling folds, `calcDimensions` returns early. | Fixtures (scenario 8); `node.ts:124`. |
 | B29 | L | **After the container shrinks below the layout minimum, the root stays oversized** until the next window resize, because the grown size is written back into the root's dimensions and reused by later recomputes. | Fixtures (scenario 9); `geometry.ts:160-163`. |
+| B30 | **H** | **The published React package's type declarations are broken.** They import `'../../../core/src'`, a path into this repo's sources that doesn't exist in the package, so core types (`LayoutTree`, `NodeOptions`, …) resolve to `any` for users. `vite-plugin-dts` rewrites the tsconfig path alias. | `npm pack @dynamix-layout/react@1.0.2`: `dist/types/types/index.d.ts` line 2. Found in Phase 3. |
 
 ---
 

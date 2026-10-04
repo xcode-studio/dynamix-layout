@@ -998,6 +998,7 @@ layout.moveTab('terminal', { type: 'tabset', tabsetId: 'ts-editor', position: 'c
 
 Proposal: **react 1.x patch + solid 1.x patch** after #83, published from `main` before v2 lands. It contains:
 1. The jsx-runtime external fix and the peer dependency fix (`react ^18 || ^19`). React 18 users are broken today (B2) and shouldn't have to adopt a full rewrite to get a working package.
+1. The type declarations fix (B30): published types import a path into the repo's sources, so core types are `any` for every v1 user.
 2. The README CSS path fix (P10) and the repository link fixes (P12).
 3. `@deprecated` JSDoc on every prop and export that v2 removes, each linking to the migration guide. IDEs show the strikethrough, at zero runtime cost.
 
