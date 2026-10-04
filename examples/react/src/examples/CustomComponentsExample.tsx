@@ -1,18 +1,18 @@
-import Editor from './components/Editor'
-import { Terminal } from './components/Terminal'
+import Editor from '../components/Editor'
+import { Terminal } from '../components/Terminal'
 import {
 	DynamixLayout,
 	type LayoutTreeV1,
 	type TabItem,
 } from '@dynamix-layout/react'
-import { IframePreview } from './components/IframePreview'
+import { IframePreview } from '../components/IframePreview'
 import '@dynamix-layout/react/styles.css'
-import './App.css'
+import '../App.css'
 
-import { classNames, components } from './components/layout-config'
-import { Slider } from './components/ui/slider'
-import { cn } from './lib/utils'
-import { Card } from './components/ui/card'
+import { classNames, components } from '../components/layout-config'
+import { Slider } from '../components/ui/slider'
+import { cn } from '../lib/utils'
+import { Card } from '../components/ui/card'
 import { useState } from 'react'
 
 const dummyTsCode = `
@@ -216,13 +216,14 @@ const tabs: TabItem[] = [
 	{ id: 'terminal', title: 'Terminal', content: <Terminal /> },
 ]
 
-function App() {
+/** Level 1 with custom slot components (shadcn-style), a saved v1 layout and live size controls. */
+export default function CustomComponentsExample() {
 	const [minTabHeight, setMinTabHeight] = useState(40)
 	const [minTabWidth, setMinTabWidth] = useState(40)
 	const [bondWidth, setBondWidth] = useState(10)
 
 	return (
-		<div className="h-screen w-screen bg-background text-foreground relative overflow-auto">
+		<div className="h-full w-full bg-background text-foreground relative overflow-auto">
 			{
 				<DynamixLayout
 					defaultLayout={savedV1Layout}
@@ -246,7 +247,7 @@ function App() {
 				>
 					<div className="w-full flex flex-col items-center gap-2">
 						<label className="text-xs font-medium mb-1 w-full text-center">
-							Min Tab Height
+							Min Panel Height
 						</label>
 						<Slider
 							value={[minTabHeight]}
@@ -259,7 +260,7 @@ function App() {
 					</div>
 					<div className="w-full flex flex-col items-center gap-2">
 						<label className="text-xs font-medium mb-1 w-full text-center">
-							Bond Width
+							Splitter Size
 						</label>
 						<Slider
 							value={[bondWidth]}
@@ -272,7 +273,7 @@ function App() {
 					</div>
 					<div className="w-full flex flex-col items-center gap-2">
 						<label className="text-xs font-medium mb-1 w-full text-center">
-							Min Tab Width
+							Min Panel Width
 						</label>
 						<Slider
 							value={[minTabWidth]}
@@ -288,5 +289,3 @@ function App() {
 		</div>
 	)
 }
-
-export default App
