@@ -27,9 +27,10 @@ jobs:
       - uses: ./.github/actions/ci-setup
       - uses: ./.github/actions/ci-checks
 
-      # npm trusted publishing requires npm CLI >= 11.5.1
+      # npm trusted publishing requires npm CLI >= 11.5.1; npm 12 rejects the
+      # --no-git-checks flag that pnpm forwards from changeset publish
       - name: Upgrade npm
-        run: npm install -g npm@latest
+        run: npm install -g npm@11
 
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1
