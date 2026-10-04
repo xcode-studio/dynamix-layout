@@ -1,9 +1,10 @@
 import {
-	DynamixLayoutCore,
-	NodeOptions,
-	getTabbarPlacement,
+	getTabBarPlacement,
+	getTabContentRect,
+	type Rect,
+	type Side,
 } from '@dynamix-layout/core'
-import { createMemo, For, ParentComponent } from 'solid-js'
+import { createMemo, For, Show, type JSX, type ParentComponent } from 'solid-js'
 import {
 	DefaultHoverElement,
 	DefaultSliderElement,
@@ -15,123 +16,90 @@ import {
 	RootSplitterHoverEl,
 } from './Default'
 import { useDynamixLayout } from '../hooks/useLayout'
-import { LayoutProps, TabEntry, TabInput, TabOutput } from '../types'
+import type { LayoutProps } from '../types'
 
-export const getTabOutput = (input: TabInput): TabOutput => {
-	const keys: string[] = []
-	const maps: Map<string, TabEntry> = new Map<string, TabEntry>()
-	const name: Map<string, string> = new Map<string, string>()
+const DEFAULT_SIZE = 40
+const DEFAULT_BOND = 10
+const SIDES: readonly Side[] = ['left', 'right', 'top', 'bottom']
 
-	for (const [label, node] of input) {
-		const key = crypto.randomUUID()
-		keys.push(label)
-		maps.set(label, {
-			uqid: key,
-			name: label,
-			node,
-		} as TabEntry)
-		name.set(label, key)
-	}
+const position = (rect: Rect | undefined): JSX.CSSProperties =>
+	rect
+		? {
+				left: `${rect.x}px`,
+				top: `${rect.y}px`,
+				width: `${rect.width}px`,
+				height: `${rect.height}px`,
+			}
+		: {}
 
-	return {
-		keys,
-		maps,
-		name,
-	}
-}
+/** Keys that only change when the set of ids changes, so `<For>` keeps its items. */
+const sameIds = (a: readonly string[], b: readonly string[]) =>
+	a.length === b.length && a.every((id, i) => id === b[i])
 
 export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
-	const tabOutput = createMemo(() => getTabOutput(props.tabs))
-	let resolvedRef: HTMLDivElement | undefined
-
-	const dimensions = () => {
-		const el = resolvedRef
-		if (!el) return { w: 0, h: 0, x: 0, y: 0 }
-		const rect = el.getBoundingClientRect()
-		const pad = props.pad || { t: 0, b: 0, l: 0, r: 0 }
-		return {
-			w: rect.width - (pad.l + pad.r),
-			h: rect.height - (pad.t + pad.b),
-			x: rect.left + pad.l,
-			y: rect.top + pad.t,
-		}
-	}
-
-	/* eslint-disable solid/reactivity */
-	const {
-		tabsetsRef,
-		slidersRef,
-		sliders,
-		tabsets,
-		hoverElementRef,
-		onDragEnd,
-		onDragOver,
-		onDragStart,
-		onDragEnter,
-		onDragLeave,
-
-		onDrop,
-		dragging,
-		panelsRef,
-		onPointerDown,
-		handleNavbarDragOver,
-		updateActiveTab,
-		rootSplitHoverEl,
-		handleRootSplit,
-		tabsRef,
-		isUpdating,
-		toggleMaximize,
-		toggleCollapse,
-		onRootPointerDown,
-		onTabbarDoubleClick,
-	} = useDynamixLayout({
-		tabOutput: tabOutput(),
-		rootId: props.rootId || 'dynamix-layout-root',
-		updateJSON: props.updateJSON,
-		enableTabbar:
-			props.enableTabbar === undefined ? true : props.enableTabbar,
-		layoutTree: props.layoutTree,
-		tabHeadHeight: props.tabHeadHeight || DynamixLayoutCore._minH,
-		dimensions,
-		sliderUpdateTimeout: props.sliderUpdateTimeout || 2,
-		windowResizeTimeout: props.windowResizeTimeout || 2,
-		bondWidth: props.bondWidth || DynamixLayoutCore._bond,
-		minTabHeight: props.minTabHeight || DynamixLayoutCore._minH,
-		minTabWidth: props.minTabWidth || DynamixLayoutCore._minW,
-		disableSliderTimeout:
-			props.disableSliderTimeout === undefined
-				? true
-				: props.disableSliderTimeout,
-		disableResizeTimeout:
-			props.disableResizeTimeout === undefined
-				? true
-				: props.disableResizeTimeout,
-		hoverElementStyles: props.hoverElementStyles,
-		keyboardShortcuts: props.keyboardShortcuts ?? true,
-		enableDoubleClickMaximize: props.enableDoubleClickMaximize ?? true,
-	})
-	/* eslint-disable solid/reactivity */
-	const WrapTabPanel = props.WrapTabPanel || DefaultWrapTabPanel
-	const WrapTabHead = props.WrapTabHead || DefaultWrapTabHead
-	const WrapTabLabel = props.WrapTabLabel || DefaultWrapTabLabel
-	const WrapTabBody = props.WrapTabBody || DefaultWrapTabBody
-	const SliderElement = props.SliderElement || DefaultSliderElement
-	const HoverElement = props.HoverElement || DefaultHoverElement
-	const TabsetToolbar = props.TabsetToolbar || DefaultTabsetToolbar
-	const tabHeadHeight = props.tabHeadHeight || DynamixLayoutCore._minH
+	let root: HTMLDivElement | undefined
+	/* eslint-disable solid/reactivity -- read once, like the v1 component */
+	const tabs = props.tabs
+	const tabHeadHeight = props.tabHeadHeight ?? DEFAULT_SIZE
 	const enableTabbar = props.enableTabbar ?? true
 	const enableMaximize = props.enableMaximize ?? true
 	// Folding needs the tab bar: a folded tabset is only its tab bar.
 	const canFold = (props.enableCollapse ?? true) && enableTabbar
+	const rootId = props.rootId ?? 'dynamix-layout-root'
+
+	const layout = useDynamixLayout({
+		tabIds: tabs.map(([id]) => id),
+		layoutTree: props.layoutTree,
+		updateJSON: props.updateJSON,
+		enableTabbar,
+		tabHeadHeight,
+		bondWidth: props.bondWidth ?? DEFAULT_BOND,
+		minTabHeight: props.minTabHeight ?? DEFAULT_SIZE,
+		minTabWidth: props.minTabWidth ?? DEFAULT_SIZE,
+		windowResizeTimeout: props.windowResizeTimeout ?? 2,
+		disableResizeTimeout: props.disableResizeTimeout ?? true,
+		keyboardShortcuts: props.keyboardShortcuts ?? true,
+		enableDoubleClickMaximize: props.enableDoubleClickMaximize ?? true,
+		getRoot: () => root,
+		container: () => {
+			const pad = props.pad ?? { t: 0, b: 0, l: 0, r: 0 }
+			if (!root) return { x: pad.l, y: pad.t, width: 0, height: 0 }
+			return {
+				x: pad.l,
+				y: pad.t,
+				width: Math.max(0, root.clientWidth - pad.l - pad.r),
+				height: Math.max(0, root.clientHeight - pad.t - pad.b),
+			}
+		},
+	})
+	const WrapTabPanel = props.WrapTabPanel ?? DefaultWrapTabPanel
+	const WrapTabHead = props.WrapTabHead ?? DefaultWrapTabHead
+	const WrapTabLabel = props.WrapTabLabel ?? DefaultWrapTabLabel
+	const WrapTabBody = props.WrapTabBody ?? DefaultWrapTabBody
+	const SliderElement = props.SliderElement ?? DefaultSliderElement
+	const HoverElement = props.HoverElement ?? DefaultHoverElement
+	const TabsetToolbar = props.TabsetToolbar ?? DefaultTabsetToolbar
+	/* eslint-enable solid/reactivity */
+
+	const { snapshot, dragging } = layout
+	const tabsetIds = createMemo(() => [...snapshot().tabsets.keys()], [], {
+		equals: sameIds,
+	})
+	const splitterIds = createMemo(() => [...snapshot().splitters.keys()], [], {
+		equals: sameIds,
+	})
+	const title = (tabId: string) => props.tabNames?.get(tabId) ?? tabId
 
 	return (
 		<div
-			id={props.rootId || 'dynamix-layout-root'}
-			ref={resolvedRef}
+			id={rootId}
+			ref={root}
 			{...props}
-			data-testid={props.rootId || 'dynamix-layout-root'}
+			data-testid={rootId}
 			class={dragging() ? 'is-dragging' : ''}
-			onPointerDown={onRootPointerDown}
+			onPointerDown={(e) => layout.onRootPointerDown(e)}
+			onDragOver={(e) => layout.onDragOver(e)}
+			onDrop={(e) => layout.onDrop(e)}
 			style={{
 				position: 'relative',
 				width: '100%',
@@ -140,30 +108,28 @@ export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 				...(props.style as object),
 			}}
 		>
-			<For each={Array.from(tabsets().values())}>
-				{(tabset) => {
-					const placement = getTabbarPlacement(tabset, tabHeadHeight)
-					const showMaximize =
-						enableMaximize && !!tabset.nodMaximizable
-					const showFold =
-						canFold && !!tabset.nodFoldable && !tabset.nodMaxd
-					const hasToolbar = showMaximize || showFold
+			<For each={tabsetIds()}>
+				{(tabsetId) => {
+					const state = () => snapshot().tabsets.get(tabsetId)
+					const rect = () => snapshot().rects.tabsets.get(tabsetId)
+					const placement = () => {
+						const s = state()
+						const r = rect()
+						return s && r
+							? getTabBarPlacement(r, s, tabHeadHeight)
+							: undefined
+					}
+					const showMaximize = () =>
+						enableMaximize && !!state()?.canMaximize
+					const showFold = () =>
+						canFold && !!state()?.canFold && !state()?.isMaximized
+					const hasToolbar = () => showMaximize() || showFold()
 
 					return (
 						<>
 							<WrapTabPanel
-								ref={(el: HTMLDivElement) => {
-									const id = tabset.uidNode
-									if (el) panelsRef.set(id, el)
-									else panelsRef.delete(id)
-								}}
-								onDragEnd={onDragEnd}
-								onDragOver={onDragOver}
-								onDragEnter={onDragEnter}
-								onDragLeave={onDragLeave}
-								onDrop={onDrop}
-								data-uid={tabset.uidNode}
-								data-type={tabset.typNode}
+								data-uid={tabsetId}
+								data-type="tabset"
 								class={
 									'hide-scrollbar DefaultWrapTabPanel ' +
 									(props.tabPanelElementClass || '')
@@ -171,125 +137,144 @@ export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 								style={{
 									position: 'absolute',
 									...(props.tabPanelElementStyles as object),
-									width: `${tabset.nodDims.w}px`,
-									height: `${tabset.nodDims.h}px`,
-									left: `${tabset.nodDims.x}px`,
-									top: `${tabset.nodDims.y}px`,
+									...position(rect()),
 									'background-color': 'transparent',
+									// Over the tab bodies while dragging, so iframes can't swallow dragover.
+									'z-index': dragging() ? 95 : 0,
+									display: dragging() ? 'block' : 'none',
 								}}
 							/>
-
-							<WrapTabHead
-								draggable={!isUpdating()}
-								data-uid={tabset.uidNode}
-								data-type={'tabset'}
-								data-tabbar=""
-								data-folded={tabset.nodFold ? '' : undefined}
-								data-maximized={tabset.nodMaxd ? '' : undefined}
-								data-dx-hidden={
-									tabset.nodHidden ? '' : undefined
-								}
-								data-rotated={
-									placement.rotated ? '' : undefined
-								}
-								onDblClick={onTabbarDoubleClick}
-								onDragOver={handleNavbarDragOver}
-								onDragStart={onDragStart}
-								onDragEnd={onDragEnd}
-								onDragEnter={onDragEnter}
-								onDragLeave={onDragLeave}
-								onDrop={onDrop}
-								ref={(el: HTMLDivElement) => {
-									const id = tabset.uidNode
-									if (el) tabsetsRef.set(id, el)
-									else tabsetsRef.delete(id)
-								}}
-								class={
-									'hide-scrollbar ' +
-									(props.tabHeadElementClass || '')
-								}
-								style={{
-									...(props.tabHeadElementStyles as object),
-									position: 'absolute',
-									'z-index': 99,
-									width: `${placement.rect.w}px`,
-									height: `${placement.rect.h}px`,
-									left: `${placement.rect.x}px`,
-									top: `${placement.rect.y}px`,
-									'transform-origin': '0 0',
-									// Only add keys when needed so the tab bar
-									// component keeps its own values.
-									...(placement.rotated
-										? { transform: 'rotate(90deg)' }
-										: {}),
-									...(hasToolbar
-										? { 'padding-right': '64px' }
-										: {}),
-									cursor: isUpdating() ? 'wait' : 'pointer',
-								}}
-							>
-								<For each={tabset.nodKids}>
-									{(tab: NodeOptions) => (
-										<WrapTabLabel
-											data-uid={tab.uidNode}
-											data-type={'tab'}
-											onDragStart={onDragStart}
-											onDragEnd={onDragEnd}
-											draggable={!isUpdating()}
-											active={tab.nodOpen ? true : false}
-											class={
-												'hide-scrollbar ' +
-												(props.tabLabelElementClass ||
-													'')
+							<Show when={enableTabbar}>
+								<WrapTabHead
+									draggable={true}
+									data-uid={tabsetId}
+									data-type="tabset"
+									data-tabbar=""
+									data-folded={
+										state()?.isFolded ? '' : undefined
+									}
+									data-maximized={
+										state()?.isMaximized ? '' : undefined
+									}
+									data-dx-hidden={
+										state()?.isHidden ? '' : undefined
+									}
+									data-rotated={
+										placement()?.isRotated ? '' : undefined
+									}
+									onDblClick={() =>
+										layout.onTabbarDoubleClick(tabsetId)
+									}
+									onDragStart={(e) =>
+										layout.onDragStart(e, {
+											type: 'tabset',
+											tabsetId,
+										})
+									}
+									onDragEnd={() => layout.onDragEnd()}
+									class={
+										'hide-scrollbar ' +
+										(props.tabHeadElementClass || '')
+									}
+									style={{
+										...(props.tabHeadElementStyles as object),
+										position: 'absolute',
+										'z-index': 99,
+										...position(placement()?.rect),
+										'transform-origin': '0 0',
+										...(placement()?.isRotated
+											? { transform: 'rotate(90deg)' }
+											: {}),
+										...(hasToolbar()
+											? { 'padding-right': '64px' }
+											: {}),
+										cursor: 'pointer',
+									}}
+								>
+									<For each={state()?.tabIds ?? []}>
+										{(tabId) => (
+											<WrapTabLabel
+												data-uid={tabId}
+												data-type="tab"
+												draggable={true}
+												onDragStart={(e) =>
+													layout.onDragStart(e, {
+														type: 'tab',
+														tabId,
+													})
+												}
+												onDragEnd={() =>
+													layout.onDragEnd()
+												}
+												active={
+													snapshot().tabs.get(tabId)
+														?.isActive ?? false
+												}
+												class={
+													'hide-scrollbar ' +
+													(props.tabLabelElementClass ||
+														'')
+												}
+												style={{
+													cursor: 'pointer',
+													...(props.tabLabelElementStyles as object),
+												}}
+												onClick={() =>
+													layout.selectTab(tabId)
+												}
+											>
+												{title(tabId)}
+											</WrapTabLabel>
+										)}
+									</For>
+									<Show when={hasToolbar()}>
+										<TabsetToolbar
+											maximized={!!state()?.isMaximized}
+											folded={!!state()?.isFolded}
+											rotated={!!placement()?.isRotated}
+											rowIsHorizontal={
+												state()?.parentDirection ===
+												'horizontal'
 											}
-											style={{
-												cursor: isUpdating()
-													? 'wait'
-													: 'pointer',
-												...(props.tabLabelElementStyles as object),
-											}}
-											onClick={updateActiveTab}
-										>
-											{(props.tabNames &&
-												props.tabNames.get(
-													tab.nodName
-												)) ||
-												tab.nodName}
-										</WrapTabLabel>
-									)}
-								</For>
-								{hasToolbar && (
-									<TabsetToolbar
-										maximized={!!tabset.nodMaxd}
-										folded={!!tabset.nodFold}
-										rotated={placement.rotated}
-										rowIsHorizontal={
-											tabset.nodeDir === false
-										}
-										showMaximize={showMaximize}
-										showFold={showFold}
-										onToggleMaximize={() =>
-											toggleMaximize(tabset.uidNode)
-										}
-										onToggleFold={() =>
-											toggleCollapse(tabset.uidNode)
-										}
-									/>
-								)}
-							</WrapTabHead>
+											showMaximize={showMaximize()}
+											showFold={showFold()}
+											onToggleMaximize={() =>
+												layout.toggleMaximize(tabsetId)
+											}
+											onToggleFold={() =>
+												layout.toggleFold(tabsetId)
+											}
+										/>
+									</Show>
+								</WrapTabHead>
+							</Show>
 						</>
 					)
 				}}
 			</For>
 
-			<For each={tabOutput().keys}>
-				{(key) => {
-					const tabId = tabOutput().maps.get(key)?.uqid
+			<For each={tabs}>
+				{([tabId, content]) => {
+					const tab = () => snapshot().tabs.get(tabId)
+					const body = () => {
+						const tabsetRect =
+							tab() &&
+							snapshot().rects.tabsets.get(tab()!.tabsetId)
+						return (
+							tabsetRect &&
+							getTabContentRect(
+								tabsetRect,
+								enableTabbar ? tabHeadHeight : 0
+							)
+						)
+					}
+					const visible = () =>
+						!!tab()?.isVisible && (body()?.height ?? 0) > 0
 					return (
 						<WrapTabBody
-							id={tabId}
-							draggable={false}
 							data-uid={tabId}
+							draggable={false}
+							data-dx-hidden={visible() ? undefined : ''}
 							class={
 								'hide-scrollbar ' +
 								(props.tabBodyElementClass || '')
@@ -299,84 +284,77 @@ export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 								'z-index': 90,
 								'overscroll-behavior': 'contain',
 								...(props.tabBodyElementStyles as object),
-							}}
-							ref={(el: HTMLDivElement) => {
-								if (tabId) {
-									if (el) tabsRef.set(tabId, el)
-									else tabsRef.delete(tabId)
-								}
+								...position(body()),
 							}}
 						>
-							{tabOutput().maps.get(key)?.node || (
-								<div class="flex items-center justify-center h-full">
-									<span class="text-gray-500">
-										No content
-									</span>
-								</div>
-							)}
+							{content}
 						</WrapTabBody>
 					)
 				}}
 			</For>
 
-			<For each={Array.from(sliders().values())}>
-				{(slider) => (
-					<SliderElement
-						id={slider.uidNode}
-						data-uid={slider.uidNode}
-						data-dx-hidden={slider.nodHidden ? '' : undefined}
-						direction={slider.nodeDir}
-						onPointerDown={onPointerDown}
-						class={
-							'hide-scrollbar ' + (props.sliderElementClass || '')
-						}
-						ref={(el: HTMLDivElement) => {
-							const id = slider.uidNode
-							if (el) slidersRef.set(id, el)
-							else slidersRef.delete(id)
-						}}
-						style={{
-							width: `${slider.nodDims.w}px`,
-							height: `${slider.nodDims.h}px`,
-							left: `${slider.nodDims.x}px`,
-							top: `${slider.nodDims.y}px`,
-							cursor: slider.nodeDir ? 'ns-resize' : 'ew-resize',
-							...(slider.nodLocked
-								? { 'pointer-events': 'none' }
-								: {}),
-							...(props.sliderElementStyles as object),
-						}}
-					/>
-				)}
+			<For each={splitterIds()}>
+				{(splitterId) => {
+					const splitter = () => snapshot().splitters.get(splitterId)
+					return (
+						<SliderElement
+							data-uid={splitterId}
+							data-dx-hidden={
+								splitter()?.isHidden ? '' : undefined
+							}
+							direction={splitter()?.direction === 'vertical'}
+							onPointerDown={(e) =>
+								layout.onSliderPointerDown(e, splitterId)
+							}
+							class={
+								'hide-scrollbar ' +
+								(props.sliderElementClass || '')
+							}
+							style={{
+								...position(
+									snapshot().rects.splitters.get(splitterId)
+								),
+								cursor:
+									splitter()?.direction === 'vertical'
+										? 'ns-resize'
+										: 'ew-resize',
+								...(splitter()?.isLocked
+									? { 'pointer-events': 'none' }
+									: {}),
+								...(props.sliderElementStyles as object),
+							}}
+						/>
+					)
+				}}
 			</For>
 
 			<HoverElement
 				class={'hide-scrollbar ' + (props.hoverElementClass || '')}
-				style={{ ...(props.hoverElementStyles as object) }}
-				ref={(el) => (hoverElementRef.current = el)}
+				style={{
+					...(props.hoverElementStyles as object),
+					...position(snapshot().drag?.indicator ?? undefined),
+					display: snapshot().drag?.indicator ? 'block' : 'none',
+					'z-index': 100,
+				}}
 			/>
 
-			<For each={['left', 'right', 'top', 'bottom'] as const}>
-				{(area, index) => (
+			<For each={SIDES}>
+				{(side) => (
 					<RootSplitterHoverEl
-						onDragOver={handleRootSplit}
-						onDragEnd={onDragEnd}
-						onDragEnter={onDragEnter}
-						onDragLeave={onDragLeave}
-						onDrop={onDrop}
-						data-uid={props.rootId || 'dynamix-layout-root'}
-						data-area={area}
+						data-uid={rootId}
+						data-area={side}
 						class={
 							'hide-scrollbar ' +
 							(props.RootSplitterHoverElClass || '')
 						}
-						ref={(el: HTMLDivElement) => {
-							if (el) rootSplitHoverEl[index()] = el
-						}}
 						style={{
 							...(props.RootSplitterHoverElStyles as object),
+							...(snapshot().drag &&
+							snapshot().drag!.source.type !== 'splitter'
+								? { display: 'block', 'z-index': 99 }
+								: {}),
 						}}
-						area={area}
+						area={side}
 						size={{ h: '25%', w: '8px' }}
 					/>
 				)}
