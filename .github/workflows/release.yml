@@ -14,6 +14,7 @@ jobs:
       contents: write  #  to create release (changesets/action)
       issues: write # to post issue comments (changesets/action)
       pull-requests: write  #  to create pull request (changesets/action)
+      id-token: write # to publish to npm via trusted publishing (OIDC)
 
     if: github.repository == 'xcode-studio/dynamix-layout'
 
@@ -26,6 +27,10 @@ jobs:
       - uses: ./.github/actions/ci-setup
       - uses: ./.github/actions/ci-checks
 
+      # npm trusted publishing requires npm CLI >= 11.5.1
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
@@ -34,4 +39,3 @@ jobs:
           version: pnpm run version-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
