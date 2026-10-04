@@ -16,32 +16,29 @@ const InstallationSection = () => {
 	}
 
 	const installCommandsReact = {
-		npm: 'npm install @dynamix-layout/react @dynamix-layout/core',
-		yarn: 'yarn add @dynamix-layout/react @dynamix-layout/core',
-		pnpm: 'pnpm add @dynamix-layout/react @dynamix-layout/core',
+		npm: 'npm install @dynamix-layout/react',
+		yarn: 'yarn add @dynamix-layout/react',
+		pnpm: 'pnpm add @dynamix-layout/react',
 	}
 
 	const installCommandsSolidJS = {
-		npm: 'npm install @dynamix-layout/solid @dynamix-layout/core',
-		yarn: 'yarn add @dynamix-layout/solid @dynamix-layout/core',
-		pnpm: 'pnpm add @dynamix-layout/solid @dynamix-layout/core',
+		npm: 'npm install @dynamix-layout/solid solid-js',
+		yarn: 'yarn add @dynamix-layout/solid solid-js',
+		pnpm: 'pnpm add @dynamix-layout/solid solid-js',
 	}
 
 
 	const basicExampleReact = `import { DynamixLayout } from '@dynamix-layout/react'
-import '@dynamix-layout/react/style.css'
+import '@dynamix-layout/react/styles.css'
+
+const tabs = [
+	{ id: 'editor', title: 'Editor', content: <div style={{ background: '#c0ca33', height: '100%' }}>Editor</div> },
+	{ id: 'preview', title: 'Preview', content: <div style={{ background: '#66bb6a', height: '100%' }}>Preview</div> },
+	{ id: 'terminal', title: 'Terminal', content: <div style={{ background: '#ffc400', height: '100%' }}>Terminal</div> },
+]
 
 function App() {
-
-	const tabList = [
-		['editor', <div style={{ background: '#c0ca33', height: '100%' }}>Editor</div>],
-		['preview', <div style={{ background: '#66bb6a', height: '100%' }}>Preview</div>],
-		['terminal', <div style={{ background: '#ffc400', height: '100%' }}>Terminal</div>],
-	]
-
-	return (
-		<DynamixLayout tabs={tabList} style={{ height: '100vh', width: '100vw' }} />
-	)
+	return <DynamixLayout tabs={tabs} style={{ height: '100vh', width: '100vw' }} />
 }
 
 export default App`
@@ -301,7 +298,7 @@ export default App`
 								asChild
 							>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/blob/main/README.md"
+									href="https://github.com/xcode-studio/dynamix-layout/blob/main/README.md"
 									target="_blank"
 									rel="noopener noreferrer"
 								>
@@ -314,7 +311,7 @@ export default App`
 								asChild
 							>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/tree/main/examples"
+									href="https://github.com/xcode-studio/dynamix-layout/tree/main/examples"
 									target="_blank"
 									rel="noopener noreferrer"
 								>
@@ -322,7 +319,7 @@ export default App`
 								</a>
 							</Button>
 							{/* <Button variant="ghost" className="hover:bg-primary/10" asChild>
-                <a href="https://github.com/akash-aman/dynamix-layout/issues" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/xcode-studio/dynamix-layout/issues" target="_blank" rel="noopener noreferrer">
                   Join Discord
                 </a>
               </Button> */}

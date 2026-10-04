@@ -6,7 +6,7 @@ The team takes the security of our project seriously. We appreciate your efforts
 
 If you discover a security vulnerability, please report it to us privately. **Do not create a public GitHub issue.**
 
-We encourage you to report vulnerabilities through **[GitHub's Private Vulnerability Reporting](https://github.com/akash-aman/dynamix-layout/security)** feature. You can do this by going to the "Security" tab of our repository and clicking on "Report a vulnerability".
+We encourage you to report vulnerabilities through **[GitHub's Private Vulnerability Reporting](https://github.com/xcode-studio/dynamix-layout/security)** feature. You can do this by going to the "Security" tab of our repository and clicking on "Report a vulnerability".
 
 Alternatively, you can email us at **[sir.akashaman@gmail.com]**.
 

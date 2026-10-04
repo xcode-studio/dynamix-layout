@@ -42,7 +42,7 @@ const Header = () => {
 							Demo
 						</a>
 						<a
-							href="https://github.com/akash-aman/dynamix-layout/blob/main/README.md"
+							href="https://github.com/xcode-studio/dynamix-layout/blob/main/README.md"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-muted-foreground hover:text-primary transition-colors"
@@ -50,7 +50,7 @@ const Header = () => {
 							Docs
 						</a>
 						<a
-							href="https://github.com/akash-aman/dynamix-layout/discussions/44"
+							href="https://github.com/xcode-studio/dynamix-layout/discussions/44"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-muted-foreground hover:text-primary transition-colors"
@@ -62,7 +62,7 @@ const Header = () => {
 					{/* Actions */}
 					<div className="flex items-center gap-3">
 						<a
-							href="https://raw.githubusercontent.com/akash-aman/dynamix-layout/refs/heads/main/LICENSE"
+							href="https://raw.githubusercontent.com/xcode-studio/dynamix-layout/refs/heads/main/LICENSE"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -93,7 +93,7 @@ const Header = () => {
 							asChild
 						>
 							<a
-								href="http://github.com/akash-aman/dynamix-layout"
+								href="http://github.com/xcode-studio/dynamix-layout"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -133,7 +133,7 @@ const Header = () => {
 								Demo
 							</a>
 							<a
-								href="https://github.com/akash-aman/dynamix-layout/blob/main/README.md"
+								href="https://github.com/xcode-studio/dynamix-layout/blob/main/README.md"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="text-muted-foreground hover:text-primary transition-colors"
@@ -141,7 +141,7 @@ const Header = () => {
 								Installation
 							</a>
 							<a
-								href="https://github.com/akash-aman/dynamix-layout/issues"
+								href="https://github.com/xcode-studio/dynamix-layout/issues"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="text-muted-foreground hover:text-primary transition-colors"
@@ -156,7 +156,7 @@ const Header = () => {
 									asChild
 								>
 									<a
-										href="http://github.com/akash-aman/dynamix-layout"
+										href="http://github.com/xcode-studio/dynamix-layout"
 										target="_blank"
 										rel="noopener noreferrer"
 									>
