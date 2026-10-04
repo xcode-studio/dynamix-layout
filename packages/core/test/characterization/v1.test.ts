@@ -11,7 +11,17 @@ import { createV1Driver } from './v1-driver'
  */
 
 const FIXTURE_DIR = resolve(__dirname, '../fixtures/v1')
-const TAB_NAMES = ['editor', 'terminal', 'preview', 'console', 'files', 'search', 'git', 'output', 'debug']
+const TAB_NAMES = [
+	'editor',
+	'terminal',
+	'preview',
+	'console',
+	'files',
+	'search',
+	'git',
+	'output',
+	'debug',
+]
 const SCENARIO_COUNT = 16
 const STEPS = 30
 
@@ -23,7 +33,9 @@ export const scenarioFiles = Array.from(
 const build = (index: number): Scenario => {
 	const tabCount = (index % 9) + 1
 	const container =
-		index % 4 === 3 ? { width: 640, height: 420 } : { width: 1200, height: 800 }
+		index % 4 === 3
+			? { width: 640, height: 420 }
+			: { width: 1200, height: 800 }
 	return recordScenario(
 		createV1Driver(),
 		`${tabCount} tabs, seed ${index + 1}`,
@@ -37,9 +49,13 @@ const build = (index: number): Scenario => {
 describe('v1 characterization fixtures', () => {
 	if (process.env.UPDATE_V1_FIXTURES) {
 		it('writes fixtures', () => {
-			if (!existsSync(FIXTURE_DIR)) mkdirSync(FIXTURE_DIR, { recursive: true })
+			if (!existsSync(FIXTURE_DIR))
+				mkdirSync(FIXTURE_DIR, { recursive: true })
 			scenarioFiles.forEach((file, i) => {
-				writeFileSync(resolve(FIXTURE_DIR, file), JSON.stringify(build(i)) + '\n')
+				writeFileSync(
+					resolve(FIXTURE_DIR, file),
+					JSON.stringify(build(i)) + '\n'
+				)
 			})
 		})
 		return

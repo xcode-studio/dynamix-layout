@@ -14,12 +14,12 @@ import {
 /** Settings that match the React adapter's defaults. */
 export const V1_SETTINGS = { bond: 10, minW: 40, minH: 40, collapsedSize: 40 }
 
-const tuple = (d: { x: number; y: number; w: number; h: number }): RectTuple => [
-	d.x,
-	d.y,
-	d.w,
-	d.h,
-]
+const tuple = (d: {
+	x: number
+	y: number
+	w: number
+	h: number
+}): RectTuple => [d.x, d.y, d.w, d.h]
 
 const firstTabOf = (node: Node): string =>
 	node.type === 'tab' ? node.name : firstTabOf([...node.kids][0])
@@ -31,7 +31,11 @@ export function createV1Driver(): Driver {
 
 	const findTab = (name: string): Node => {
 		for (const element of Node.cache.mapElem.values()) {
-			if (element instanceof Node && element.type === 'tab' && element.name === name)
+			if (
+				element instanceof Node &&
+				element.type === 'tab' &&
+				element.name === name
+			)
 				return element
 		}
 		throw new Error(`v1 driver: tab ${name} not found`)
@@ -41,7 +45,10 @@ export function createV1Driver(): Driver {
 		for (const id of Node.cache.bndOpts.get().keys()) {
 			const bond = Node.cache.mapElem.get(id)
 			if (!(bond instanceof Bond) || !bond.prev || !bond.next) continue
-			if (firstTabOf(bond.prev) === before && firstTabOf(bond.next) === after)
+			if (
+				firstTabOf(bond.prev) === before &&
+				firstTabOf(bond.next) === after
+			)
 				return bond
 		}
 		return null
@@ -70,16 +77,24 @@ export function createV1Driver(): Driver {
 		apply(operation: Operation) {
 			switch (operation.op) {
 				case 'resize':
-					container = { width: operation.width, height: operation.height }
+					container = {
+						width: operation.width,
+						height: operation.height,
+					}
 					resize()
 					return undefined
 				case 'fold':
-					return engine.toggleCollapse(findTab(operation.tabsetOf).host!.unId)
+					return engine.toggleCollapse(
+						findTab(operation.tabsetOf).host!.unId
+					)
 				case 'maximize':
-					return engine.toggleMaximize(findTab(operation.tabsetOf).host!.unId)
+					return engine.toggleMaximize(
+						findTab(operation.tabsetOf).host!.unId
+					)
 				case 'splitter': {
 					const bond = findBond(operation.before, operation.after)
-					if (bond) engine.updateSliderDimension(bond.unId, operation.point)
+					if (bond)
+						engine.updateSliderDimension(bond.unId, operation.point)
 					return undefined
 				}
 				case 'move': {
@@ -89,9 +104,17 @@ export function createV1Driver(): Driver {
 							? findTab(source.tab).unId
 							: findTab(source.tabsetOf).host!.unId
 					if ('root' in target)
-						return engine.updateTree(src, DynamixLayoutCore._root.unId, target.root)
+						return engine.updateTree(
+							src,
+							DynamixLayoutCore._root.unId,
+							target.root
+						)
 					if ('tab' in target)
-						return engine.updateTree(src, findTab(target.tab).unId, target.position)
+						return engine.updateTree(
+							src,
+							findTab(target.tab).unId,
+							target.position
+						)
 					return engine.updateTree(
 						src,
 						findTab(target.tabsetOf).host!.unId,
@@ -122,7 +145,9 @@ export function createV1Driver(): Driver {
 			let maximized: string | null = null
 			for (const option of Node.cache.nodOpts.get().values()) {
 				const key = tabsetKey(
-					(option.nodKids ?? []).map((kid) => (kid as NodeOptions).nodName)
+					(option.nodKids ?? []).map(
+						(kid) => (kid as NodeOptions).nodName
+					)
 				)
 				tabsets[key] = tuple(option.nodDims)
 				if (option.nodMaxd) maximized = key
@@ -131,10 +156,10 @@ export function createV1Driver(): Driver {
 			const splitters: Record<string, RectTuple> = {}
 			for (const [id, option] of Node.cache.bndOpts.get()) {
 				const bond = Node.cache.mapElem.get(id)
-				if (!(bond instanceof Bond) || !bond.prev || !bond.next) continue
-				splitters[`${firstTabOf(bond.prev)}>${firstTabOf(bond.next)}`] = tuple(
-					option.nodDims
-				)
+				if (!(bond instanceof Bond) || !bond.prev || !bond.next)
+					continue
+				splitters[`${firstTabOf(bond.prev)}>${firstTabOf(bond.next)}`] =
+					tuple(option.nodDims)
 			}
 
 			return {

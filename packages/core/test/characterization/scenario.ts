@@ -23,7 +23,12 @@ export type Operation =
 				| (TabsetRef & { area: Side | 'contain' })
 				| { root: Side }
 	  }
-	| { op: 'splitter'; before: string; after: string; point: { x: number; y: number } }
+	| {
+			op: 'splitter'
+			before: string
+			after: string
+			point: { x: number; y: number }
+	  }
 	| ({ op: 'fold' } & TabsetRef)
 	| ({ op: 'maximize' } & TabsetRef)
 	| { op: 'resize'; width: number; height: number }
@@ -68,7 +73,11 @@ export interface Scenario {
 }
 
 export interface Driver {
-	create(tabs: string[], container: { width: number; height: number }, saved?: unknown): void
+	create(
+		tabs: string[],
+		container: { width: number; height: number },
+		saved?: unknown
+	): void
 	apply(operation: Operation): boolean | undefined
 	observe(): Observation
 	save(): unknown
@@ -96,7 +105,8 @@ export function normalizeCanonical(root: CanonicalRow): CanonicalRow {
 				continue
 			}
 			let next: CanonicalNode = normalizeRow(child)
-			if (isRow(next) && next.children.length === 1) next = next.children[0]
+			if (isRow(next) && next.children.length === 1)
+				next = next.children[0]
 			if (isRow(next) && next.children.length === 0) continue
 			if (isRow(next) && next.direction === row.direction) {
 				children.push(...next.children)
@@ -131,7 +141,9 @@ export function randomOperation(
 	observation: Observation,
 	random: (n: number) => number
 ): Operation {
-	const tabsets = Object.keys(observation.tabsets).map((key) => key.split('|'))
+	const tabsets = Object.keys(observation.tabsets).map((key) =>
+		key.split('|')
+	)
 	const tabs = tabsets.flat()
 	const splitters = Object.entries(observation.splitters)
 	const pick = <T>(items: T[]): T => items[random(items.length)]
@@ -145,7 +157,10 @@ export function randomOperation(
 			targetKind === 0
 				? { root: pick(SIDES) }
 				: targetKind === 1
-					? { tab: pick(tabs), position: pick(['left', 'right'] as const) }
+					? {
+							tab: pick(tabs),
+							position: pick(['left', 'right'] as const),
+						}
 					: {
 							tabsetOf: pick(tabs),
 							area: pick([...SIDES, 'contain'] as const),
