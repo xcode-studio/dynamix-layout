@@ -216,7 +216,7 @@ export class Node {
 
 class Layout {
 	static _root: Node
-	static _tree: LayoutTree
+	static _tree: LayoutTree | null = null
 	static _minW: number = 40
 	static _minH: number = 40
 	static _bond: number = 10
@@ -249,7 +249,9 @@ class Layout {
 
 		this.tabsIds = config.tabsIds
 
-		if (config.tree) Layout._tree = config.tree
+		// Reset on every construction so a tabs-only layout never reuses the
+		// tree of a previously created layout.
+		Layout._tree = config.tree ?? null
 
 		Layout._root = new Node({
 			unId: config.uqid,
@@ -340,7 +342,9 @@ class Layout {
 		}
 	}
 
-	createNodeLayout(root: LayoutTree = Layout._tree) {
+	createNodeLayout(root: LayoutTree | null = Layout._tree) {
+		if (!root) return
+
 		const JSONIterator = this.JSONLayoutIterator(root)
 		const nodeIterator = this.NodeLayoutIterator(Layout._root)
 
@@ -582,6 +586,15 @@ class Layout {
 					hostDim!.minHeight += (node.kids.size() - 1) * Layout._bond
 				}
 			}
+		}
+
+		if (root === Layout._root && clear) this.pruneStaleDirections()
+	}
+
+	/** After a full pass `mapElem` holds exactly the live nodes and bonds. */
+	pruneStaleDirections() {
+		for (const id of Node.cache.mapDirs.keys()) {
+			if (!Node.cache.mapElem.has(id)) Node.cache.mapDirs.delete(id)
 		}
 	}
 
@@ -909,6 +922,11 @@ class Layout {
 		// Dropping the last tab of a tabset onto that same tabset is a no-op.
 		if (srcNode === desNode) return false
 
+		if (this.isOnlyContent(srcNode)) {
+			console.warn('Cannot move the only tabset or tab in the layout')
+			return false
+		}
+
 		if (
 			desNode.type === 'tab' &&
 			(layout === 'contain' || layout === 'left' || layout === 'right')
@@ -923,6 +941,20 @@ class Layout {
 		this.calcTabsetCountAndMinDim()
 		this.calcDimensions(Layout._root, true)
 		return true
+	}
+
+	/** Removing this node would leave the layout without any tabset. */
+	isOnlyContent(node: Node): boolean {
+		let tabsets = 0
+		for (const n of this.NodeLayoutRecursiveIterator(Layout._root)) {
+			if (n.type === 'tabset') tabsets++
+		}
+		if (tabsets !== 1) return false
+
+		return (
+			node.type === 'tabset' ||
+			(node.type === 'tab' && node.host?.kids.size() === 1)
+		)
 	}
 
 	moveNodeAsTab(src: Node, des: Node, layout: 'left' | 'right' | 'contain') {
@@ -1163,7 +1195,10 @@ class Layout {
 
 		if (des === Layout._root) {
 			const row = new Node({ type: 'row', host: des })
-			if (des.kids.size() == 1 && des.kids.peek()?.type === 'tabset') {
+			if (des.kids.size() === 0) {
+				des.kids.enqueue(src)
+				src.host = des
+			} else if (des.kids.size() == 1 && des.kids.peek()?.type === 'tabset') {
 				const kid = des.kids.dequeue()
 
 				if (!kid) {
