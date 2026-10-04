@@ -88,6 +88,7 @@ export function useSplitter(splitterId: string): UseSplitterResult {
 				'data-dx-direction': state?.direction,
 				'data-dx-locked': state?.isLocked ? '' : undefined,
 				'data-dx-hidden': geometry?.isHidden ? '' : undefined,
+				hidden: geometry?.isHidden || undefined,
 				onPointerDown: (event: PointerEvent<HTMLDivElement>) =>
 					beginPointerDrag(core, event, {
 						type: 'splitter',

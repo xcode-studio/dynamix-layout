@@ -101,11 +101,15 @@ export function getSlotGeometry(
 	}
 }
 
-/** Inline style for a geometry (positioning only; everything else is CSS). */
+/**
+ * Inline style for a geometry: positioning only (everything else is CSS), and
+ * complete on its own so headless layouts work without the stylesheet.
+ */
 export function positionStyle(geometry: SlotGeometry | null): CSSProperties {
 	if (!geometry) return {}
 	const { x, y, width, height } = geometry.rect
 	return {
+		position: 'absolute',
 		left: x,
 		top: y,
 		width,
@@ -128,4 +132,6 @@ export function applySlotGeometry(
 	style.height = `${height}px`
 	style.transform = geometry.isRotated ? 'rotate(90deg)' : ''
 	element.toggleAttribute('data-dx-hidden', geometry.isHidden)
+	// Native `hidden` works without the stylesheet (headless layouts).
+	element.hidden = geometry.isHidden
 }

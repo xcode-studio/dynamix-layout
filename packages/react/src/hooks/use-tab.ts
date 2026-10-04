@@ -104,6 +104,7 @@ export function useTab(tabId: string): UseTabResult {
 				'data-dx-slot': 'tabContent',
 				'data-dx-id': tabId,
 				'data-dx-hidden': geometry?.isHidden ? '' : undefined,
+				hidden: geometry?.isHidden || undefined,
 			})
 		},
 		[core, tabId, contentRef]

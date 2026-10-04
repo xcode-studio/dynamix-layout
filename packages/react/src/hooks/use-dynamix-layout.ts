@@ -79,6 +79,8 @@ export function useDynamixLayout(
 			mergeProps(props, {
 				ref: rootRef,
 				className: 'dx-root',
+				// Positioned children need a containing block, with or without the stylesheet.
+				style: { position: 'relative' as const },
 				'data-dx-measuring': isMeasured ? undefined : '',
 				'data-dx-dragging': core.engine.getSnapshot().drag
 					? ''

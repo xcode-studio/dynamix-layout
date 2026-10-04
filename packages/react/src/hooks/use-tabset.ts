@@ -62,6 +62,7 @@ export function useTabset(tabsetId: string): UseTabsetResult {
 				'data-dx-slot': 'panel',
 				'data-dx-id': tabsetId,
 				'data-dx-hidden': geometry?.isHidden ? '' : undefined,
+				hidden: geometry?.isHidden || undefined,
 			})
 		},
 		[core, tabsetId, panelRef]
@@ -90,6 +91,7 @@ export function useTabset(tabsetId: string): UseTabsetResult {
 				'data-dx-maximized': state?.isMaximized ? '' : undefined,
 				'data-dx-rotated': rotated ? '' : undefined,
 				'data-dx-hidden': geometry?.isHidden ? '' : undefined,
+				hidden: geometry?.isHidden || undefined,
 				onPointerDown: (event: PointerEvent<HTMLDivElement>) => {
 					if (!isInteractive(event.target))
 						beginPointerDrag(core, event, {
