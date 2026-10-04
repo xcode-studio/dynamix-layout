@@ -7,7 +7,7 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"declaration": true,
-		"outDir": "./dist/types",
+		"outDir": "./dist",
 		"moduleResolution": "Node",
 		"rootDir": "./src",
 		"composite": true

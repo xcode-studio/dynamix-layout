@@ -3,11 +3,8 @@ import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 import fs from 'fs'
 import { visualizer } from 'rollup-plugin-visualizer'
-import stripComments from 'vite-plugin-strip-comments'
 
-const { version } = JSON.parse(
-	fs.readFileSync(resolve(__dirname, 'package.json'), 'utf-8')
-)
+const { version } = JSON.parse(fs.readFileSync(resolve(__dirname, 'package.json'), 'utf-8'))
 
 export default defineConfig({
 	define: {
@@ -17,24 +14,23 @@ export default defineConfig({
 		sourcemap: 'hidden',
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),
-			name: 'dynamix.layout.core',
-			fileName: (format) => `core.${format}.js`,
-			formats: ['cjs', 'es', 'iife', 'umd'],
+			name: 'DynamixLayoutCore',
+			// `.cjs` so Node loads the CommonJS build as CommonJS in this `"type": "module"` package.
+			fileName: (format) => ({ es: 'index.js', cjs: 'index.cjs', umd: 'index.umd.js' })[format as 'es'],
+			formats: ['es', 'cjs', 'umd'],
 		},
+		rollupOptions: { output: { banner: '/*! @dynamix-layout/core | MIT License */' } },
 	},
 	plugins: [
 		dts({
-			outDir: 'dist/types',
+			outDir: 'dist',
 			// Types-only modules never reach the bundle graph; list sources explicitly.
 			include: ['src'],
-			exclude: ['node_modules/**', 'src/test/**'],
+			exclude: ['node_modules/**', 'test/**'],
+			// One self-contained declaration file, copied to index.d.cts for `require`.
+			rollupTypes: true,
+			afterBuild: () => fs.copyFileSync(resolve(__dirname, 'dist/index.d.ts'), resolve(__dirname, 'dist/index.d.cts')),
 		}),
-		visualizer({
-			filename: 'core.html',
-			gzipSize: true,
-			brotliSize: true,
-			template: 'treemap',
-		}),
-		stripComments({ type: 'none' }),
+		visualizer({ filename: 'core.html', gzipSize: true, brotliSize: true, template: 'treemap' }),
 	],
 })

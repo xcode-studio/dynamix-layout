@@ -1,0 +1,9 @@
+{
+	"name": "react18-smoke",
+	"private": true,
+	"type": "module",
+	"description": "Checks the packed React adapter against React 18. Dependencies are installed by CI.",
+	"scripts": {
+		"test": "node smoke.mjs"
+	}
+}

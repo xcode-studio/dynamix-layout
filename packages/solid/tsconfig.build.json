@@ -1,0 +1,8 @@
+{
+	// Declarations resolve @dynamix-layout/core from its built package, as users will.
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"paths": {}
+	},
+	"exclude": ["node_modules", "src/test"]
+}

@@ -27,27 +27,36 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/xcode-studio/dynamix-layout",
+		"url": "git+https://github.com/xcode-studio/dynamix-layout.git",
 		"directory": "packages/react"
 	},
 	"bugs": {
 		"url": "https://github.com/xcode-studio/dynamix-layout/issues"
 	},
 	"homepage": "https://github.com/xcode-studio/dynamix-layout#readme",
-	"main": "./dist/index.cjs.js",
-	"module": "./dist/index.es.js",
-	"types": "./dist/types/index.d.ts",
-	"typings": "./dist/types/index.d.ts",
-	"style": "./dist/index.css",
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"style": "./dist/styles.css",
 	"exports": {
 		".": {
-			"types": "./dist/types/index.d.ts",
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
 		},
-		"./styles.css": "./dist/index.css",
-		"./style.css": "./dist/index.css"
+		"./styles.css": "./dist/styles.css",
+		"./style.css": "./dist/styles.css",
+		"./package.json": "./package.json"
 	},
+	"sideEffects": [
+		"**/*.css"
+	],
 	"files": [
 		"dist",
 		"LICENSE",
@@ -55,13 +64,9 @@
 		"README.md",
 		"!**/*.map"
 	],
-	"sideEffects": [
-		"./dist/index.css"
-	],
 	"publishConfig": {
 		"access": "public"
 	},
-	"type": "module",
 	"engines": {
 		"node": ">=22.16.0",
 		"pnpm": ">=10.13.1"
@@ -77,11 +82,11 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"@dynamix-layout/core": "workspace:*"
+		"@dynamix-layout/core": "workspace:^"
 	},
 	"peerDependencies": {
-		"react": "^0.0.1",
-		"react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+		"react": "^18.0.0 || ^19.0.0",
+		"react-dom": "^18.0.0 || ^19.0.0"
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",
@@ -92,7 +97,6 @@
 		"react-dom": "^19.3.0",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.6",
-		"vite-plugin-dts": "^4.5.4",
-		"vite-plugin-lib-inject-css": "^2.2.2"
+		"vite-plugin-dts": "^4.5.4"
 	}
 }
