@@ -6,7 +6,7 @@
 		"dev": "next dev -p 3013 --turbopack",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "eslint ."
 	},
 	"dependencies": {
 		"next": "15.5.14",
