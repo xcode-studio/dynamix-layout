@@ -5,6 +5,8 @@ export interface IdGenerator {
 	readonly createId: CreateId
 	/** Marks ids from a loaded layout as taken. */
 	reserve(ids: Iterable<string>): void
+	/** Forgets every id, so rebuilding a layout produces the same ids again. */
+	reset(): void
 }
 
 const PREFIX = { row: 'row', tabset: 'ts' } as const
@@ -34,6 +36,10 @@ export function createIdGenerator(custom?: CreateId): IdGenerator {
 		createId,
 		reserve(ids) {
 			for (const id of ids) taken.add(id)
+		},
+		reset() {
+			taken.clear()
+			counter = 0
 		},
 	}
 }

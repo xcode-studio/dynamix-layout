@@ -52,3 +52,4 @@ declare const __LICENSE__: string
 
 export * from './app/index'
 export type * from './type'
+export * from './v2'

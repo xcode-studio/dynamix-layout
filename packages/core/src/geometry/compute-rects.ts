@@ -17,6 +17,20 @@ export interface LayoutRects {
 export const splitterId = (beforeId: string, afterId: string) =>
 	`${beforeId}~${afterId}`
 
+/** Same keys in the same order, each mapped to the same object. */
+const sameEntries = (
+	a: ReadonlyMap<string, Rect>,
+	b: ReadonlyMap<string, Rect>
+) => {
+	if (a.size !== b.size) return false
+	const other = b.entries()
+	for (const [id, rect] of a) {
+		const [otherId, otherRect] = other.next().value!
+		if (id !== otherId || rect !== otherRect) return false
+	}
+	return true
+}
+
 const sameRect = (a: Rect | undefined, b: Rect) =>
 	!!a &&
 	a.x === b.x &&
@@ -158,5 +172,13 @@ export function computeLayoutRects(
 	const containerRect = sameRect(previous?.container, rootRect)
 		? previous!.container
 		: rootRect
+	if (
+		previous &&
+		containerRect === previous.container &&
+		sameEntries(rows, previous.rows) &&
+		sameEntries(tabsets, previous.tabsets) &&
+		sameEntries(splitters, previous.splitters)
+	)
+		return previous
 	return { container: containerRect, rows, tabsets, splitters }
 }

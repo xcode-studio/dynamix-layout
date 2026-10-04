@@ -55,8 +55,13 @@ function normalizeRow(row: RowNode): RowNode {
  * - weights are finite and not negative (0 is valid: a panel dragged to its
  *   minimum has no share of the extra space).
  *
- * A root with a single row child takes over that row (its direction, weight
- * and children), which renders identically. Unchanged nodes keep their identity.
+ * A root with a single row child takes over that row, which renders
+ * identically. The root's own weight stands for that absorbed row: v1 kept a
+ * horizontal root with one vertical row child there, and the row's weight
+ * matters again if content is later docked beside it. A root that is
+ * horizontal, or has at most one child, is a plain root (weight 100, and
+ * horizontal, since its direction then doesn't matter). Unchanged nodes keep
+ * their identity.
  */
 export function normalizeTree(root: RowNode): RowNode {
 	let result = normalizeRow(root)
@@ -69,5 +74,12 @@ export function normalizeTree(root: RowNode): RowNode {
 			children: only.children,
 		}
 	}
+	const isPlain =
+		result.children.length <= 1 || result.direction === 'horizontal'
+	if (
+		isPlain &&
+		(result.direction !== 'horizontal' || result.weight !== DEFAULT_WEIGHT)
+	)
+		result = { ...result, direction: 'horizontal', weight: DEFAULT_WEIGHT }
 	return result
 }

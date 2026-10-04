@@ -46,7 +46,11 @@ export function layoutFromJSON(
 
 	const readWeight = (node: Json, path: string) => {
 		const weight = node.weight
-		if (typeof weight === 'number' && Number.isFinite(weight) && weight >= 0)
+		if (
+			typeof weight === 'number' &&
+			Number.isFinite(weight) &&
+			weight >= 0
+		)
 			return weight
 		onWarning({
 			code: 'INVALID_WEIGHT',
