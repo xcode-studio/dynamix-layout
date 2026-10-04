@@ -1,4 +1,5 @@
 import {
+	Dimension,
 	LayoutTree,
 	DynamixLayoutCore,
 	Node,
@@ -6,6 +7,24 @@ import {
 } from '@dynamix-layout/core'
 import React, { useState, useEffect } from 'react'
 import { useDynamixLayoutOptions } from '../types'
+
+const setElementRect = (el: HTMLElement, { x, y, w, h }: Dimension) => {
+	el.style.left = `${x}px`
+	el.style.top = `${y}px`
+	el.style.width = `${w}px`
+	el.style.height = `${h}px`
+}
+
+/** Area of a tabset below its tab bar; never negative when squeezed. */
+const getTabBodyRect = (
+	tabset: Dimension,
+	tabbarHeight: number
+): Dimension => ({
+	x: tabset.x,
+	y: tabset.y + tabbarHeight,
+	w: tabset.w,
+	h: Math.max(0, tabset.h - tabbarHeight),
+})
 
 export const useDynamixLayout = ({
 	tabOutput,
@@ -58,22 +77,28 @@ export const useDynamixLayout = ({
 		isSliding: false,
 	})
 
+	// A tabset can never be shorter than its tab bar, otherwise the bar spills
+	// over the slider below it and the tab body gets a negative height.
+	const minLayoutHeight = enableTabbar
+		? Math.max(minTabHeight, tabHeadHeight)
+		: minTabHeight
+
 	const layoutInstance = React.useMemo(() => {
 		DynamixLayoutCore._bond = bondWidth
-		DynamixLayoutCore._minH = minTabHeight
+		DynamixLayoutCore._minH = minLayoutHeight
 		DynamixLayoutCore._minW = minTabWidth
 
 		const LT = new DynamixLayoutCore({
 			tabs: tabOutput.keys,
 			tree: layoutJSON,
 			minW: minTabWidth,
-			minH: minTabHeight,
+			minH: minLayoutHeight,
 			bond: bondWidth,
 			uqid: rootId,
 			tabsIds: tabOutput.name,
 		})
 		return LT
-	}, [layoutJSON, tabOutput, bondWidth, minTabHeight, minTabWidth, rootId])
+	}, [layoutJSON, tabOutput, bondWidth, minLayoutHeight, minTabWidth, rootId])
 
 	const updateTabsets = (nodes: Map<string, NodeOptions>) => {
 		const newTabsets = new Map<string, NodeOptions>(nodes)
@@ -85,78 +110,110 @@ export const useDynamixLayout = ({
 		setSliders(newSliders)
 	}
 
-	Node.cache.nodOpts.onChange((nodes: Map<string, NodeOptions>) => {
-		nodes.forEach((node: NodeOptions, id: string) => {
-			const panelEl = panelsRef.current.get(id)
-			if (panelEl) {
-				panelEl.style.width = `${node.nodDims.w}px`
-				panelEl.style.height = `${node.nodDims.h}px`
-				panelEl.style.left = `${node.nodDims.x}px`
-				panelEl.style.top = `${node.nodDims.y}px`
-			}
+	// Read through refs so the subscriptions below never need to be recreated.
+	const enableTabbarRef = React.useRef(enableTabbar)
+	const tabHeadHeightRef = React.useRef(tabHeadHeight)
+	enableTabbarRef.current = enableTabbar
+	tabHeadHeightRef.current = tabHeadHeight
 
-			const tabsetEl = tabsetsRef.current.get(id)
-			if (tabsetEl && enableTabbar) {
-				tabsetEl.style.width = `${node.nodDims.w}px`
-				tabsetEl.style.height = enableTabbar
-					? `${tabHeadHeight}px`
-					: `0px`
-				tabsetEl.style.left = `${node.nodDims.x}px`
-				tabsetEl.style.top = `${node.nodDims.y}px`
-			}
-		})
-	})
+	useEffect(() => {
+		const offNodes = Node.cache.nodOpts.onChange(
+			(nodes: Map<string, NodeOptions>) => {
+				nodes.forEach((node: NodeOptions, id: string) => {
+					const panelEl = panelsRef.current.get(id)
+					if (panelEl) setElementRect(panelEl, node.nodDims)
 
-	Node.cache.bndOpts.onChange((nodes: Map<string, NodeOptions>) => {
-		nodes.forEach((node: NodeOptions, id: string) => {
-			const sliderEl = slidersRef.current.get(id)
-			if (sliderEl) {
-				sliderEl.style.width = `${node.nodDims.w}px`
-				sliderEl.style.height = `${node.nodDims.h}px`
-				sliderEl.style.left = `${node.nodDims.x}px`
-				sliderEl.style.top = `${node.nodDims.y}px`
+					const tabsetEl = tabsetsRef.current.get(id)
+					if (tabsetEl && enableTabbarRef.current) {
+						setElementRect(tabsetEl, {
+							...node.nodDims,
+							h: tabHeadHeightRef.current,
+						})
+					}
+				})
 			}
-		})
-	})
+		)
 
-	Node.cache.tabOpts.onChange((nodes: Map<string, NodeOptions>) => {
-		nodes.forEach((node: NodeOptions, id: string) => {
-			const tabEl = tabsRef.current.get(id)
-			if (tabEl) {
-				tabEl.style.width = `${node.nodDims.w}px`
-				tabEl.style.height = enableTabbar
-					? `${node.nodDims.h - tabHeadHeight}px`
-					: `${node.nodDims.h}px`
-				tabEl.style.left = `${node.nodDims.x}px`
-				tabEl.style.top = enableTabbar
-					? `${node.nodDims.y + tabHeadHeight}px`
-					: `${node.nodDims.y}px`
-				tabEl.style.display = node.nodOpen ? 'block' : 'none'
+		const offBonds = Node.cache.bndOpts.onChange(
+			(nodes: Map<string, NodeOptions>) => {
+				nodes.forEach((node: NodeOptions, id: string) => {
+					const sliderEl = slidersRef.current.get(id)
+					if (sliderEl) setElementRect(sliderEl, node.nodDims)
+				})
 			}
-		})
-	})
+		)
+
+		const offTabs = Node.cache.tabOpts.onChange(
+			(nodes: Map<string, NodeOptions>) => {
+				const tabbarHeight = enableTabbarRef.current
+					? tabHeadHeightRef.current
+					: 0
+
+				nodes.forEach((node: NodeOptions, id: string) => {
+					const tabEl = tabsRef.current.get(id)
+					if (!tabEl) return
+
+					const body = getTabBodyRect(node.nodDims, tabbarHeight)
+					setElementRect(tabEl, body)
+					// Empty bodies stay hidden so their borders/shadows don't
+					// bleed onto the slider below.
+					tabEl.style.display =
+						node.nodOpen && body.h > 0 ? 'block' : 'none'
+				})
+			}
+		)
+
+		return () => {
+			offNodes()
+			offBonds()
+			offTabs()
+		}
+	}, [])
 
 	// --- START: SLIDER POINTER EVENT HANDLERS ---
-	const onPointerMove = (e: PointerEvent) => {
-		if (!dragSliderRef.current.isSliding) return
+	// Pointer events can fire several times per frame; coalesce them so the
+	// layout is recomputed at most once per animation frame.
+	const pendingSliderPointRef = React.useRef<{ x: number; y: number } | null>(
+		null
+	)
+	const sliderFrameRef = React.useRef<number | null>(null)
+
+	const flushSliderUpdate = () => {
+		sliderFrameRef.current = null
+		const point = pendingSliderPointRef.current
+		const sliderId = dragSliderRef.current.sliderId
+		pendingSliderPointRef.current = null
+		if (!point || !sliderId) return
 
 		layoutInstance.updateSlider(
-			dragSliderRef.current.sliderId!,
-			{
-				x: e.clientX,
-				y: e.clientY,
-			},
+			sliderId,
+			point,
 			disableSliderTimeout,
 			sliderUpdateTimeout
 		)
 	}
 
+	const onPointerMove = (e: PointerEvent) => {
+		if (!dragSliderRef.current.isSliding) return
+
+		pendingSliderPointRef.current = { x: e.clientX, y: e.clientY }
+		if (sliderFrameRef.current === null) {
+			sliderFrameRef.current = requestAnimationFrame(flushSliderUpdate)
+		}
+	}
+
 	const onPointerUp = (e: PointerEvent) => {
 		if (!dragSliderRef.current.isSliding) return
+
+		if (sliderFrameRef.current !== null) {
+			cancelAnimationFrame(sliderFrameRef.current)
+			flushSliderUpdate()
+		}
 
 		const sliderElement = e.currentTarget as HTMLDivElement
 		dragSliderRef.current.isSliding = false
 		dragSliderRef.current.sliderId = undefined
+		setDragging(false)
 
 		if (updateJSON) updateJSON(DynamixLayoutCore._root.toJSON())
 		sliderElement.releasePointerCapture(e.pointerId)
@@ -171,6 +228,9 @@ export const useDynamixLayout = ({
 		const sliderElement = e.currentTarget
 		dragSliderRef.current.isSliding = true
 		dragSliderRef.current.sliderId = sliderElement.id
+		// Applies `.is-dragging`, so iframes and editors inside tab bodies
+		// cannot swallow pointer events while the slider is being dragged.
+		setDragging(true)
 
 		// Capture the pointer to ensure events are received
 		sliderElement.setPointerCapture(e.pointerId)
@@ -467,17 +527,7 @@ export const useDynamixLayout = ({
 		) {
 			const hoverEl = hoverElementRef.current
 			if (hoverEl) {
-				const styleClone: Record<string, string> = {}
-
-				for (let i = 0; i < hoverEl.style.length; i++) {
-					const propName = hoverEl.style[i]
-					if (propName) {
-						styleClone[propName] =
-							hoverEl.style.getPropertyValue(propName)
-					}
-				}
-
-				Object.assign(hoverEl.style, styleClone, {
+				Object.assign(hoverEl.style, {
 					left: `${newLeft}px`,
 					top: `${newTop}px`,
 					width: `${newWidth}px`,
@@ -716,9 +766,14 @@ export const useDynamixLayout = ({
 		nodeOpts.nodKids?.forEach((kid: NodeOptions) => {
 			if (kid.nodName == node.name) {
 				kid.nodOpen = true
+				const tabbarHeight = enableTabbar ? tabHeadHeight : 0
+				const body = getTabBodyRect(kid.nodDims, tabbarHeight)
 				tabsRef.current
 					.get(kid.uidNode)
-					?.style.setProperty('display', 'block')
+					?.style.setProperty(
+						'display',
+						body.h > 0 ? 'block' : 'none'
+					)
 			} else {
 				kid.nodOpen = false
 				tabsRef.current
@@ -758,6 +813,11 @@ export const useDynamixLayout = ({
 
 			if (animationFrameRef.current) {
 				cancelAnimationFrame(animationFrameRef.current)
+			}
+
+			if (sliderFrameRef.current !== null) {
+				cancelAnimationFrame(sliderFrameRef.current)
+				sliderFrameRef.current = null
 			}
 		}
 	}, [dimensions, disableResizeTimeout, windowResizeTimeout]) // eslint-disable-line
