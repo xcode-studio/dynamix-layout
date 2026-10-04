@@ -1,18 +1,15 @@
 import Editor from './components/Editor'
 import { Terminal } from './components/Terminal'
-import { DynamixLayout } from '@dynamix-layout/react'
+import {
+	DynamixLayout,
+	type LayoutTreeV1,
+	type TabItem,
+} from '@dynamix-layout/react'
 import { IframePreview } from './components/IframePreview'
-import '@dynamix-layout/react/style.css'
+import '@dynamix-layout/react/styles.css'
 import './App.css'
 
-import {
-	DefaultSliderElement,
-	DefaultHoverElement,
-	DefaultWrapTabBody,
-	DefaultWrapTabHead,
-	DefaultWrapTabLabel,
-	DefaultWrapTabPanel,
-} from './components/wrapper'
+import { classNames, components } from './components/layout-config'
 import { Slider } from './components/ui/slider'
 import { cn } from './lib/utils'
 import { Card } from './components/ui/card'
@@ -89,6 +86,136 @@ body {
 ${Array.from({ length: 30 }, (_, i) => `.box${i + 1} { width: ${100 + i * 5}px; height: 40px; background: #${((Math.random() * 0xffffff) << 0).toString(16)}; margin-bottom: 8px; border-radius: 4px; }`).join('\n')}
 `
 
+/** A layout saved by v1; v2 migrates it on load. */
+const savedV1Layout: LayoutTreeV1 = {
+	typNode: 'row',
+	nodPart: 100,
+	nodName: 'dynamix-layout-root',
+	uidNode: 'dynamix-layout-root',
+	nodKids: [
+		{
+			typNode: 'row',
+			nodPart: 95.13923576423574,
+			nodName: '',
+			uidNode: 'ad18bbee-2260-4172-bcbe-bead8ab919cf',
+			nodOpen: 'preview',
+			nodKids: [
+				{
+					typNode: 'row',
+					nodPart: 253.63885510746962,
+					nodName: '',
+					uidNode: 'e4917519-3c9c-4ab9-adea-3a608fa8d45e',
+					nodOpen: 'TS',
+					nodKids: [
+						{
+							typNode: 'tabset',
+							nodPart: 95.68121135993162,
+							nodName: '',
+							uidNode: '4c880a2e-df03-4183-9043-9d0cbc25d1a9',
+							nodOpen: 'TS',
+							nodKids: [
+								{
+									typNode: 'tab',
+									nodPart: 100,
+									nodName: 'TS',
+									uidNode:
+										'9c5b720f-63b4-480b-ba80-717000b4f6df',
+								},
+							],
+						},
+						{
+							typNode: 'tabset',
+							nodPart: 102.46562527840646,
+							nodName: '',
+							uidNode: '94a19aba-384a-4a4f-977a-2b3e5cf45453',
+							nodOpen: 'preview',
+							nodKids: [
+								{
+									typNode: 'tab',
+									nodPart: 100,
+									nodName: 'preview',
+									uidNode:
+										'84932e7f-9efe-4437-b27e-242db949b47d',
+								},
+							],
+						},
+						{
+							typNode: 'row',
+							nodPart: 101.85316336166194,
+							nodName: '',
+							uidNode: 'd06eb31a-ca54-4c17-ab58-ccc55c5a25e4',
+							nodOpen: 'css',
+							nodKids: [
+								{
+									typNode: 'tabset',
+									nodPart: 100,
+									nodName: '',
+									uidNode:
+										'f4fb69bf-d5ee-426c-b420-867ecc111f25',
+									nodOpen: 'css',
+									nodKids: [
+										{
+											typNode: 'tab',
+											nodPart: 100,
+											nodName: 'css',
+											uidNode:
+												'595562f3-908e-4002-b107-1f86fd2f621a',
+										},
+									],
+								},
+								{
+									typNode: 'tabset',
+									nodPart: 100,
+									nodName: '',
+									uidNode:
+										'f6453908-1037-4d62-9a8d-cb8684ef311c',
+									nodOpen: 'Html',
+									nodKids: [
+										{
+											typNode: 'tab',
+											nodPart: 100,
+											nodName: 'Html',
+											uidNode:
+												'd19f9840-85b4-4a98-ba7d-dd2445c26500',
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+				{
+					typNode: 'tabset',
+					nodPart: 97.75714553534206,
+					nodName: '',
+					uidNode: 'f2b421d9-b10d-41db-a410-df41f6b01e8a',
+					nodOpen: 'terminal',
+					nodKids: [
+						{
+							typNode: 'tab',
+							nodPart: 100,
+							nodName: 'terminal',
+							uidNode: '0c9bce4c-2bc5-4f68-95e5-1db51d143b9c',
+						},
+					],
+				},
+			],
+		},
+	],
+}
+
+const tabs: TabItem[] = [
+	{ id: 'TS', content: <Editor language="typescript" value={dummyTsCode} /> },
+	{ id: 'Html', content: <Editor language="html" value={dummyHtmlCode} /> },
+	{ id: 'preview', title: 'Preview', content: <IframePreview /> },
+	{
+		id: 'css',
+		title: 'CSS',
+		content: <Editor language="css" value={dummyCssCode} />,
+	},
+	{ id: 'terminal', title: 'Terminal', content: <Terminal /> },
+]
+
 function App() {
 	const [minTabHeight, setMinTabHeight] = useState(40)
 	const [minTabWidth, setMinTabWidth] = useState(40)
@@ -98,171 +225,16 @@ function App() {
 		<div className="h-screen w-screen bg-background text-foreground relative overflow-auto">
 			{
 				<DynamixLayout
-					key={`layout-${bondWidth}${minTabHeight}${minTabWidth}`}
-					layoutTree={{
-						typNode: 'row',
-						nodPart: 100,
-						nodName: 'dynamix-layout-root',
-						uidNode: 'dynamix-layout-root',
-						nodKids: [
-							{
-								typNode: 'row',
-								nodPart: 95.13923576423574,
-								nodName: '',
-								uidNode: 'ad18bbee-2260-4172-bcbe-bead8ab919cf',
-								nodOpen: 'preview',
-								nodKids: [
-									{
-										typNode: 'row',
-										nodPart: 253.63885510746962,
-										nodName: '',
-										uidNode:
-											'e4917519-3c9c-4ab9-adea-3a608fa8d45e',
-										nodOpen: 'TS',
-										nodKids: [
-											{
-												typNode: 'tabset',
-												nodPart: 95.68121135993162,
-												nodName: '',
-												uidNode:
-													'4c880a2e-df03-4183-9043-9d0cbc25d1a9',
-												nodOpen: 'TS',
-												nodKids: [
-													{
-														typNode: 'tab',
-														nodPart: 100,
-														nodName: 'TS',
-														uidNode:
-															'9c5b720f-63b4-480b-ba80-717000b4f6df',
-													},
-												],
-											},
-											{
-												typNode: 'tabset',
-												nodPart: 102.46562527840646,
-												nodName: '',
-												uidNode:
-													'94a19aba-384a-4a4f-977a-2b3e5cf45453',
-												nodOpen: 'preview',
-												nodKids: [
-													{
-														typNode: 'tab',
-														nodPart: 100,
-														nodName: 'preview',
-														uidNode:
-															'84932e7f-9efe-4437-b27e-242db949b47d',
-													},
-												],
-											},
-											{
-												typNode: 'row',
-												nodPart: 101.85316336166194,
-												nodName: '',
-												uidNode:
-													'd06eb31a-ca54-4c17-ab58-ccc55c5a25e4',
-												nodOpen: 'css',
-												nodKids: [
-													{
-														typNode: 'tabset',
-														nodPart: 100,
-														nodName: '',
-														uidNode:
-															'f4fb69bf-d5ee-426c-b420-867ecc111f25',
-														nodOpen: 'css',
-														nodKids: [
-															{
-																typNode: 'tab',
-																nodPart: 100,
-																nodName: 'css',
-																uidNode:
-																	'595562f3-908e-4002-b107-1f86fd2f621a',
-															},
-														],
-													},
-													{
-														typNode: 'tabset',
-														nodPart: 100,
-														nodName: '',
-														uidNode:
-															'f6453908-1037-4d62-9a8d-cb8684ef311c',
-														nodOpen: 'Html',
-														nodKids: [
-															{
-																typNode: 'tab',
-																nodPart: 100,
-																nodName: 'Html',
-																uidNode:
-																	'd19f9840-85b4-4a98-ba7d-dd2445c26500',
-															},
-														],
-													},
-												],
-											},
-										],
-									},
-									{
-										typNode: 'tabset',
-										nodPart: 97.75714553534206,
-										nodName: '',
-										uidNode:
-											'f2b421d9-b10d-41db-a410-df41f6b01e8a',
-										nodOpen: 'terminal',
-										nodKids: [
-											{
-												typNode: 'tab',
-												nodPart: 100,
-												nodName: 'terminal',
-												uidNode:
-													'0c9bce4c-2bc5-4f68-95e5-1db51d143b9c',
-											},
-										],
-									},
-								],
-							},
-						],
-					}}
-					updateJSON={layoutTree => console.log(layoutTree)}
-					pad={{ t: 0, b: 0, l: 0, r: 0 }}
-					SliderElement={DefaultSliderElement}
-					HoverElement={DefaultHoverElement}
-					WrapTabBody={DefaultWrapTabBody}
-					WrapTabHead={DefaultWrapTabHead}
-					WrapTabLabel={DefaultWrapTabLabel}
-					WrapTabPanel={DefaultWrapTabPanel}
-					minTabHeight={minTabHeight}
-					minTabWidth={minTabWidth}
-					tabHeadHeight={40}
-					bondWidth={bondWidth}
-					style={{ overflow: 'auto' }}
-					tabBodyElementClass="rounded-b-2 border-b-2 shadow-lg"
-					tabs={[
-						[
-							'TS',
-							<Editor
-								key="ts-editor"
-								language="typescript"
-								value={dummyTsCode}
-							/>,
-						],
-						[
-							'Html',
-							<Editor
-								key="html-editor"
-								language="html"
-								value={dummyHtmlCode}
-							/>,
-						],
-						['preview', <IframePreview key="iframe-preview" />],
-						[
-							'css',
-							<Editor
-								key="css-editor"
-								language="css"
-								value={dummyCssCode}
-							/>,
-						],
-						['terminal', <Terminal key="terminal" />],
-					]}
+					defaultLayout={savedV1Layout}
+					onLayoutChange={(layout, { reason }) =>
+						console.log(reason, layout)
+					}
+					components={components}
+					classNames={classNames}
+					minPanelSize={{ width: minTabWidth, height: minTabHeight }}
+					tabBarHeight={40}
+					splitterSize={bondWidth}
+					tabs={tabs}
 				/>
 			}
 			<div className="absolute top-10 right-10 w-[300px] min-h-max z-[100] rounded-lg">

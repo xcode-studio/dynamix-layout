@@ -45,6 +45,7 @@
 			"import": "./dist/index.es.js",
 			"require": "./dist/index.cjs.js"
 		},
+		"./styles.css": "./dist/index.css",
 		"./style.css": "./dist/index.css"
 	},
 	"files": [
@@ -72,7 +73,8 @@
 		"build": "pnpm run clean && vite build && cp ../../LICENSE dist/LICENSE",
 		"dev:local": "vite",
 		"preview": "vite preview",
-		"lint": "eslint . --ext ts,tsx"
+		"lint": "eslint . --ext ts,tsx --max-warnings 0",
+		"test": "vitest"
 	},
 	"dependencies": {
 		"@dynamix-layout/core": "workspace:*"
