@@ -12,7 +12,6 @@
 		"declaration": true,
 		"outDir": "./dist",
 		"moduleResolution": "Node",
-		"rootDir": "src",
 		"allowSyntheticDefaultImports": true,
 		"noImplicitAny": true,
 		"paths": {
