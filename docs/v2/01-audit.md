@@ -15,7 +15,7 @@ Status: **draft for review**. No source code was changed in this phase.
 | Global singleton state | **Confirmed, and worse than described.** Two instances don't just overwrite each other: instance A's methods mutate instance B's tree (probed). |
 | Engine lifecycle in React | **Confirmed.** Every new `tabs` identity rebuilds the engine from the *initial* tree, and the rendered DOM keeps pointing at the old engine's node ids (probed). |
 | SSR | **Confirmed.** `renderToString` works but isn't deterministic (random UUIDs in markup), so hydration will mismatch (probed). |
-| Packaging | **Confirmed**, plus two new problems: (a) the React bundle *inlines React 19's `jsx-runtime`*, so the package can't work with React 18; (b) the React smoke test never runs, because the package has no `test` script. |
+| Packaging | **Confirmed**, plus two new problems: (a) the React bundle *inlines React 19's `jsx-runtime`*, so the package can't work with React 18; (b) the React package has no `test` script (CI still runs its one smoke test through the root Vitest projects; see P13). |
 | Public API | About 60 exports across core and react. Most are internals. Three exported React types describe an API that doesn't exist. |
 | Serialized format | Documented in §5. Tab identity is the tab **label** (`nodName`); `uidNode` of tabs is a per-session random id and is ignored on load. |
 | New bugs | 29 items in §4. The most important are B1–B6 and B25. B26–B29 were found later, by the characterization fixtures. |
@@ -218,9 +218,10 @@ Status: **draft for review**. No source code was changed in this phase.
 
 The `package.json` `repository` fields are already correct.
 
-**P13. The React package has a single smoke test — CONFIRMED, and it never runs.**
+**P13. The React package has a single smoke test — CONFIRMED.**
 - `react/src/test/layout.test.ts` has one render test.
-- `react/package.json` has **no `test` script** (`:68-76`), so `turbo run test` skips the package entirely. Solid has a script.
+- `react/package.json` has no `test` script (`:68-76`), so `pnpm --filter @dynamix-layout/react test` does nothing. Solid has a script.
+- *Correction (Phase 3):* the first version of this audit said the test never runs in CI. That was wrong. CI runs the root `vitest`, whose `projects` include `packages/react/vite.config.ts`, so the smoke test did run.
 - The React `lint` script also lacks `--max-warnings 0`, unlike core.
 
 ### Naming — CONFIRMED
