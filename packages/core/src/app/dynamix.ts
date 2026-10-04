@@ -127,7 +127,15 @@ export class Node {
 			extraSpace = this.dims.h - totlMinSize.minHeight
 		}
 
-		let unallocate = extraSpace
+		const isBelowMinSize = extraSpace < 0
+		const lastKid = this.kids.peekBack()
+
+		// Round cumulative boundaries instead of individual sizes. Each edge
+		// stays within half a pixel of its exact position, moves at most one
+		// pixel per pixel of resize, and edges outside a dragged pair never move
+		// (their cumulative part is unchanged).
+		let cumWeight = 0
+		let prevBoundary = 0
 
 		for (const kid of this.kids) {
 			const kidDims = Node.cache.dimMins.get(kid.unId) || {
@@ -135,57 +143,29 @@ export class Node {
 				minHeight: 0,
 			}
 
-			if (this.dims.w < totlMinSize.minWidth) {
-				if (nodeDir) {
-					kid.dims.w = kidDims.minWidth
-					kid.dims.h = this.dims.h
-					kid.dims.x = this.dims.x + curntOffset
-					kid.dims.y = this.dims.y
-					curntOffset += kid.dims.w + Layout._bond
-				} else {
-					kid.dims.h = kidDims.minHeight
-					kid.dims.w = this.dims.w
-					kid.dims.y = this.dims.y + curntOffset
-					kid.dims.x = this.dims.x
-					curntOffset += kid.dims.h + Layout._bond
-				}
+			let extraChildSpace = 0
+			if (!isBelowMinSize) {
+				cumWeight += kid.part
+				const boundary =
+					kid === lastKid
+						? extraSpace
+						: Math.round((extraSpace * cumWeight) / totalWeight)
+				extraChildSpace = boundary - prevBoundary
+				prevBoundary = boundary
+			}
+
+			if (nodeDir) {
+				kid.dims.w = kidDims.minWidth + extraChildSpace
+				kid.dims.h = this.dims.h
+				kid.dims.x = this.dims.x + curntOffset
+				kid.dims.y = this.dims.y
+				curntOffset += kid.dims.w + Layout._bond
 			} else {
-				const childShareRatio = kid.part / totalWeight
-				const extraChildSpace = Math.floor(extraSpace * childShareRatio)
-
-				if (kid === this.kids.peekBack()) {
-					if (nodeDir) {
-						kid.dims.w = kidDims.minWidth + unallocate
-						kid.dims.h = this.dims.h
-						kid.dims.x = this.dims.x + curntOffset
-						kid.dims.y = this.dims.y
-						curntOffset += kid.dims.w + Layout._bond
-					} else {
-						kid.dims.h = kidDims.minHeight + unallocate
-						kid.dims.w = this.dims.w
-						kid.dims.y = this.dims.y + curntOffset
-						kid.dims.x = this.dims.x
-						curntOffset += kid.dims.h + Layout._bond
-					}
-
-					break
-				}
-
-				if (nodeDir) {
-					kid.dims.w = kidDims.minWidth + extraChildSpace
-					kid.dims.h = this.dims.h
-					kid.dims.x = this.dims.x + curntOffset
-					kid.dims.y = this.dims.y
-					curntOffset += kid.dims.w + Layout._bond
-				} else {
-					kid.dims.h = kidDims.minHeight + extraChildSpace
-					kid.dims.w = this.dims.w
-					kid.dims.y = this.dims.y + curntOffset
-					kid.dims.x = this.dims.x
-					curntOffset += kid.dims.h + Layout._bond
-				}
-
-				unallocate -= extraChildSpace
+				kid.dims.h = kidDims.minHeight + extraChildSpace
+				kid.dims.w = this.dims.w
+				kid.dims.y = this.dims.y + curntOffset
+				kid.dims.x = this.dims.x
+				curntOffset += kid.dims.h + Layout._bond
 			}
 
 			if (kid.next) {
@@ -516,9 +496,6 @@ class Layout {
 			Node.cache.tabCnts.clear()
 			Node.cache.dimMins.clear()
 			Node.cache.mapElem.clear()
-			Node.cache.mapElem.clear()
-			Node.cache.mapElem.clear()
-			Node.cache.mapElem.clear()
 			Node.cache.nodOpts.get().clear()
 			Node.cache.bndOpts.get().clear()
 		}
@@ -637,11 +614,18 @@ class Layout {
 	}
 
 	calcDimensions(root: Node = Layout._root, supress: boolean = false) {
-		const nodeOpts = new Map<string, NodeOptions>()
-		const bondOpts = new Map<string, NodeOptions>()
-		const tabsIds = new Map<string, NodeOptions>()
+		const isRoot = root === Layout._root
 
-		if (root === Layout._root) this.calculateRootAdjustment()
+		// A subtree pass (e.g. slider drag) only recomputes part of the tree, so
+		// it starts from the current maps to keep entries outside the subtree.
+		const seed = (current: ReactiveValue<Map<string, NodeOptions>>) =>
+			isRoot ? new Map<string, NodeOptions>() : new Map(current.get())
+
+		const nodeOpts = seed(Node.cache.nodOpts)
+		const bondOpts = seed(Node.cache.bndOpts)
+		const tabsIds = seed(Node.cache.tabOpts)
+
+		if (isRoot) this.calculateRootAdjustment()
 
 		for (const node of this.NodeLayoutIterator(root)) {
 			node.calcDimensions()
@@ -899,6 +883,14 @@ class Layout {
 			return false
 		}
 
+		// Only the root row is a valid row target; moveRelativeToRoot assumes it.
+		if (desNode.type === 'row' && desNode !== Layout._root) {
+			console.warn(
+				`Cannot move relative to a nested row: ${desNode.unId}`
+			)
+			return false
+		}
+
 		if (desNode.type === 'row' && layout === 'contain') {
 			console.warn(
 				`Cannot move to a row with 'contain' layout: ${desNode.unId}`
@@ -913,6 +905,9 @@ class Layout {
 		if (desNode.type === 'tabset' && layout === 'contain') {
 			desNode = desNode.kids.peekBack() || desNode
 		}
+
+		// Dropping the last tab of a tabset onto that same tabset is a no-op.
+		if (srcNode === desNode) return false
 
 		if (
 			desNode.type === 'tab' &&
@@ -957,10 +952,8 @@ class Layout {
 
 		if (!insertFlg && nxtBnd) {
 			Node.cache.mapElem.delete(nxtBnd.unId)
-			Node.cache.nodOpts.get().delete(nxtBnd.unId)
 		} else if (insertFlg && prvBnd) {
 			Node.cache.mapElem.delete(prvBnd.unId)
-			Node.cache.nodOpts.get().delete(prvBnd.unId)
 		}
 
 		if (src.type == 'tab') {
@@ -1143,7 +1136,6 @@ class Layout {
 
 			if (bndPre) {
 				Node.cache.mapElem.delete(bndPre.unId)
-				Node.cache.nodOpts.get().delete(bndPre.unId)
 			}
 		} else {
 			desHost.kids.insert(desIdx + 1, src)
@@ -1152,7 +1144,6 @@ class Layout {
 
 			if (bndNxt) {
 				Node.cache.mapElem.delete(bndNxt.unId)
-				Node.cache.nodOpts.get().delete(bndNxt.unId)
 			}
 		}
 
@@ -1435,12 +1426,10 @@ class Layout {
 
 		if (nextBond) {
 			Node.cache.mapElem.delete(nextBond.unId)
-			Node.cache.nodOpts.get().delete(nextBond.unId)
 		}
 
 		if (prevBond) {
 			Node.cache.mapElem.delete(prevBond.unId)
-			Node.cache.nodOpts.get().delete(prevBond.unId)
 		}
 
 		if (nextNode && prevNode) {
