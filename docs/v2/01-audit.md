@@ -18,7 +18,7 @@ Status: **draft for review**. No source code was changed in this phase.
 | Packaging | **Confirmed**, plus two new problems: (a) the React bundle *inlines React 19's `jsx-runtime`*, so the package can't work with React 18; (b) the React smoke test never runs, because the package has no `test` script. |
 | Public API | About 60 exports across core and react. Most are internals. Three exported React types describe an API that doesn't exist. |
 | Serialized format | Documented in §5. Tab identity is the tab **label** (`nodName`); `uidNode` of tabs is a per-session random id and is ignored on load. |
-| New bugs | 25 items in §4. The most important are B1–B6 and B25. |
+| New bugs | 29 items in §4. The most important are B1–B6 and B25. B26–B29 were found later, by the characterization fixtures. |
 
 ---
 
@@ -278,6 +278,10 @@ Severity: **H** = data loss, crash or wrong behaviour in normal use; **M** = wro
 | B23 | L | `examples/svelte` contains only a stale `dist/` (no `package.json`). It's dead weight in the repo. | `ls examples/svelte`. |
 | B24 | L | The comment in the React `layout.css` says "for the SolidJS components". A fallback "No content" body uses Tailwind classes the library doesn't ship. | `layout.css:1`; `Layout.tsx:360-364`. |
 | B25 | **H** | **Wrong placement unless the root sits at the viewport's top-left.** The container rect uses viewport coordinates (`rect.left/top`, `Layout.tsx:108-118`), but children are absolutely positioned *inside* the root. A root offset by 150px drew its tab bars at 300px, and the far side was clipped. The page scroll position isn't tracked either. Hidden today because every example is full-viewport. | Probed in agent-browser on `examples/react` (root `margin-left:150px` → tab bar `style.left=150px`, on screen at 300px). |
+| B26 | L | **A center drop inserts the tab before the target's last tab**, not at the end: `'contain'` is rewritten to "beside the last tab" with `insertFlg` true. | Found by the characterization fixtures; `tree-mutations.ts:77-79`, `:142-143`. |
+| B27 | M | **Splitting beside a folded tabset leaves a row stuck at its minimum size.** The tabset turns into a row but keeps `collapsed`, so the row gets no extra space, its splitters lock, and no toolbar can unfold it. The flag is also saved (`nodFold` on a row). | Fixtures (scenarios 7 and 15); `tree-mutations.ts:409-444`. |
+| B28 | M | **A row whose open children all have weight 0 keeps stale sizes**, sometimes drawn outside the row. A splitter dragged fully to one side writes weight 0; once the other sibling folds, `calcDimensions` returns early. | Fixtures (scenario 8); `node.ts:124`. |
+| B29 | L | **After the container shrinks below the layout minimum, the root stays oversized** until the next window resize, because the grown size is written back into the root's dimensions and reused by later recomputes. | Fixtures (scenario 9); `geometry.ts:160-163`. |
 
 ---
 

@@ -136,9 +136,11 @@ export type LayoutNode = RowNode | TabsetNode | TabNode
 **Invariants**, enforced by `normalize.ts` after every mutation and every load:
 1. The root is a row, and it may have zero children (an empty layout).
 2. Tabsets have at least one tab, and `activeTabId` is one of them.
-3. A non-root row has at least 2 children. A single-child row is replaced by its child, which takes the row's weight. This fixes B7.
-4. A child row never has its parent's direction; same-direction rows are flattened. Child weights become `rowWeight × childWeight / Σ childWeights`, which gives the same pixels.
-5. Weights are finite and > 0. Invalid values become 100.
+3. A non-root row has at least 2 children. A single-child row is replaced by its child, **which keeps its own weight**. That is what v1 does when it dissolves a row (`moveAdjacentNodeToGrandParent`), so v1 interactions and saved layouts stay pixel-identical. This fixes B7.
+4. A child row never has its parent's direction; same-direction rows are flattened, and their children keep their own weights (the same rule as invariant 3).
+
+   *Implementation note:* the root absorbs a single child row (taking its direction, children and weight). The root's weight stands for that row: v1 kept a horizontal root with one vertical row child, whose weight matters again if something is later docked beside it. A root that is horizontal, or has at most one child, is a plain root: horizontal, weight 100.
+5. Weights are finite and **≥ 0**. Invalid values become 100. Zero is valid: v1 writes it when a splitter is dragged all the way to a neighbour's minimum. If every unfolded child of a row has weight 0, they share the space equally (v1 left stale sizes, B28).
 6. Tab ids are unique across the layout.
 7. View-state rules from #83 (F17): a tabset alone in its row can't be folded; every row keeps at least one unfolded child; `maximizedTabsetId` must exist.
 
@@ -419,7 +421,7 @@ Mapping (matches audit §5):
 | `typNode` | `type` |
 | row/tabset `uidNode` | `id` (kept, so `nodMaxd` still resolves) |
 | tab `nodName` | tab `id` (**v1 tab identity is the label**; tab `uidNode` is discarded) |
-| `nodPart` | `weight` (same semantics, D4; a non-finite or ≤ 0 value → 100) |
+| `nodPart` | `weight` (same semantics, D4; a non-finite or negative value → 100) |
 | depth parity | `direction` (root and even depths `horizontal`, odd depths `vertical`), computed **before** normalizing |
 | tabset `nodOpen` (a tab label) | `activeTabId` (falls back to the first child) |
 | tabset `nodFold: true` | `isFolded: true` |
@@ -431,11 +433,11 @@ Edge cases (audit §5.4):
 | Input | Handling |
 |---|---|
 | Root with a single nested row (B7) | Row flattened into the root. The root takes the row's direction (`vertical`), so it's pixel-identical. |
-| Same-direction nested rows (hand-edited) | Flattened with re-scaled weights (invariant 4). |
+| Same-direction nested rows (hand-edited) | Flattened; children keep their weights (invariant 4). |
 | `nodOpen` naming a missing tab | `activeTabId` = first tab; `INVALID_ACTIVE_TAB` warning. |
 | Duplicate tab `nodName`s | The first occurrence (BFS order) wins and later ones are dropped; `DUPLICATE_TAB_ID` warning (migration never throws on this). |
 | Fractional `nodPart` | Kept as is. |
-| `nodPart` ≤ 0, `NaN` | 100; `INVALID_WEIGHT` warning. |
+| `nodPart` < 0, `NaN` | 100; `INVALID_WEIGHT` warning. (`0` is valid.) |
 | Empty tabset / empty row | Removed; the parent is then normalized. |
 | Tab directly inside a row | Wrapped in a new tabset (deterministic id `ts-<tabId>`). |
 | Root that is a tabset | Wrapped in a root row. |
