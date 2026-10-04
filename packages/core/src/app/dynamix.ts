@@ -16,6 +16,7 @@ import * as treeBuilder from './tree-builder'
 import * as geometry from './geometry'
 import * as slider from './slider'
 import * as treeMutations from './tree-mutations'
+import * as viewState from './view-state'
 
 class Layout {
 	static get _root(): Node {
@@ -82,6 +83,8 @@ class Layout {
 			createId?: () => string
 			/** Schedules deferred updates (default `setTimeout`/`clearTimeout`). */
 			timer?: Timer
+			/** Size of a folded tabset along its row; pass the tab bar height. */
+			collapsedSize?: number
 		} = {}
 	) {
 		const config = {
@@ -98,10 +101,12 @@ class Layout {
 		this.tabsIds = config.tabsIds
 		layoutState.createId = config.createId ?? defaultCreateId
 		layoutState.timer = config.timer ?? defaultTimer
+		layoutState.collapsedSize = config.collapsedSize ?? config.minH
 
 		// Reset on every construction so a tabs-only layout never reuses the
 		// tree of a previously created layout.
 		Layout._tree = config.tree ?? null
+		layoutState.maximized = config.tree?.nodMaxd ?? null
 
 		Layout._root = new Node({
 			unId: config.uqid,
@@ -255,6 +260,39 @@ class Layout {
 
 	clearAllCache() {
 		return treeMutations.clearAllCache()
+	}
+
+	/** Uid of the maximized tabset, or null. */
+	get maximizedId(): string | null {
+		return viewState.getMaximizedTabset()?.unId ?? null
+	}
+
+	/** Show one tabset over the whole layout; the others stay mounted. */
+	maximize(id: string): boolean {
+		return viewState.maximize(this, id)
+	}
+
+	/** Leave maximized mode; the previous split is restored exactly. */
+	restore(): boolean {
+		return viewState.restore(this)
+	}
+
+	toggleMaximize(id: string): boolean {
+		return viewState.toggleMaximize(this, id)
+	}
+
+	/** Fold a tabset to a strip along its row (its tab bar). */
+	collapse(id: string): boolean {
+		return viewState.collapse(this, id)
+	}
+
+	/** Unfold a tabset; it returns to its previous size. */
+	expand(id: string): boolean {
+		return viewState.expand(this, id)
+	}
+
+	toggleCollapse(id: string): boolean {
+		return viewState.toggleCollapse(this, id)
 	}
 }
 

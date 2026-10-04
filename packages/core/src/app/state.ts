@@ -24,4 +24,10 @@ export const layoutState = {
 	minH: 40,
 	bond: 10,
 	inst: null as DynamixLayoutCore | null,
+	/** Uid of the maximized tabset, if any. */
+	maximized: null as string | null,
+	/** Size of a folded tabset along its parent row (its tab bar height). */
+	collapsedSize: 40,
+	/** Increments on every fold so the most recently folded tabset is known. */
+	foldSeq: 0,
 }

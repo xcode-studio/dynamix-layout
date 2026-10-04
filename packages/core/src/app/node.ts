@@ -34,6 +34,10 @@ export class Node {
 	part: number = 0
 	host: Node | null = null
 	open: string = ''
+	/** Tabset only: folded to a strip along its parent row. */
+	collapsed: boolean = false
+	/** Fold order, used to pick which sibling to unfold. */
+	foldedAt: number = 0
 
 	constructor(
 		options: {
@@ -107,8 +111,14 @@ export class Node {
 		}
 		let curntOffset = 0
 
+		// Folded tabsets keep their strip size; only open kids share the
+		// extra space. Their parts are left untouched so unfolding restores
+		// the previous split.
+		let lastFlexKid: Node | undefined
 		for (const kid of this.kids) {
+			if (kid.collapsed) continue
 			totalWeight += kid.part
+			lastFlexKid = kid
 		}
 
 		if (totalWeight === 0) return
@@ -121,7 +131,6 @@ export class Node {
 		}
 
 		const isBelowMinSize = extraSpace < 0
-		const lastKid = this.kids.peekBack()
 
 		// Round cumulative boundaries instead of individual sizes. Each edge
 		// stays within half a pixel of its exact position, moves at most one
@@ -137,10 +146,10 @@ export class Node {
 			}
 
 			let extraChildSpace = 0
-			if (!isBelowMinSize) {
+			if (!isBelowMinSize && !kid.collapsed) {
 				cumWeight += kid.part
 				const boundary =
-					kid === lastKid
+					kid === lastFlexKid
 						? extraSpace
 						: Math.round((extraSpace * cumWeight) / totalWeight)
 				extraChildSpace = boundary - prevBoundary
@@ -197,6 +206,14 @@ export class Node {
 
 		if (this.open) {
 			result.nodOpen = this.open
+		}
+
+		if (this.collapsed) {
+			result.nodFold = true
+		}
+
+		if (this === layoutState.root && layoutState.maximized) {
+			result.nodMaxd = layoutState.maximized
 		}
 
 		if (children.length > 0) {

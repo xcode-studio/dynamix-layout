@@ -23,6 +23,10 @@ export function areNodeOptionsEqual(a: NodeOptions, b: NodeOptions): boolean {
 	if (a.nodName !== b.nodName) return false
 	if (a.uidNode !== b.uidNode) return false
 	if (a.nodPart !== b.nodPart) return false
+	if (a.nodFold !== b.nodFold) return false
+	if (a.nodMaxd !== b.nodMaxd) return false
+	if (a.nodHidden !== b.nodHidden) return false
+	if (a.nodLocked !== b.nodLocked) return false
 
 	const dimA = a.nodDims
 	const dimB = b.nodDims

@@ -1,5 +1,11 @@
 import { Node } from './node'
 import { layoutState } from './state'
+import {
+	canCollapse,
+	canMaximize,
+	getMaximizedTabset,
+	normalizeViewState,
+} from './view-state'
 import type {
 	Dimension,
 	NodeOptions,
@@ -16,6 +22,7 @@ export function calcTabsetCountAndMinDim(
 	clear: boolean = true
 ) {
 	if (root === layoutState.root && clear) {
+		normalizeViewState(root)
 		Node.cache.tabCnts.clear()
 		Node.cache.dimMins.clear()
 		Node.cache.mapElem.clear()
@@ -72,6 +79,24 @@ export function calcTabsetCountAndMinDim(
 					horizontal: 1,
 					vertical: 0,
 				})
+			}
+
+			// A folded tabset is only its tab bar along the parent row.
+			if (node.collapsed && node.host) {
+				const rowIsHorizontal = Node.cache.mapDirs.get(node.host.unId)
+				if (rowIsHorizontal) {
+					dimMins.set(node.unId, {
+						minWidth: layoutState.collapsedSize,
+						minHeight: layoutState.minH,
+					})
+					tabCnts.get(node.unId)!.horizontal = 0
+				} else {
+					dimMins.set(node.unId, {
+						minWidth: layoutState.minW,
+						minHeight: layoutState.collapsedSize,
+					})
+					tabCnts.get(node.unId)!.vertical = 0
+				}
 			}
 		}
 
@@ -162,12 +187,24 @@ export function calcDimensions(
 
 	if (isRoot) engine.calculateRootAdjustment()
 
+	// While a tabset is maximized it takes the whole layout and everything
+	// else is hidden. Node dims are still computed normally, so restoring is
+	// exact.
+	const maximized = getMaximizedTabset()
+	const maximizable = canMaximize()
+
 	for (const node of engine.NodeLayoutIterator(root)) {
 		node.calcDimensions()
 
 		const nodeDir = Node.cache.mapDirs.get(node.unId)!
 
 		if (node.type === 'tabset') {
+			const isMaximized = node === maximized
+			const hidden = !!maximized && !isMaximized
+			const dims = isMaximized
+				? { ...layoutState.root.dims }
+				: { ...node.dims }
+
 			const nodeOption: NodeOptions = {
 				typNode: node.type,
 				nodName: node.name,
@@ -175,25 +212,28 @@ export function calcDimensions(
 				nodPart: node.part,
 				nodOpen: node.open,
 				nodeDir: nodeDir,
+				nodFold: node.collapsed && !isMaximized,
+				nodMaxd: isMaximized,
+				nodHidden: hidden,
+				nodFoldable: canCollapse(node),
+				nodMaximizable: maximizable,
 
 				nodKids: Array.from(node.kids).map((kid) => {
-					const KidNode = {
+					const KidNode: NodeOptions = {
 						typNode: kid.type,
 						nodName: kid.name,
 						uidNode: kid.unId,
 						nodPart: kid.part,
 						nodOpen: node.open === kid.name ? true : false,
 						nodeDir: !nodeDir,
-						nodDims: {
-							...node.dims,
-						},
+						nodHidden: hidden,
+						nodFold: node.collapsed && !isMaximized,
+						nodDims: { ...dims },
 					}
 					tabsIds.set(kid.unId, KidNode)
-					return KidNode as NodeOptions
+					return KidNode
 				}),
-				nodDims: {
-					...node.dims,
-				},
+				nodDims: dims,
 			}
 			nodeOpts.set(node.unId, nodeOption)
 		}
@@ -205,6 +245,8 @@ export function calcDimensions(
 				uidNode: node.next.unId,
 				nodeDir: nodeDir,
 				nodPart: 0,
+				nodHidden: !!maximized,
+				nodLocked: node.collapsed || !!node.next.next?.collapsed,
 				nodDims: {
 					...node.next.dims,
 				},

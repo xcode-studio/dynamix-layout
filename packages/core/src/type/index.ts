@@ -34,10 +34,26 @@ export interface BaseNode {
 
 export type LayoutTree = Omit<BaseNode, 'nodeDir' | 'nodDims'> & {
 	nodKids?: LayoutTree[]
+	/** Tabset only: folded to a strip along its parent row. */
+	nodFold?: boolean
+	/** Root only: uid of the maximized tabset. */
+	nodMaxd?: string
 }
 
 export interface NodeOptions extends BaseNode {
 	nodKids?: BaseNode[]
+	/** Tabset: folded to a strip (ignored while it is maximized). */
+	nodFold?: boolean
+	/** Tabset: currently maximized over the whole layout. */
+	nodMaxd?: boolean
+	/** Hidden because another tabset is maximized (content stays mounted). */
+	nodHidden?: boolean
+	/** Bond: next to a folded tabset, so it cannot be dragged. */
+	nodLocked?: boolean
+	/** Tabset: can be folded (it has siblings in its row). */
+	nodFoldable?: boolean
+	/** Tabset: can be maximized (the layout has more than one tabset). */
+	nodMaximizable?: boolean
 }
 
 export interface RootAdjustment {

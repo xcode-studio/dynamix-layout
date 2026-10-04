@@ -307,4 +307,13 @@ describe('Layout geometry', () => {
 			[]
 		)
 	})
+
+	it('gives a single tab the whole layout', () => {
+		const layout = new DynamixLayoutCore({ tabs: ['only'], bond: BOND })
+		layout.updateDimension({ w: 1200, h: 800, x: 0, y: 0 }, true)
+
+		const root = DynamixLayoutCore._root
+		expect(root.kids.size()).toBe(1)
+		expect(root.kids.peek()!.dims).toEqual({ w: 1200, h: 800, x: 0, y: 0 })
+	})
 })
