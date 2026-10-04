@@ -1,4 +1,4 @@
-import { JSX, createMemo, splitProps } from 'solid-js'
+import { JSX, createMemo, onCleanup, onMount, splitProps } from 'solid-js'
 import type { TabsetToolbarProps } from '../types'
 
 type DivProps = {
@@ -299,9 +299,24 @@ export const DefaultTabsetToolbar = (props: TabsetToolbarProps) => {
 	const chevronTurn = () =>
 		(props.rowIsHorizontal ? 0 : 90) + (props.folded ? 180 : 0)
 	const upright = () => (props.rotated ? -90 : 0)
+	let toolbar: HTMLDivElement | undefined
+
+	// Stay pinned to the visible end of the tab bar when its tabs overflow
+	// and it scrolls.
+	onMount(() => {
+		const bar = toolbar?.parentElement
+		if (!toolbar || !bar) return
+		const pin = () => {
+			toolbar!.style.transform = `translateX(${bar.scrollLeft}px)`
+		}
+		pin()
+		bar.addEventListener('scroll', pin, { passive: true })
+		onCleanup(() => bar.removeEventListener('scroll', pin))
+	})
 
 	return (
 		<div
+			ref={toolbar}
 			class="DefaultTabsetToolbar"
 			onDblClick={(e) => e.stopPropagation()}
 		>

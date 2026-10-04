@@ -238,6 +238,9 @@ export const DynamixLayout: ForwardRefExoticComponent<
 									data-dx-hidden={
 										tabset.nodHidden ? '' : undefined
 									}
+									data-rotated={
+										placement.rotated ? '' : undefined
+									}
 									onDoubleClick={onTabbarDoubleClick}
 									onDragOver={handleNavbarDragOver}
 									onDragStart={onDragStart}

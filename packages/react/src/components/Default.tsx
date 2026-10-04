@@ -1,4 +1,10 @@
-import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
+import React, {
+	forwardRef,
+	HTMLAttributes,
+	ReactNode,
+	useEffect,
+	useRef,
+} from 'react'
 import type { TabsetToolbarProps } from '../types'
 
 type DefaultWrapTabLabelProps = HTMLAttributes<HTMLDivElement> & {
@@ -343,9 +349,25 @@ export const DefaultTabsetToolbar = ({
 	// Inside a rotated strip the icons are turned back so they read upright.
 	const chevronTurn = (rowIsHorizontal ? 0 : 90) + (folded ? 180 : 0)
 	const upright = rotated ? -90 : 0
+	const toolbarRef = useRef<HTMLDivElement>(null)
+
+	// Stay pinned to the visible end of the tab bar when its tabs overflow
+	// and it scrolls.
+	useEffect(() => {
+		const toolbar = toolbarRef.current
+		const bar = toolbar?.parentElement
+		if (!toolbar || !bar) return
+		const pin = () => {
+			toolbar.style.transform = `translateX(${bar.scrollLeft}px)`
+		}
+		pin()
+		bar.addEventListener('scroll', pin, { passive: true })
+		return () => bar.removeEventListener('scroll', pin)
+	}, [])
 
 	return (
 		<div
+			ref={toolbarRef}
 			className="DefaultTabsetToolbar"
 			onDoubleClick={(e) => e.stopPropagation()}
 		>

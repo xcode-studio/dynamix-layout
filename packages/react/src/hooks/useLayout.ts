@@ -282,6 +282,23 @@ export const useDynamixLayout = ({
 			e.dataTransfer.dropEffect = 'move'
 		}
 
+		// A folded strip shows its tab bar rotated; label boxes are vertical
+		// there, so the whole strip is the target and drops go into the tabset.
+		if (e.currentTarget.hasAttribute('data-rotated')) {
+			if (!hoverElementRef.current || !dragElemRef.current) return
+			const r = e.currentTarget.getBoundingClientRect()
+			updateHoverElement({
+				area: 'contain',
+				left: r.left,
+				top: r.top,
+				width: r.width,
+				height: r.height,
+			})
+			dragElemRef.current.des = e.currentTarget
+			dragElemRef.current.area = 'contain'
+			return
+		}
+
 		// Only tab labels: the tab bar also holds the maximize/fold toolbar.
 		const tabElems = Array.from(
 			e.currentTarget.querySelectorAll<HTMLDivElement>(

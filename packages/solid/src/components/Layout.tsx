@@ -189,6 +189,9 @@ export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 								data-dx-hidden={
 									tabset.nodHidden ? '' : undefined
 								}
+								data-rotated={
+									placement.rotated ? '' : undefined
+								}
 								onDblClick={onTabbarDoubleClick}
 								onDragOver={handleNavbarDragOver}
 								onDragStart={onDragStart}

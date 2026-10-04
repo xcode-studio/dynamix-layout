@@ -38,6 +38,10 @@
 	display: flex;
 	align-items: center;
 	gap: 2px;
+	padding-left: 6px;
+	/* Opaque, so overflowing tab labels slide underneath instead of showing
+	   through the buttons. */
+	background: inherit;
 	opacity: 0;
 	transition: opacity 0.15s ease;
 }
