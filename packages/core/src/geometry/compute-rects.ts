@@ -73,11 +73,18 @@ export function computeLayoutRects(
 
 		let totalWeight = 0
 		let lastFlexId: string | undefined
+		let flexCount = 0
 		for (const child of row.children) {
 			if (!isRow(child) && child.isFolded) continue
 			totalWeight += child.weight
 			lastFlexId = child.id
+			flexCount++
 		}
+		// Every open child at weight 0 (each dragged to its minimum): share
+		// equally rather than leaving the space unassigned.
+		const allZero = totalWeight === 0
+		const weightOf = (weight: number) => (allZero ? 1 : weight)
+		if (allZero) totalWeight = flexCount
 
 		let offset = 0
 		let cumulativeWeight = 0
@@ -87,7 +94,7 @@ export function computeLayoutRects(
 			const isFlexible = isRow(child) || !child.isFolded
 			let extra = 0
 			if (!isBelowMin && isFlexible && totalWeight > 0) {
-				cumulativeWeight += child.weight
+				cumulativeWeight += weightOf(child.weight)
 				const boundary =
 					child.id === lastFlexId
 						? extraSpace

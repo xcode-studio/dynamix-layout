@@ -6,7 +6,7 @@ import { withChildren } from './update'
 export const DEFAULT_WEIGHT = 100
 
 const validWeight = (weight: number) =>
-	Number.isFinite(weight) && weight > 0 ? weight : DEFAULT_WEIGHT
+	Number.isFinite(weight) && weight >= 0 ? weight : DEFAULT_WEIGHT
 
 function normalizeTabset(tabset: TabsetNode): TabsetNode | null {
 	if (tabset.children.length === 0) return null
@@ -52,7 +52,8 @@ function normalizeRow(row: RowNode): RowNode {
  * - tabsets are never empty and their `activeTabId` is one of their tabs;
  * - non-root rows have at least two children and never share their parent's
  *   direction;
- * - weights are finite and positive.
+ * - weights are finite and not negative (0 is valid: a panel dragged to its
+ *   minimum has no share of the extra space).
  *
  * A root with a single row child takes over that row (its direction, weight
  * and children), which renders identically. Unchanged nodes keep their identity.

@@ -120,11 +120,7 @@ describe('Dynamic Layout Management Test Suite', () => {
 						n.id === 'dynamix-layout-root'
 				)
 				const positions: (
-					| 'top'
-					| 'bottom'
-					| 'left'
-					| 'right'
-					| 'contain'
+					'top' | 'bottom' | 'left' | 'right' | 'contain'
 				)[] = ['top', 'bottom', 'left', 'right', 'contain']
 
 				for (const srcNode of draggableNodes) {
