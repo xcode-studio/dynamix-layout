@@ -169,6 +169,13 @@ export function Terminal() {
 			})
 
 			isInitialized.current = true
+
+			// xterm registers global listeners; dispose it so an unmounted
+			// terminal (and the layout around it) can be garbage collected.
+			return () => {
+				term.dispose()
+				isInitialized.current = false
+			}
 		}
 	}, [])
 

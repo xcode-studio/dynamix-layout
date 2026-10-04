@@ -43,6 +43,34 @@ const geometryProblems = (root: Node): string[] => {
 	return problems
 }
 
+/** Tabs must survive every move and the tree/caches must stay consistent. */
+const structureProblems = (root: Node, expectedTabs: string[]): string[] => {
+	const problems: string[] = []
+	const tabs: string[] = []
+	let live = 0
+	const walk = (n: Node) => {
+		live++
+		if (n.next) live++
+		if (n.type === 'tab') tabs.push(n.name)
+		if (n.type === 'tabset' && n.kids.size() === 0)
+			problems.push('empty tabset')
+		for (const k of n.kids) {
+			if (k.host !== n) problems.push(`${k.type} has wrong host`)
+			if (n.type === 'tabset' && k.type !== 'tab')
+				problems.push(`tabset contains ${k.type}`)
+			walk(k)
+		}
+	}
+	walk(root)
+	if (tabs.sort().join() !== [...expectedTabs].sort().join())
+		problems.push(`tabs changed: ${tabs.sort().join()}`)
+	if (Node.cache.mapDirs.size > live)
+		problems.push(
+			`mapDirs has ${Node.cache.mapDirs.size} entries for ${live} live nodes`
+		)
+	return problems
+}
+
 const depthOf = (n: Node): number =>
 	n.kids.size() ? 1 + Math.max(...[...n.kids].map(depthOf)) : 0
 
@@ -51,13 +79,11 @@ describe('Layout geometry', () => {
 		new DynamixLayoutCore().clearAllCache()
 	})
 
-	it.each([7, 11, 99])(
-		'tiles every row exactly after random moves (seed %i)',
+	it.each([7, 11, 99, 1, 2, 3, 42, 777, 2024, 31337])(
+		'keeps tabs and exact tiling after random moves (seed %i)',
 		(initialSeed) => {
-			const layout = new DynamixLayoutCore({
-				tabs: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
-				bond: BOND,
-			})
+			const tabNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+			const layout = new DynamixLayoutCore({ tabs: tabNames, bond: BOND })
 			layout.updateDimension({ w: 1440, h: 900, x: 0, y: 0 }, true)
 
 			let seed = initialSeed
@@ -98,7 +124,10 @@ describe('Layout geometry', () => {
 
 				layout.updateDimension({ w: 1440, h: 900, x: 0, y: 0 }, true)
 				maxDepth = Math.max(maxDepth, depthOf(DynamixLayoutCore._root))
-				const p = geometryProblems(DynamixLayoutCore._root)
+				const p = [
+					...structureProblems(DynamixLayoutCore._root, tabNames),
+					...geometryProblems(DynamixLayoutCore._root),
+				]
 				if (p.length)
 					failures.push(
 						`move ${i} (${src.type} -> ${des.type} ${area}), depth ${depthOf(DynamixLayoutCore._root)}: ${p.slice(0, 3).join('; ')}`
@@ -216,5 +245,66 @@ describe('Layout geometry', () => {
 			layout.updateSliderDimension(bondId, { x, y: 0 })
 			expect(third.dims).toEqual(before)
 		}
+	})
+
+	it('keeps all tabs when the only tabset is dropped on a root edge', () => {
+		const tabNames = ['a', 'b', 'c']
+		const layout = new DynamixLayoutCore({ tabs: tabNames, bond: BOND })
+		layout.updateDimension({ w: 1200, h: 800, x: 0, y: 0 }, true)
+
+		// Gather every tab into one tabset.
+		const tabsets = () =>
+			[...Node.cache.mapElem.values()].filter(
+				(n): n is Node => n instanceof Node && n.type === 'tabset'
+			)
+		while (tabsets().length > 1) {
+			const [target, source] = tabsets()
+			const tab = source.kids.peek()!
+			expect(layout.updateTree(tab.unId, target.unId, 'contain')).toBe(
+				true
+			)
+		}
+
+		const only = tabsets()[0]
+		for (const area of ['top', 'bottom', 'left', 'right'] as const) {
+			expect(
+				layout.updateTree(only.unId, DynamixLayoutCore._root.unId, area)
+			).toBe(false)
+		}
+		expect(structureProblems(DynamixLayoutCore._root, tabNames)).toEqual([])
+	})
+
+	it('does not reuse the tree of a previously created layout', () => {
+		new DynamixLayoutCore({
+			tree: {
+				typNode: 'row',
+				nodName: 'dynamix-layout-root',
+				uidNode: 'dynamix-layout-root',
+				nodPart: 100,
+				nodKids: [
+					{
+						typNode: 'tabset',
+						nodName: '',
+						uidNode: 'ts-old',
+						nodPart: 100,
+						nodOpen: 'old',
+						nodKids: [
+							{
+								typNode: 'tab',
+								nodName: 'old',
+								uidNode: 'tab-old',
+								nodPart: 100,
+							},
+						],
+					},
+				],
+			},
+		})
+
+		new DynamixLayoutCore({ tabs: ['x', 'y'] })
+
+		expect(structureProblems(DynamixLayoutCore._root, ['x', 'y'])).toEqual(
+			[]
+		)
 	})
 })
