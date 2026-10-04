@@ -27,13 +27,13 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/akashaman/dynamix-layout",
+		"url": "https://github.com/xcode-studio/dynamix-layout",
 		"directory": "packages/react"
 	},
 	"bugs": {
-		"url": "https://github.com/akashaman/dynamix-layout/issues"
+		"url": "https://github.com/xcode-studio/dynamix-layout/issues"
 	},
-	"homepage": "https://github.com/akashaman/dynamix-layout#readme",
+	"homepage": "https://github.com/xcode-studio/dynamix-layout#readme",
 	"main": "./dist/index.cjs.js",
 	"module": "./dist/index.es.js",
 	"types": "./dist/types/index.d.ts",

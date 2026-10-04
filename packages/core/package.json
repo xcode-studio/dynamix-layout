@@ -21,13 +21,13 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/akash-aman/dynamix-layout.git",
+		"url": "https://github.com/xcode-studio/dynamix-layout.git",
 		"directory": "packages/core"
 	},
 	"bugs": {
-		"url": "https://github.com/akash-aman/dynamix-layout/issues"
+		"url": "https://github.com/xcode-studio/dynamix-layout/issues"
 	},
-	"homepage": "https://github.com/akash-aman/dynamix-layout#readme",
+	"homepage": "https://github.com/xcode-studio/dynamix-layout#readme",
 	"main": "./dist/core.cjs.js",
 	"module": "./dist/core.es.js",
 	"browser": "./dist/core.iife.js",
