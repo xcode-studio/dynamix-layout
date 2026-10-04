@@ -1,5 +1,35 @@
 # @dynamix-layout/core
 
+## 1.1.0
+
+### Minor Changes
+
+- [#82](https://github.com/xcode-studio/dynamix-layout/pull/82) [`993920c`](https://github.com/xcode-studio/dynamix-layout/commit/993920c407f2eea552b4349c0932b58f39902549) Thanks [@akash-aman](https://github.com/akash-aman)! - Internal refactor for maintainability (no breaking changes):
+
+    - Core engine split into focused modules (tree builder, geometry, slider, tree mutations, node, shared state); `DynamixLayoutCore` keeps its public API as a facade.
+    - New core exports shared by the React and Solid wrappers: `getTabsetDropPreview`, `getNavbarDropPreview`, `getRootSplitPreview`, `isSameDropPreview`, `setElementRect`, `getTabBodyRect`, `createFrameScheduler`.
+    - `DynamixLayoutCore` accepts optional `createId` and `timer` options (defaults: `crypto.randomUUID`, `setTimeout`) for deterministic tests.
+    - Solid: the drag hover state is now actually reset after a drag ends.
+    - The hooks' internal state setters (`setIsUpdating`, `setDragging`, `setTabsets`, `setSliders`, `setLayoutJSON`) are deprecated and will be removed in v2.
+
+### Patch Changes
+
+- [#81](https://github.com/xcode-studio/dynamix-layout/pull/81) [`320b881`](https://github.com/xcode-studio/dynamix-layout/commit/320b881f74d4a92cd1b4bbc584b6bd4afed35726) Thanks [@akash-aman](https://github.com/akash-aman)! - - Fix data loss: dropping the only tabset (or the only tab of the only tabset) on a root edge removed every tab. Such moves are now rejected as no-ops.
+    - Fix unbounded growth of the internal direction cache (`mapDirs`), which kept an entry for every bond ever created.
+    - A layout created from `tabs` no longer reuses the tree of a previously created layout.
+
+- [#79](https://github.com/xcode-studio/dynamix-layout/pull/79) [`f53fecc`](https://github.com/xcode-studio/dynamix-layout/commit/f53feccc08eada1627b6855cbf1f7ba053dfdde4) Thanks [@akash-aman](https://github.com/akash-aman)! - Performance and layout fixes:
+
+    - Fix listener leak in the React hook (subscriptions were added on every render) and unsubscribe on unmount in Solid.
+    - Coalesce slider pointer moves to one layout update per animation frame.
+    - Keep sliders following the pointer over iframes and other embedded content.
+    - Remove resize/drag jitter: round cumulative split boundaries so unrelated panels never move and edges move smoothly.
+    - Keep tabsets outside a dragged subtree in the shared maps (tab clicks no longer break after nested slider drags).
+    - A tabset can no longer be shorter than its tab bar; empty tab bodies are hidden.
+    - Solid: tab bodies follow deferred updates when resize/slider timeouts are enabled.
+    - Fix crash when dropping the last tab of a tabset onto its own tabset; reject moves relative to nested rows.
+    - Remove the Google Fonts import from the bundled CSS.
+
 ## 1.0.1
 
 ### Patch Changes
