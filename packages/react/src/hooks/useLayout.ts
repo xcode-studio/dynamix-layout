@@ -1,30 +1,20 @@
 import {
-	Dimension,
 	LayoutTree,
 	DynamixLayoutCore,
 	Node,
 	NodeOptions,
+	DropPreview,
+	RootSide,
+	createFrameScheduler,
+	getNavbarDropPreview,
+	getRootSplitPreview,
+	getTabBodyRect,
+	getTabsetDropPreview,
+	isSameDropPreview,
+	setElementRect,
 } from '@dynamix-layout/core'
 import React, { useState, useEffect } from 'react'
 import { useDynamixLayoutOptions } from '../types'
-
-const setElementRect = (el: HTMLElement, { x, y, w, h }: Dimension) => {
-	el.style.left = `${x}px`
-	el.style.top = `${y}px`
-	el.style.width = `${w}px`
-	el.style.height = `${h}px`
-}
-
-/** Area of a tabset below its tab bar; never negative when squeezed. */
-const getTabBodyRect = (
-	tabset: Dimension,
-	tabbarHeight: number
-): Dimension => ({
-	x: tabset.x,
-	y: tabset.y + tabbarHeight,
-	w: tabset.w,
-	h: Math.max(0, tabset.h - tabbarHeight),
-})
 
 export const useDynamixLayout = ({
 	tabOutput,
@@ -171,44 +161,39 @@ export const useDynamixLayout = ({
 	}, [])
 
 	// --- START: SLIDER POINTER EVENT HANDLERS ---
-	// Pointer events can fire several times per frame; coalesce them so the
-	// layout is recomputed at most once per animation frame.
-	const pendingSliderPointRef = React.useRef<{ x: number; y: number } | null>(
-		null
+	const sliderScheduler = React.useMemo(
+		() =>
+			createFrameScheduler(
+				({
+					id,
+					point,
+				}: {
+					id: string
+					point: { x: number; y: number }
+				}) =>
+					layoutInstance.updateSlider(
+						id,
+						point,
+						disableSliderTimeout,
+						sliderUpdateTimeout
+					)
+			),
+		[layoutInstance, disableSliderTimeout, sliderUpdateTimeout]
 	)
-	const sliderFrameRef = React.useRef<number | null>(null)
 
-	const flushSliderUpdate = () => {
-		sliderFrameRef.current = null
-		const point = pendingSliderPointRef.current
-		const sliderId = dragSliderRef.current.sliderId
-		pendingSliderPointRef.current = null
-		if (!point || !sliderId) return
-
-		layoutInstance.updateSlider(
-			sliderId,
-			point,
-			disableSliderTimeout,
-			sliderUpdateTimeout
-		)
-	}
+	useEffect(() => () => sliderScheduler.cancel(), [sliderScheduler])
 
 	const onPointerMove = (e: PointerEvent) => {
-		if (!dragSliderRef.current.isSliding) return
+		const id = dragSliderRef.current.sliderId
+		if (!dragSliderRef.current.isSliding || !id) return
 
-		pendingSliderPointRef.current = { x: e.clientX, y: e.clientY }
-		if (sliderFrameRef.current === null) {
-			sliderFrameRef.current = requestAnimationFrame(flushSliderUpdate)
-		}
+		sliderScheduler.schedule({ id, point: { x: e.clientX, y: e.clientY } })
 	}
 
 	const onPointerUp = (e: PointerEvent) => {
 		if (!dragSliderRef.current.isSliding) return
 
-		if (sliderFrameRef.current !== null) {
-			cancelAnimationFrame(sliderFrameRef.current)
-			flushSliderUpdate()
-		}
+		sliderScheduler.flush()
 
 		const sliderElement = e.currentTarget as HTMLDivElement
 		dragSliderRef.current.isSliding = false
@@ -242,13 +227,7 @@ export const useDynamixLayout = ({
 	}
 	// --- END: SLIDER POINTER EVENT HANDLERS ---
 
-	const lastHoverState = React.useRef<{
-		area?: string
-		left?: number
-		top?: number
-		width?: number
-		height?: number
-	}>({})
+	const lastHoverState = React.useRef<Partial<DropPreview>>({})
 
 	const findDropTargetTabset = (
 		clientX: number,
@@ -259,79 +238,14 @@ export const useDynamixLayout = ({
 			return null
 		}
 
+		const preview = getTabsetDropPreview(
+			target.getBoundingClientRect(),
+			clientX,
+			clientY
+		)
+		updateHoverElement(preview)
 		dragElemRef.current.des = target
-
-		const rect = target.getBoundingClientRect()
-		if (!rect) return null
-
-		const w = rect.width
-		const h = rect.height
-		const x = clientX - rect.left
-		const y = clientY - rect.top
-
-		let newArea: string
-		let newLeft: number
-		let newTop: number
-		let newWidth: number
-		let newHeight: number
-
-		if (x < w / 3) {
-			newArea = 'left'
-			newLeft = rect.left
-			newTop = rect.top
-			newWidth = w / 2
-			newHeight = h
-		} else if (x > (2 * w) / 3) {
-			newArea = 'right'
-			newLeft = rect.left + w / 2
-			newTop = rect.top
-			newWidth = w / 2
-			newHeight = h
-		} else if (y < h / 3) {
-			newArea = 'top'
-			newLeft = rect.left
-			newTop = rect.top
-			newWidth = w
-			newHeight = h / 2
-		} else if (y > (2 * h) / 3) {
-			newArea = 'bottom'
-			newLeft = rect.left
-			newTop = rect.top + h / 2
-			newWidth = w
-			newHeight = h / 2
-		} else {
-			newArea = 'contain'
-			newLeft = rect.left + w * 0.1
-			newTop = rect.top + h * 0.1
-			newWidth = w * 0.8
-			newHeight = h * 0.8
-		}
-
-		const lastState = lastHoverState.current
-		if (
-			lastState.area !== newArea ||
-			lastState.left !== newLeft ||
-			lastState.top !== newTop ||
-			lastState.width !== newWidth ||
-			lastState.height !== newHeight
-		) {
-			updateHoverElement(newLeft, newTop, newWidth, newHeight, newArea)
-
-			lastHoverState.current = {
-				area: newArea,
-				left: newLeft,
-				top: newTop,
-				width: newWidth,
-				height: newHeight,
-			}
-		}
-
-		dragElemRef.current.area = newArea as
-			| 'top'
-			| 'bottom'
-			| 'left'
-			| 'right'
-			| 'contain'
+		dragElemRef.current.area = preview.area
 	}
 
 	const handleNavbarDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -342,114 +256,22 @@ export const useDynamixLayout = ({
 			e.dataTransfer.dropEffect = 'move'
 		}
 
-		const navbarElement = e.currentTarget
 		const tabElems = Array.from(
-			navbarElement.childNodes
+			e.currentTarget.childNodes
 		) as HTMLDivElement[]
+		if (!hoverElementRef.current || !dragElemRef.current) return
 
-		const clientX = e.clientX
-		const clientY = e.clientY
-
-		if (
-			!hoverElementRef.current ||
-			!dragElemRef.current ||
-			tabElems.length === 0
+		const preview = getNavbarDropPreview(
+			e.currentTarget.getBoundingClientRect(),
+			tabElems.map((tab) => tab.getBoundingClientRect()),
+			e.clientX,
+			e.clientY
 		)
-			return
+		if (!preview) return
 
-		const navbarContainer = tabElems[0].parentElement
-		if (!navbarContainer) return
-
-		const navbarRect = navbarContainer.getBoundingClientRect()
-		const firstTab = tabElems[0]
-		const lastTab = tabElems[tabElems.length - 1]
-		const firstRect = firstTab.getBoundingClientRect()
-		const lastRect = lastTab.getBoundingClientRect()
-		let tabsGap = 6
-
-		if (clientY < navbarRect.top || clientY > navbarRect.bottom) return
-
-		if (clientX > lastRect.right) {
-			const newLeft = lastRect.right + 1
-			const newTop = lastRect.top
-			const newWidth = tabsGap - 2
-			const newHeight = lastRect.height
-			const newArea = 'right'
-
-			updateHoverElement(newLeft, newTop, newWidth, newHeight, newArea)
-			dragElemRef.current.des = lastTab
-			dragElemRef.current.area = newArea as
-				| 'top'
-				| 'bottom'
-				| 'left'
-				| 'right'
-				| 'contain'
-			return
-		}
-
-		if (clientX < firstRect.left) {
-			const newLeft = firstRect.left - tabsGap + 1
-			const newTop = firstRect.top
-			const newWidth = tabsGap - 2
-			const newHeight = firstRect.height
-			const newArea = 'left'
-
-			updateHoverElement(newLeft, newTop, newWidth, newHeight, newArea)
-			dragElemRef.current.des = firstTab
-			dragElemRef.current.area = newArea as
-				| 'top'
-				| 'bottom'
-				| 'left'
-				| 'right'
-				| 'contain'
-			return
-		}
-
-		let closestTab = null
-		let minDistance = Infinity
-		let isLeftSide = false
-		let index = 0
-
-		for (let i = 0; i < tabElems.length; i++) {
-			const tabRect = tabElems[i].getBoundingClientRect()
-			const tabCenterX = tabRect.left + tabRect.width / 2
-			const distance = Math.abs(clientX - tabCenterX)
-
-			if (distance < minDistance) {
-				minDistance = distance
-				closestTab = tabElems[i]
-				isLeftSide = clientX < tabCenterX
-				index = i
-			}
-		}
-
-		if (
-			tabElems.length > 1 &&
-			((isLeftSide && index > 0) ||
-				(!isLeftSide && index < tabElems.length - 1))
-		) {
-			tabsGap = tabElems[1].getBoundingClientRect().left - firstRect.right
-		}
-
-		if (closestTab) {
-			const tabRect = closestTab.getBoundingClientRect()
-			const newLeft = isLeftSide
-				? tabRect.left - tabsGap + 1
-				: tabRect.right + 1
-			const newTop = tabRect.top
-			const newWidth = tabsGap - 2
-			const newHeight = tabRect.height
-			const newArea = isLeftSide ? 'left' : 'right'
-
-			updateHoverElement(newLeft, newTop, newWidth, newHeight, newArea)
-			dragElemRef.current.des = closestTab
-			dragElemRef.current.area = newArea as
-				| 'top'
-				| 'bottom'
-				| 'left'
-				| 'right'
-				| 'contain'
-		}
+		updateHoverElement(preview)
+		dragElemRef.current.des = tabElems[preview.index]
+		dragElemRef.current.area = preview.area
 	}
 
 	const handleRootSplit = (e: React.DragEvent<HTMLDivElement>) => {
@@ -460,91 +282,31 @@ export const useDynamixLayout = ({
 			e.dataTransfer.dropEffect = 'move'
 		}
 
-		const dataArea = e.currentTarget.dataset.area
-		const dataUid = e.currentTarget.dataset.uid
-
-		if (
-			!dataArea ||
-			!dataUid ||
-			!hoverElementRef.current ||
-			!dragElemRef.current
-		) {
+		const { area, uid } = e.currentTarget.dataset
+		if (!area || !uid || !hoverElementRef.current || !dragElemRef.current) {
 			return
 		}
 
-		dragElemRef.current.des = e.currentTarget as HTMLDivElement
-		dragElemRef.current.area = dataArea as
-			| 'top'
-			| 'bottom'
-			| 'left'
-			| 'right'
-
-		const dimension = dimensions()
-
-		let newLeft = dimension.x
-		let newTop = dimension.y
-		let newWidth = dimension.w
-		let newHeight = dimension.h
-		if (dataArea === 'left') {
-			newLeft = dimension.x
-			newTop = dimension.y
-			newWidth = dimension.w / 2
-			newHeight = dimension.h
-		} else if (dataArea === 'right') {
-			newLeft = dimension.x + dimension.w / 2
-			newTop = dimension.y
-			newWidth = dimension.w / 2
-			newHeight = dimension.h
-		} else if (dataArea === 'top') {
-			newLeft = dimension.x
-			newTop = dimension.y
-			newWidth = dimension.w
-			newHeight = dimension.h / 2
-		} else if (dataArea === 'bottom') {
-			newLeft = dimension.x
-			newTop = dimension.y + dimension.h / 2
-			newWidth = dimension.w
-			newHeight = dimension.h / 2
-		}
-
-		updateHoverElement(newLeft, newTop, newWidth, newHeight, dataArea)
+		const side = area as RootSide
+		dragElemRef.current.des = e.currentTarget
+		dragElemRef.current.area = side
+		updateHoverElement(getRootSplitPreview(dimensions(), side))
 	}
 
-	const updateHoverElement = (
-		newLeft: number,
-		newTop: number,
-		newWidth: number,
-		newHeight: number,
-		newArea: string
-	) => {
-		const lastState = lastHoverState.current
-		if (
-			lastState.area !== newArea ||
-			lastState.left !== newLeft ||
-			lastState.top !== newTop ||
-			lastState.width !== newWidth ||
-			lastState.height !== newHeight
-		) {
-			const hoverEl = hoverElementRef.current
-			if (hoverEl) {
-				Object.assign(hoverEl.style, {
-					left: `${newLeft}px`,
-					top: `${newTop}px`,
-					width: `${newWidth}px`,
-					height: `${newHeight}px`,
-					display: 'block',
-					zIndex: '100',
-				})
+	const updateHoverElement = (preview: DropPreview) => {
+		const hoverEl = hoverElementRef.current
+		if (!hoverEl || isSameDropPreview(lastHoverState.current, preview))
+			return
 
-				lastHoverState.current = {
-					area: newArea,
-					left: newLeft,
-					top: newTop,
-					width: newWidth,
-					height: newHeight,
-				}
-			}
-		}
+		Object.assign(hoverEl.style, {
+			left: `${preview.left}px`,
+			top: `${preview.top}px`,
+			width: `${preview.width}px`,
+			height: `${preview.height}px`,
+			display: 'block',
+			zIndex: '100',
+		})
+		lastHoverState.current = preview
 	}
 
 	const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
@@ -617,7 +379,7 @@ export const useDynamixLayout = ({
 		})
 	}
 
-	const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => { // eslint-disable-line @typescript-eslint/no-unused-vars
+	const onDragEnd = () => {
 		document.body.style.cursor = 'default'
 		rootSplitHoverEl.current.forEach((el) => {
 			if (el) {
@@ -814,11 +576,6 @@ export const useDynamixLayout = ({
 			if (animationFrameRef.current) {
 				cancelAnimationFrame(animationFrameRef.current)
 			}
-
-			if (sliderFrameRef.current !== null) {
-				cancelAnimationFrame(sliderFrameRef.current)
-				sliderFrameRef.current = null
-			}
 		}
 	}, [dimensions, disableResizeTimeout, windowResizeTimeout]) // eslint-disable-line
 
@@ -846,10 +603,15 @@ export const useDynamixLayout = ({
 		rootSplitHoverEl,
 		dragging,
 		isUpdating,
+		/** @deprecated Internal state setter; will be removed in v2. */
 		setIsUpdating,
+		/** @deprecated Internal state setter; will be removed in v2. */
 		setDragging,
+		/** @deprecated Internal state setter; will be removed in v2. */
 		setTabsets,
+		/** @deprecated Internal state setter; will be removed in v2. */
 		setSliders,
+		/** @deprecated Internal state setter; will be removed in v2. */
 		setLayoutJSON,
 		onDragStart,
 		onDragOver,
