@@ -79,15 +79,15 @@
 		"@repo/eslint-config": "workspace:*",
 		"@repo/typescript-config": "workspace:*",
 		"@solidjs/testing-library": "^0.8.10",
-		"@testing-library/jest-dom": "^6.6.3",
+		"@testing-library/jest-dom": "^6.9.1",
 		"jsdom": "^26.1.0",
-		"typescript": "^5.8.3",
-		"vite": "^7.1.11",
-		"vite-plugin-solid": "2.11.7",
-		"vitest": "^3.2.4"
+		"typescript": "^5.9.3",
+		"vite": "^7.3.6",
+		"vite-plugin-solid": "2.11.14",
+		"vitest": "^4.1.11"
 	},
 	"dependencies": {
-		"solid-js": "^1.9.7",
-		"@dynamix-layout/core": "workspace:*"
+		"@dynamix-layout/core": "workspace:*",
+		"solid-js": "^1.9.15"
 	}
 }
