@@ -23,6 +23,8 @@ export default defineConfig({
 	plugins: [
 		dts({
 			outDir: 'dist/types',
+			// Types-only modules never reach the bundle graph; list sources explicitly.
+			include: ['src'],
 			exclude: ['node_modules/**', 'src/test/**'],
 		}),
 		visualizer({
