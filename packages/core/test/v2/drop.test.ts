@@ -1,9 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import {
-	getNavbarDropPreview,
-	getRootSplitPreview,
-	getTabsetDropPreview,
-} from '../../src'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { DEFAULT_GEOMETRY } from '../../src/geometry/config'
 import { computeLayoutRects } from '../../src/geometry/compute-rects'
 import { getDropIndicatorRect } from '../../src/drop/drop-indicator'
@@ -26,14 +23,13 @@ const model = (tabs: string[]): LayoutModel => ({
 	foldOrder: [],
 })
 const box: Rect = { x: 0, y: 0, width: 1210, height: 800 }
-const domRect = (r: Rect) => ({
-	left: r.x,
-	top: r.y,
-	width: r.width,
-	height: r.height,
-	right: r.x + r.width,
-	bottom: r.y + r.height,
-})
+type Preview = {
+	area: string
+	left: number
+	top: number
+	width: number
+	height: number
+}
 const fromPreview = (p: {
 	left: number
 	top: number
@@ -42,27 +38,34 @@ const fromPreview = (p: {
 }): Rect => ({ x: p.left, y: p.top, width: p.width, height: p.height })
 
 describe('matches v1 drop previews', () => {
+	// Recorded from the v1 preview helpers before they were removed.
+	const recorded = JSON.parse(
+		readFileSync(
+			resolve(__dirname, '../fixtures/v1/drop-previews.json'),
+			'utf8'
+		)
+	) as {
+		tabset: { point: { x: number; y: number }; preview: Preview }[]
+		root: { side: 'left' | 'right' | 'top' | 'bottom'; preview: Preview }[]
+		navbar: { x: number; index: number; area: 'left' | 'right' }[]
+	}
+
 	it('tabset thirds and indicator rects', () => {
 		const m = model(['a', 'b'])
 		const rects = computeLayoutRects(m.root, box, DEFAULT_GEOMETRY, null)
 		const rect = rects.tabsets.get('ts-b')!
-		let seed = 3
-		const random = (n: number) => (seed = (seed * 16807) % 2147483647) % n
-		for (let i = 0; i < 300; i++) {
-			const point = {
-				x: rect.x + random(rect.width),
-				y: rect.y + 10 + random(rect.height - 20),
-			}
-			const v1 = getTabsetDropPreview(domRect(rect), point.x, point.y)
+		for (const { point, preview } of recorded.tabset) {
 			const position = getTabsetDropPosition(rect, point)
-			expect(position).toBe(v1.area === 'contain' ? 'center' : v1.area)
+			expect(position).toBe(
+				preview.area === 'contain' ? 'center' : preview.area
+			)
 			const target = {
 				type: 'tabset',
 				tabsetId: 'ts-b',
 				position,
 			} as const
 			expect(getDropIndicatorRect(m, rects, target)).toEqual(
-				fromPreview(v1)
+				fromPreview(preview)
 			)
 		}
 	})
@@ -70,42 +73,33 @@ describe('matches v1 drop previews', () => {
 	it('root halves', () => {
 		const m = model(['a', 'b'])
 		const rects = computeLayoutRects(m.root, box, DEFAULT_GEOMETRY, null)
-		for (const side of ['left', 'right', 'top', 'bottom'] as const) {
-			const v1 = getRootSplitPreview(
-				{ x: 0, y: 0, w: 1210, h: 800 },
-				side
-			)
+		for (const { side, preview } of recorded.root) {
 			expect(
 				getDropIndicatorRect(m, rects, { type: 'root', position: side })
-			).toEqual(fromPreview(v1))
+			).toEqual(fromPreview(preview))
 		}
 	})
 
 	it('tab bar insertion side', () => {
+		const tabsetOf = (id: string, tabIds: string[]) => ({
+			type: 'tabset' as const,
+			id,
+			weight: 100,
+			activeTabId: tabIds[0],
+			isFolded: false,
+			children: tabIds.map((tabId) => ({
+				type: 'tab' as const,
+				id: tabId,
+			})),
+		})
+		const base = model(['a', 'b'])
 		const m: LayoutModel = {
-			...model(['a', 'b']),
+			...base,
 			root: {
-				...model(['a', 'b']).root,
+				...base.root,
 				children: [
-					{
-						type: 'tabset',
-						id: 'ts-a',
-						weight: 100,
-						activeTabId: 'a',
-						isFolded: false,
-						children: ['a', 'x', 'y'].map((id) => ({
-							type: 'tab' as const,
-							id,
-						})),
-					},
-					{
-						type: 'tabset',
-						id: 'ts-b',
-						weight: 100,
-						activeTabId: 'b',
-						isFolded: false,
-						children: [{ type: 'tab', id: 'b' }],
-					},
+					tabsetOf('ts-a', ['a', 'x', 'y']),
+					tabsetOf('ts-b', ['b']),
 				],
 			},
 		}
@@ -114,20 +108,15 @@ describe('matches v1 drop previews', () => {
 			id,
 			rect: { x: 8 + i * 70, y: 4, width: 64, height: 32 },
 		}))
-		const bar = {
-			rect: { x: 0, y: 0, width: 600, height: 40 },
-			tabs: tabs.map((t) => ({ ...t, id: t.id === 'a' ? 'a' : t.id })),
-		}
 		const measurements: DropMeasurements = {
-			tabBars: new Map([['ts-a', bar]]),
+			tabBars: new Map([
+				[
+					'ts-a',
+					{ rect: { x: 0, y: 0, width: 600, height: 40 }, tabs },
+				],
+			]),
 		}
-		for (let x = 0; x < 300; x += 7) {
-			const v1 = getNavbarDropPreview(
-				domRect(bar.rect),
-				tabs.map((t) => domRect(t.rect)),
-				x,
-				20
-			)!
+		for (const { x, index, area } of recorded.navbar) {
 			const target = getDropTarget(
 				m,
 				rects,
@@ -137,8 +126,8 @@ describe('matches v1 drop previews', () => {
 			)
 			expect(target).toEqual({
 				type: 'tab',
-				tabId: tabs[v1.index].id,
-				position: v1.area === 'left' ? 'before' : 'after',
+				tabId: tabs[index].id,
+				position: area === 'left' ? 'before' : 'after',
 			})
 		}
 	})

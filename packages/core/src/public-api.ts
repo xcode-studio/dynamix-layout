@@ -1,4 +1,4 @@
-/** Public v2 API. Internal modules (tree, geometry, store) are not exported. */
+/** The public API. Internal modules (tree, geometry, store) are not exported. */
 
 export { createLayout } from './create-layout'
 export type {

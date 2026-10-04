@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest'
 import { DEFAULT_GEOMETRY } from '../../src/geometry/config'
 import { computeLayoutRects } from '../../src/geometry/compute-rects'
 import {
-	findSplitterPair,
 	getSplitterBounds,
 	resizeSplitterWeights,
 } from '../../src/geometry/splitter'
@@ -12,10 +11,11 @@ import {
 } from '../../src/geometry/tab-bar'
 import { createIdGenerator } from '../../src/ids'
 import { buildDefaultTree } from '../../src/tree/build'
-import { firstTabId } from '../../src/tree/find'
-import { fold, maximize } from '../../src/tree/view-state'
+import { fold } from '../../src/tree/view-state'
 import type { LayoutModel, Rect } from '../../src/model/types'
-import { createV1Driver } from '../characterization/v1-driver'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import type { Observation } from '../characterization/scenario'
 import { observeV2 } from '../characterization/v2-observe'
 
 const TABS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
@@ -43,72 +43,33 @@ const observe = (m: LayoutModel, width: number, height: number) =>
 	)
 
 describe('computeLayoutRects matches v1', () => {
-	const sizes: [number, number][] = [
-		[1200, 800],
-		[1357, 911],
-		[640, 420],
-		[300, 200],
-		[97, 61],
-	]
+	// Default layouts of 1–9 tabs at five sizes, recorded from the v1 engine.
+	// Splitter drags, folds and maximize are covered by the scenario replay.
+	const layouts = JSON.parse(
+		readFileSync(
+			resolve(__dirname, '../fixtures/v1/default-layouts.json'),
+			'utf8'
+		)
+	) as {
+		tabs: string[]
+		container: { width: number; height: number }
+		observation: Observation
+	}[]
 
-	it.each(TABS.map((_, i) => i + 1))(
-		'default layout with %i tabs at several sizes',
-		(n) => {
-			const v1 = createV1Driver()
-			for (const [width, height] of sizes) {
-				v1.create(TABS.slice(0, n), { width, height })
-				expect(observe(model(n), width, height)).toEqual(v1.observe())
-			}
-		}
-	)
-
-	it('with folded and maximized tabsets', () => {
-		const v1 = createV1Driver()
-		v1.create(TABS.slice(0, 5), { width: 1100, height: 700 })
-		v1.apply({ op: 'fold', tabsetOf: 'c' })
-		v1.apply({ op: 'maximize', tabsetOf: 'e' })
-		const m = maximize(fold(model(5), 'ts-c')!, 'ts-e')!
-		expect(observe(m, 1100, 700)).toEqual(v1.observe())
-	})
-
-	it('after splitter drags, including clamping', () => {
-		const v1 = createV1Driver()
-		v1.create(TABS.slice(0, 4), { width: 1200, height: 800 })
-		let m = model(4)
-		const drags: [string, string, number, number][] = [
-			['a', 'b', 300, 400],
-			['a', 'b', 5, 400],
-			['c', 'd', 9999, 300],
-			['b', 'c', 900, 120],
-		]
-		for (const [before, after, x, y] of drags) {
-			v1.apply({ op: 'splitter', before, after, point: { x, y } })
-			const rects = computeLayoutRects(
-				m.root,
-				box(1200, 800),
-				DEFAULT_GEOMETRY,
-				null
-			)
-			const pairId = [...rects.splitters.keys()].find((key) => {
-				const pair = findSplitterPair(m.root, key)!
-				return (
-					firstTabId(pair.before) === before &&
-					firstTabId(pair.after) === after
-				)
-			})!
-			m = {
-				...m,
-				root:
-					resizeSplitterWeights(
-						m.root,
-						rects,
-						DEFAULT_GEOMETRY,
-						pairId,
-						{ x, y }
-					) ?? m.root,
-			}
-			expect(observe(m, 1200, 800)).toEqual(v1.observe())
-		}
+	it.each(
+		layouts.map(
+			(l) =>
+				[
+					l.tabs.length,
+					l.container.width,
+					l.container.height,
+					l,
+				] as const
+		)
+	)('%i tabs at %ix%i', (_, width, height, layout) => {
+		expect(observe(model(layout.tabs.length), width, height)).toEqual(
+			layout.observation
+		)
 	})
 })
 

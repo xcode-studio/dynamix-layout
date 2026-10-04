@@ -3,9 +3,8 @@ import type { DropTarget, Side } from '../../src/model/types'
 import type { LayoutTreeV1 } from '../../src/serialize/schema'
 import { findSplitterPair } from '../../src/geometry/splitter'
 import { firstTabId } from '../../src/tree/find'
-import { V1_SETTINGS } from './v1-driver'
 import { observeV2 } from './v2-observe'
-import type { Driver, Operation } from './scenario'
+import { V1_SETTINGS, type Driver, type Operation } from './scenario'
 
 /**
  * Drives the v2 `createLayout` through the public API. v1's center drop

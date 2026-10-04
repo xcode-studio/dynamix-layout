@@ -5,11 +5,13 @@ import fs from 'fs'
 import { visualizer } from 'rollup-plugin-visualizer'
 import stripComments from 'vite-plugin-strip-comments'
 
-const license = fs.readFileSync(resolve(__dirname, '../../LICENSE'), 'utf-8')
+const { version } = JSON.parse(
+	fs.readFileSync(resolve(__dirname, 'package.json'), 'utf-8')
+)
 
 export default defineConfig({
 	define: {
-		__LICENSE__: JSON.stringify(license),
+		__VERSION__: JSON.stringify(version),
 	},
 	build: {
 		sourcemap: 'hidden',
