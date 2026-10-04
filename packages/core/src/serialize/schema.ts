@@ -48,7 +48,7 @@ export interface LayoutTreeV1 {
 	uidNode: string
 	nodPart: number
 	nodOpen?: string | boolean
-	nodKids?: LayoutTreeV1[]
+	nodKids?: readonly LayoutTreeV1[]
 	nodFold?: boolean
 	nodMaxd?: string
 }

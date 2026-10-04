@@ -3,19 +3,17 @@ import type { DropTarget, LayoutModel, Point, Rect, Side } from '../model/types'
 import { collectTabsets } from '../tree/find'
 import { canMove, type MoveSource } from '../tree/move'
 
-/** Tab bar geometry the engine can't know (label widths), in layout-root coordinates. */
+/** A tab bar and its tabs as rendered, in layout-root coordinates. */
+export interface TabBarMeasurement {
+	readonly rect: Rect
+	/** Drawn as a rotated strip (a folded tabset in a side-by-side row). */
+	readonly isRotated?: boolean
+	readonly tabs: readonly { readonly id: string; readonly rect: Rect }[]
+}
+
+/** Tab bar geometry the engine can't know (label widths), keyed by tabset id. */
 export interface DropMeasurements {
-	readonly tabBars: ReadonlyMap<
-		string,
-		{
-			readonly rect: Rect
-			readonly isRotated?: boolean
-			readonly tabs: readonly {
-				readonly id: string
-				readonly rect: Rect
-			}[]
-		}
-	>
+	readonly tabBars: ReadonlyMap<string, TabBarMeasurement>
 }
 
 /** Size of the root-edge drop zones (v1 `RootSplitterHoverEl`). */

@@ -33,6 +33,7 @@ export type { TabInit } from './tree/reconcile-tabs'
 export type {
 	DropMeasurements,
 	RootDropZoneOptions,
+	TabBarMeasurement,
 } from './drop/drop-target'
 export { getRootDropZoneRect } from './drop/drop-target'
 export {

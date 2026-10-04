@@ -70,7 +70,7 @@ export function migrateLayoutFromV1(
 			: freshId(fallback)
 
 	const seenTabs = new Set<string>()
-	const readTabs = (kids: LayoutTreeV1[], path: string) =>
+	const readTabs = (kids: readonly LayoutTreeV1[], path: string) =>
 		kids.flatMap((kid, i) => {
 			if (kid?.typNode !== 'tab') return []
 			const id = kid.nodName
