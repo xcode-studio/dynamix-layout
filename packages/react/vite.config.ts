@@ -4,6 +4,7 @@ import { resolve } from 'path'
 import fs from 'fs'
 import dts from 'vite-plugin-dts'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { licenseBanner } from '../../scripts/build/license-banner'
 
 export default defineConfig({
 	server: { port: 5174, open: false },
@@ -28,6 +29,7 @@ export default defineConfig({
 			rollupTypes: true,
 			afterBuild: () => fs.copyFileSync(resolve(__dirname, 'dist/index.d.ts'), resolve(__dirname, 'dist/index.d.cts')),
 		}),
+		licenseBanner('@dynamix-layout/react'),
 		visualizer({ filename: 'react.html', gzipSize: true, brotliSize: true, template: 'treemap' }),
 	],
 	build: {

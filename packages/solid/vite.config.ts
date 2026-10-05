@@ -4,6 +4,7 @@
 import { defineConfig } from 'vite'
 import solidPlugin from 'vite-plugin-solid'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { licenseBanner } from '../../scripts/build/license-banner'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 import fs from 'fs'
@@ -32,6 +33,7 @@ export default defineConfig({
 			rollupTypes: true,
 			afterBuild: () => fs.copyFileSync(resolve(__dirname, 'dist/index.d.ts'), resolve(__dirname, 'dist/index.d.cts')),
 		}),
+		licenseBanner('@dynamix-layout/solid'),
 		visualizer({ filename: 'solid.html', gzipSize: true, brotliSize: true, template: 'treemap' }),
 	],
 	build: {

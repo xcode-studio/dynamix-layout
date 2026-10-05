@@ -3,6 +3,7 @@ import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 import fs from 'fs'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { licenseBanner } from '../../scripts/build/license-banner'
 
 const { version } = JSON.parse(fs.readFileSync(resolve(__dirname, 'package.json'), 'utf-8'))
 
@@ -19,7 +20,6 @@ export default defineConfig({
 			fileName: (format) => ({ es: 'index.js', cjs: 'index.cjs', umd: 'index.umd.js' })[format as 'es'],
 			formats: ['es', 'cjs', 'umd'],
 		},
-		rollupOptions: { output: { banner: '/*! @dynamix-layout/core | MIT License */' } },
 	},
 	plugins: [
 		dts({
@@ -31,6 +31,7 @@ export default defineConfig({
 			rollupTypes: true,
 			afterBuild: () => fs.copyFileSync(resolve(__dirname, 'dist/index.d.ts'), resolve(__dirname, 'dist/index.d.cts')),
 		}),
+		licenseBanner('@dynamix-layout/core'),
 		visualizer({ filename: 'core.html', gzipSize: true, brotliSize: true, template: 'treemap' }),
 	],
 })
