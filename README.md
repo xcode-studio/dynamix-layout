@@ -16,7 +16,7 @@
 <a href="https://www.npmjs.com/package/@dynamix-layout/core">
 <img src="https://img.shields.io/npm/v/@dynamix-layout/core?style=for-the-badge&label=Core" alt="NPM">
 </a>
-<img src="https://img.shields.io/github/license/akash-aman/dynamix-layout?style=for-the-badge" alt="License">
+<img src="https://img.shields.io/github/license/xcode-studio/dynamix-layout?style=for-the-badge" alt="License">
 </p>
 
 <p align="center">
@@ -49,7 +49,7 @@ Dynamix Layout is a powerful JavaScript library designed to help you build compl
 
 ---
 
-![Demo](https://raw.githubusercontent.com/akash-aman/dynamix-layout/main/assets/demo1.gif)
+![Demo](https://raw.githubusercontent.com/xcode-studio/dynamix-layout/main/assets/demo1.gif)
 
 ---
 
@@ -167,7 +167,7 @@ export default App
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome\! Feel free to check the [issues page](https://github.com/akash-aman/dynamix-layout/issues).
+Contributions, issues, and feature requests are welcome\! Feel free to check the [issues page](https://github.com/xcode-studio/dynamix-layout/issues).
 
 ## 📝 License
 

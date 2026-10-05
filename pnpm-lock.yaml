@@ -580,9 +580,6 @@ importers:
       '@dynamix-layout/core':
         specifier: workspace:*
         version: link:../core
-      solid-js:
-        specifier: ^1.9.15
-        version: 1.9.15
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -599,6 +596,9 @@ importers:
       jsdom:
         specifier: ^26.1.0
         version: 26.1.0
+      solid-js:
+        specifier: ^1.9.15
+        version: 1.9.15
       typescript:
         specifier: ^5.9.3
         version: 5.9.3

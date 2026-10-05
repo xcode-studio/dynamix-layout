@@ -4,6 +4,7 @@ import { areNodeOptionsMapEqual } from './comparator'
 import { layoutState } from './state'
 import type { Dimension, LayoutTree, NodeCache, NodeOptions } from '../type'
 
+/** @deprecated Internal; removed in 2.0. Read layout state from `layout.getSnapshot()` / `subscribe()`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export class Node {
 	static cache: NodeCache = {
 		dimMins: new Map<string, { minWidth: number; minHeight: number }>(),
@@ -207,6 +208,7 @@ export class Node {
 	}
 }
 
+/** @deprecated Internal; removed in 2.0. Splitters are `snapshot.splitters`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export class Bond {
 	dims: Dimension = { w: 0, h: 0, x: 0, y: 0 }
 	unId: string = layoutState.createId()

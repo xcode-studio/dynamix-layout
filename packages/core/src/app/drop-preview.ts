@@ -22,6 +22,7 @@ const DEFAULT_TAB_GAP = 6
 /**
  * Splits a tabset into thirds: the outer thirds drop beside it, the middle
  * drops into it as a tab.
+ * @deprecated Replaced in 2.0 by `layout.getDropTarget()` and `layout.getDropIndicatorRect()`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md
  */
 export function getTabsetDropPreview(
 	rect: PreviewRect,
@@ -60,7 +61,10 @@ export function getTabsetDropPreview(
 	}
 }
 
-/** The half of the whole layout a root-edge drop would take. */
+/**
+ * The half of the whole layout a root-edge drop would take.
+ * @deprecated Replaced in 2.0 by `layout.getDropTarget()` and `layout.getDropIndicatorRect()`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md
+ */
 export function getRootSplitPreview(
 	container: Dimension,
 	side: RootSide
@@ -93,6 +97,7 @@ export function getRootSplitPreview(
 /**
  * Insertion marker between the tabs of a tab bar. `index` is the tab the
  * marker sits next to. Returns null when the pointer is above or below the bar.
+ * @deprecated Replaced in 2.0 by `layout.getDropTarget()` and `layout.getDropIndicatorRect()`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md
  */
 export function getNavbarDropPreview(
 	navbarRect: PreviewRect,
@@ -157,6 +162,7 @@ export function getNavbarDropPreview(
 	}
 }
 
+/** @deprecated Replaced in 2.0 by `layout.getDropTarget()` and `layout.getDropIndicatorRect()`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export function isSameDropPreview(
 	a: Partial<DropPreview>,
 	b: DropPreview
