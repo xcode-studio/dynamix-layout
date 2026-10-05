@@ -1,6 +1,6 @@
 {
 	"name": "@dynamix-layout/core",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Dynamix Layout/Core is a JavaScript package for creating dynamic layouts with ease.",
 	"keywords": [
 		"dynamix-layout",
