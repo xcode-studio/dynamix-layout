@@ -35,7 +35,16 @@ export default function Home() {
 	//----------------------------------
 
 	return (
-		<main>
+		<main
+			style={{
+				display: 'grid',
+				'grid-template-rows': 'auto 1fr',
+				height: '100%',
+			}}
+		>
+			<nav style={{ padding: '6px 8px', 'font-size': '13px' }}>
+				<a href="/showcase">Showcase: every feature →</a>
+			</nav>
 			{/* 4. Use a <Show> component.
 				It will only render its children when the `when` condition is true.
 				Since `isClient()` is false on the server, nothing inside the <Show>
