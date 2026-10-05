@@ -1,4 +1,4 @@
-import type { DropTarget, LayoutJSON } from '@dynamix-layout/core'
+import type { DropTarget, LayoutJSON, RowJSON } from '@dynamix-layout/core'
 import { createDomLayout, type TabDef } from './dom-layout'
 import './style.css'
 
@@ -58,6 +58,35 @@ const initialTabs: TabDef[] = [
 	},
 ]
 
+const newTab = (n: number, target?: DropTarget): TabDef => ({
+	id: `new-${n}`,
+	title: `New ${n}`,
+	content: panel('#ede7f6', `Tab new-${n}`),
+	closable: true,
+	target,
+})
+const newTabNumber = (id: string) => Number(/^new-(\d+)$/.exec(id)?.[1] ?? 0)
+
+/** Tab ids in a saved layout, so added and closed tabs survive a reload too. */
+const tabIdsOf = (row: RowJSON): string[] =>
+	row.children.flatMap((child) =>
+		child.type === 'row'
+			? tabIdsOf(child)
+			: child.children.map((tab) => tab.id)
+	)
+
+/** The tabs a saved layout had open, or the initial ones. */
+const restoreTabs = (saved: LayoutJSON | null): TabDef[] => {
+	if (!saved) return initialTabs
+	const known = new Map(initialTabs.map((tab) => [tab.id, tab]))
+	return tabIdsOf(saved.root).flatMap((id) => {
+		const tab =
+			known.get(id) ??
+			(newTabNumber(id) ? newTab(newTabNumber(id)) : null)
+		return tab ? [tab] : []
+	})
+}
+
 const app = document.querySelector<HTMLElement>('#app')!
 const controls = document.createElement('div')
 controls.className = 'controls'
@@ -67,8 +96,9 @@ log.textContent = 'Changes appear here (onLayoutChange reasons).'
 const root = document.createElement('div')
 app.append(controls, log, root)
 
-let tabs = initialTabs
-let counter = 0
+const saved = loadSaved()
+let tabs = restoreTabs(saved)
+let counter = Math.max(0, ...tabs.map((tab) => newTabNumber(tab.id)))
 const entries: string[] = []
 const write = (entry: string) => {
 	entries.unshift(entry)
@@ -77,7 +107,7 @@ const write = (entry: string) => {
 
 const layout = createDomLayout(root, {
 	tabs,
-	initialLayout: loadSaved(),
+	initialLayout: saved,
 	padding: 6,
 	splitterSize: 6,
 	tabBarHeight: 36,
@@ -104,17 +134,7 @@ const act = (name: string, run: () => boolean) => {
 }
 
 const addTab = (target?: DropTarget) => {
-	const id = `new-${++counter}`
-	setTabs([
-		...tabs,
-		{
-			id,
-			title: `New ${counter}`,
-			content: panel('#ede7f6', `Tab ${id}`),
-			closable: true,
-			target,
-		},
-	])
+	setTabs([...tabs, newTab(++counter, target)])
 }
 
 const button = (label: string, onClick: () => void) => {

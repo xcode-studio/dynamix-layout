@@ -5,6 +5,7 @@ import {
 	type LayoutJSON,
 	type TabItem,
 } from '@dynamix-layout/react'
+import type { RowJSON } from '@dynamix-layout/core'
 import '@dynamix-layout/react/styles.css'
 
 const STORAGE_KEY = 'dynamix-layout:showcase'
@@ -80,13 +81,44 @@ const initialTabs: TabItem[] = [
 	},
 ]
 
+const newTab = (n: number, target?: TabItem['target']): TabItem => ({
+	id: `new-${n}`,
+	title: `New ${n}`,
+	content: panel('#ede7f6', `Tab new-${n}`),
+	closable: true,
+	target,
+})
+const newTabNumber = (id: string) => Number(/^new-(\d+)$/.exec(id)?.[1] ?? 0)
+
+/** Tab ids in a saved layout, so added and closed tabs survive a reload too. */
+const tabIdsOf = (row: RowJSON): string[] =>
+	row.children.flatMap((child) =>
+		child.type === 'row'
+			? tabIdsOf(child)
+			: child.children.map((tab) => tab.id)
+	)
+
+/** The tabs a saved layout had open, or the initial ones. */
+const restoreTabs = (saved: LayoutJSON | undefined): TabItem[] => {
+	if (!saved) return initialTabs
+	const known = new Map(initialTabs.map((tab) => [tab.id, tab]))
+	return tabIdsOf(saved.root).flatMap((id) => {
+		const tab =
+			known.get(id) ??
+			(newTabNumber(id) ? newTab(newTabNumber(id)) : null)
+		return tab ? [tab] : []
+	})
+}
+
 /** Every feature on one page: drag, split, resize, close, add, fold, maximize, restore, persist, reset. */
 export default function ShowcaseExample() {
 	const layout = useRef<DynamixLayoutHandle>(null)
 	const [saved] = useState(loadSaved)
-	const [tabs, setTabs] = useState(initialTabs)
+	const [tabs, setTabs] = useState(() => restoreTabs(saved))
 	const [log, setLog] = useState<string[]>([])
-	const counter = useRef(0)
+	const counter = useRef(
+		Math.max(0, ...tabs.map((tab) => newTabNumber(tab.id)))
+	)
 
 	const tabsetOf = (tabId: string) =>
 		layout.current?.getSnapshot().tabs.get(tabId)?.tabsetId
@@ -99,17 +131,8 @@ export default function ShowcaseExample() {
 	}
 
 	const addTab = (target?: TabItem['target']) => {
-		const id = `new-${++counter.current}`
-		setTabs((current) => [
-			...current,
-			{
-				id,
-				title: `New ${counter.current}`,
-				content: panel('#ede7f6', `Tab ${id}`),
-				closable: true,
-				target,
-			},
-		])
+		const tab = newTab(++counter.current, target)
+		setTabs((current) => [...current, tab])
 	}
 
 	const button = (label: string, onClick: () => void) => (

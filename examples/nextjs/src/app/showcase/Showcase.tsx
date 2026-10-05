@@ -8,6 +8,7 @@ import {
 	type LayoutJSON,
 	type TabItem,
 } from '@dynamix-layout/react'
+import type { RowJSON } from '@dynamix-layout/core'
 import '@dynamix-layout/react/styles.css'
 
 const STORAGE_KEY = 'dynamix-layout:showcase'
@@ -83,6 +84,35 @@ const initialTabs: TabItem[] = [
 	},
 ]
 
+const newTab = (n: number, target?: TabItem['target']): TabItem => ({
+	id: `new-${n}`,
+	title: `New ${n}`,
+	content: panel('#ede7f6', `Tab new-${n}`),
+	closable: true,
+	target,
+})
+const newTabNumber = (id: string) => Number(/^new-(\d+)$/.exec(id)?.[1] ?? 0)
+
+/** Tab ids in a saved layout, so added and closed tabs survive a reload too. */
+const tabIdsOf = (row: RowJSON): string[] =>
+	row.children.flatMap((child) =>
+		child.type === 'row'
+			? tabIdsOf(child)
+			: child.children.map((tab) => tab.id)
+	)
+
+/** The tabs a saved layout had open, or the initial ones. */
+const restoreTabs = (saved: LayoutJSON | undefined): TabItem[] => {
+	if (!saved) return initialTabs
+	const known = new Map(initialTabs.map((tab) => [tab.id, tab]))
+	return tabIdsOf(saved.root).flatMap((id) => {
+		const tab =
+			known.get(id) ??
+			(newTabNumber(id) ? newTab(newTabNumber(id)) : null)
+		return tab ? [tab] : []
+	})
+}
+
 /** Every feature on one page: drag, split, resize, close, add, fold, maximize, restore, persist, reset. */
 export default function Showcase() {
 	const layout = useRef<DynamixLayoutHandle>(null)
@@ -90,13 +120,20 @@ export default function Showcase() {
 	// (client-only), so the server HTML and the first client render always match.
 	const [saved, setSaved] = useState<LayoutJSON | undefined>()
 	const [mounted, setMounted] = useState(false)
-	useEffect(() => {
-		setSaved(loadSaved())
-		setMounted(true)
-	}, [])
 	const [tabs, setTabs] = useState(initialTabs)
 	const [log, setLog] = useState<string[]>([])
 	const counter = useRef(0)
+	useEffect(() => {
+		const savedLayout = loadSaved()
+		const restored = restoreTabs(savedLayout)
+		setSaved(savedLayout)
+		setTabs(restored)
+		counter.current = Math.max(
+			0,
+			...restored.map((tab) => newTabNumber(tab.id))
+		)
+		setMounted(true)
+	}, [])
 
 	const tabsetOf = (tabId: string) =>
 		layout.current?.getSnapshot().tabs.get(tabId)?.tabsetId
@@ -109,17 +146,8 @@ export default function Showcase() {
 	}
 
 	const addTab = (target?: TabItem['target']) => {
-		const id = `new-${++counter.current}`
-		setTabs((current) => [
-			...current,
-			{
-				id,
-				title: `New ${counter.current}`,
-				content: panel('#ede7f6', `Tab ${id}`),
-				closable: true,
-				target,
-			},
-		])
+		const tab = newTab(++counter.current, target)
+		setTabs((current) => [...current, tab])
 	}
 
 	// Tailwind's preflight strips button borders: restore the look of the React example.

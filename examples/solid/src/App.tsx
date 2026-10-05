@@ -4,7 +4,7 @@ import {
 	type LayoutJSON,
 	type TabItem,
 } from '@dynamix-layout/solid'
-import type { DropTarget, Layout } from '@dynamix-layout/core'
+import type { DropTarget, Layout, RowJSON } from '@dynamix-layout/core'
 import '@dynamix-layout/solid/style.css'
 import './App.css'
 
@@ -74,13 +74,40 @@ const initialTabs = (): TabItem[] => [
 	],
 ]
 
+const newTab = (n: number): TabItem => [
+	`new-${n}`,
+	panel('#ede7f6', `Tab new-${n}`),
+	{ title: `New ${n}`, closable: true },
+]
+const newTabNumber = (id: string) => Number(/^new-(\d+)$/.exec(id)?.[1] ?? 0)
+
+/** Tab ids in a saved layout, so added and closed tabs survive a reload too. */
+const tabIdsOf = (row: RowJSON): string[] =>
+	row.children.flatMap((child) =>
+		child.type === 'row'
+			? tabIdsOf(child)
+			: child.children.map((tab) => tab.id)
+	)
+
+/** The tabs a saved layout had open, or the initial ones. */
+const restoreTabs = (saved: LayoutJSON | undefined): TabItem[] => {
+	if (!saved) return initialTabs()
+	const known = new Map(initialTabs().map((tab) => [tab[0], tab]))
+	return tabIdsOf(saved.root).flatMap((id) => {
+		const tab =
+			known.get(id) ??
+			(newTabNumber(id) ? newTab(newTabNumber(id)) : null)
+		return tab ? [tab] : []
+	})
+}
+
 /** Every feature on one page: drag, split, resize, close, add, fold, maximize, restore, persist, reset. */
 export default function App() {
 	let layout: Layout | undefined
-	let counter = 0
-	const [tabs, setTabs] = createSignal(initialTabs())
-	const [log, setLog] = createSignal<string[]>([])
 	const saved = loadSaved()
+	const [tabs, setTabs] = createSignal(restoreTabs(saved))
+	const [log, setLog] = createSignal<string[]>([])
+	let counter = Math.max(0, ...tabs().map(([id]) => newTabNumber(id)))
 
 	const tabsetOf = (tabId: string) =>
 		layout?.getSnapshot().tabs.get(tabId)?.tabsetId ?? ''
@@ -90,12 +117,8 @@ export default function App() {
 		if (done === false) note(`${name}: not possible right now`)
 	}
 	const addTab = (target?: DropTarget) => {
-		const id = `new-${++counter}`
-		const entry: TabItem = [
-			id,
-			panel('#ede7f6', `Tab ${id}`),
-			{ title: `New ${counter}`, closable: true },
-		]
+		const entry = newTab(++counter)
+		const id = entry[0]
 		// `tabs` places new tabs in the last active tabset; to drop one at a
 		// target, add it to the engine first and `tabs` keeps it where it is.
 		if (target) layout?.addTab({ id }, target)
@@ -177,9 +200,9 @@ export default function App() {
 				onTabClose={(id) =>
 					setTabs(tabs().filter(([tabId]) => tabId !== id))
 				}
-				updateJSON={(json) => {
+				updateJSON={(json, reason) => {
 					localStorage.setItem(STORAGE_KEY, JSON.stringify(json))
-					note('saved')
+					if (reason !== 'mount') note(reason)
 				}}
 				tabHeadHeight={36}
 				bondWidth={6}
