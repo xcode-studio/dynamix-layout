@@ -301,7 +301,7 @@ export default App`
 								asChild
 							>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/blob/main/README.md"
+									href="https://github.com/xcode-studio/dynamix-layout/blob/main/README.md"
 									target="_blank"
 									rel="noopener noreferrer"
 								>
@@ -314,7 +314,7 @@ export default App`
 								asChild
 							>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/tree/main/examples"
+									href="https://github.com/xcode-studio/dynamix-layout/tree/main/examples"
 									target="_blank"
 									rel="noopener noreferrer"
 								>
@@ -322,7 +322,7 @@ export default App`
 								</a>
 							</Button>
 							{/* <Button variant="ghost" className="hover:bg-primary/10" asChild>
-                <a href="https://github.com/akash-aman/dynamix-layout/issues" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/xcode-studio/dynamix-layout/issues" target="_blank" rel="noopener noreferrer">
                   Join Discord
                 </a>
               </Button> */}

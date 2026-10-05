@@ -58,7 +58,7 @@ const HeroSection = () => {
 						asChild
 					>
 						<a
-							href="http://github.com/akash-aman/dynamix-layout"
+							href="http://github.com/xcode-studio/dynamix-layout"
 							target="_blank"
 							rel="noopener noreferrer"
 						>

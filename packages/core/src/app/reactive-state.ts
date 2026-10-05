@@ -1,5 +1,6 @@
 import type { ReactiveValue, ChangeListener } from '../type'
 
+/** @deprecated Internal; removed in 2.0. Use `layout.subscribe()`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 function createReactiveState<T>(
 	initialValue: T,
 	comparator: (a: T, b: T) => boolean = (a, b) => a === b

@@ -2,7 +2,7 @@
 	"name": "@repo/solidstart-example",
 	"type": "module",
 	"private": true,
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"scripts": {
 		"dev": "vinxi dev",
 		"build": "vinxi build",

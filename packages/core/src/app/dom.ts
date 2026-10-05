@@ -1,5 +1,6 @@
 import type { Dimension, NodeOptions } from '../type'
 
+/** @deprecated Replaced in 2.0 by `applyRect(element, rect)`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export function setElementRect(el: HTMLElement, { x, y, w, h }: Dimension) {
 	el.style.left = `${x}px`
 	el.style.top = `${y}px`
@@ -7,7 +8,10 @@ export function setElementRect(el: HTMLElement, { x, y, w, h }: Dimension) {
 	el.style.height = `${h}px`
 }
 
-/** Area of a tabset below its tab bar; never negative when squeezed. */
+/**
+ * Area of a tabset below its tab bar; never negative when squeezed.
+ * @deprecated Replaced in 2.0 by `getTabContentRect(tabsetRect, tabBarHeight)`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md
+ */
 export function getTabBodyRect(
 	tabset: Dimension,
 	tabbarHeight: number

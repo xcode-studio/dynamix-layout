@@ -1,5 +1,6 @@
 import type { NodeOptions } from '../type'
 
+/** @deprecated Internal; removed in 2.0. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export function areNodeOptionsMapEqual(
 	mapA: Map<string, NodeOptions>,
 	mapB: Map<string, NodeOptions>
@@ -18,6 +19,7 @@ export function areNodeOptionsMapEqual(
 	return true
 }
 
+/** @deprecated Internal; removed in 2.0. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export function areNodeOptionsEqual(a: NodeOptions, b: NodeOptions): boolean {
 	if (a.typNode !== b.typNode) return false
 	if (a.nodName !== b.nodName) return false

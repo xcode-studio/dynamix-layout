@@ -35,7 +35,7 @@ declare const __LICENSE__: string
 	console.log(`%c${asciiArt}`, titleStyle)
 	console.log('%c A powerful, dynamic layout system 🚀', textStyle)
 	console.log(
-		'%c ⚡ For docs and more info, \n ⚡ visit: https://github.com/akash-aman/dynamix-layout',
+		'%c ⚡ For docs and more info, \n ⚡ visit: https://github.com/xcode-studio/dynamix-layout',
 		linkStyle
 	)
 	console.log(`%c${__LICENSE__}`, licenseStyle)

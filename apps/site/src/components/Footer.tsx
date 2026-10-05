@@ -60,7 +60,7 @@ const Footer = () => {
 						<ul className="space-y-3 text-sm">
 							<li>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/blob/main/README.md"
+									href="https://github.com/xcode-studio/dynamix-layout/blob/main/README.md"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-muted-foreground hover:text-primary transition-colors"
@@ -70,7 +70,7 @@ const Footer = () => {
 							</li>
 							<li>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/tree/main/examples"
+									href="https://github.com/xcode-studio/dynamix-layout/tree/main/examples"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-muted-foreground hover:text-primary transition-colors"
@@ -80,7 +80,7 @@ const Footer = () => {
 							</li>
 							<li>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/blob/main/packages/core/README.md"
+									href="https://github.com/xcode-studio/dynamix-layout/blob/main/packages/core/README.md"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-muted-foreground hover:text-primary transition-colors"
@@ -90,7 +90,7 @@ const Footer = () => {
 							</li>
 							<li>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/blob/main/packages/react/README.md"
+									href="https://github.com/xcode-studio/dynamix-layout/blob/main/packages/react/README.md"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-muted-foreground hover:text-primary transition-colors"
@@ -107,7 +107,7 @@ const Footer = () => {
 						<ul className="space-y-3 text-sm">
 							<li>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/issues"
+									href="https://github.com/xcode-studio/dynamix-layout/issues"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-muted-foreground hover:text-primary transition-colors"
@@ -117,7 +117,7 @@ const Footer = () => {
 							</li>
 							<li>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/discussions/44"
+									href="https://github.com/xcode-studio/dynamix-layout/discussions/44"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-muted-foreground hover:text-primary transition-colors"
@@ -126,13 +126,13 @@ const Footer = () => {
 								</a>
 							</li>
 							{/* <li>
-                <a href="https://github.com/akash-aman/dynamix-layout/issues" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <a href="https://github.com/xcode-studio/dynamix-layout/issues" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                   Discord
                 </a>
               </li> */}
 							<li>
 								<a
-									href="https://github.com/akash-aman/dynamix-layout/blob/main/CONTRIBUTING.md"
+									href="https://github.com/xcode-studio/dynamix-layout/blob/main/CONTRIBUTING.md"
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-muted-foreground hover:text-primary transition-colors"
@@ -228,7 +228,7 @@ const Footer = () => {
 							asChild
 						>
 							<a
-								href="http://github.com/akash-aman/dynamix-layout"
+								href="http://github.com/xcode-studio/dynamix-layout"
 								target="_blank"
 								rel="noopener noreferrer"
 								title="GitHub Repository"

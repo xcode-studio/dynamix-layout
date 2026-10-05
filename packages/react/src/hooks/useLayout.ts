@@ -18,6 +18,7 @@ import {
 import React, { useState, useEffect } from 'react'
 import { useDynamixLayoutOptions } from '../types'
 
+/** @deprecated Internal in 1.x. In 2.0 `useDynamixLayout` is a different, headless hook with prop getters. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const useDynamixLayout = ({
 	tabOutput,
 	rootId,

@@ -32,6 +32,20 @@ export default defineConfig({
 		solidPlugin(),
 		dts({
 			outDir: 'dist/types',
+			tsconfigPath: './tsconfig.build.json',
+			// Types-only modules never reach the bundle graph; list sources explicitly.
+			include: ['src'],
+			// One self-contained declaration file (Node16 resolution can't follow
+			// extensionless imports), copied to index.d.cts for `require`.
+			rollupTypes: true,
+			afterBuild: () =>
+				fs.copyFileSync(
+					resolve(__dirname, 'dist/types/index.d.ts'),
+					resolve(__dirname, 'dist/types/index.d.cts')
+				),
+			// Keep `@dynamix-layout/core` as a package import in the .d.ts files.
+			aliasesExclude: [/^@dynamix-layout\/core/],
+			pathsToAliases: false,
 			exclude: ['node_modules/**', 'src/test/**'],
 			staticImport: true,
 		}),
@@ -49,12 +63,13 @@ export default defineConfig({
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),
 			name: 'dynamix.layout.solid',
-			fileName: (format) => `index.${format}.js`,
+			// `.cjs` so Node loads the CommonJS build as CommonJS in this `"type": "module"` package.
+			fileName: (format) => (format === 'cjs' ? 'index.cjs' : `index.${format}.js`),
 			formats: ['es', 'cjs'],
 		},
 		cssCodeSplit: true,
 		rollupOptions: {
-			external: ['solid-js', 'solid-js/web', '@dynamix-layout/core'],
+			external: [/^solid-js($|\/)/, /^@dynamix-layout\/core($|\/)/],
 			output: {
 				globals: {
 					'solid-js': 'solidJs',

@@ -18,6 +18,7 @@ import * as slider from './slider'
 import * as treeMutations from './tree-mutations'
 import * as viewState from './view-state'
 
+/** @deprecated Replaced in 2.0 by `createLayout(options)`, which returns an independent instance (no static state). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 class Layout {
 	static get _root(): Node {
 		return layoutState.root

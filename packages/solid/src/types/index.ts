@@ -68,11 +68,14 @@ export interface LayoutProps {
 	class?: string
 	style?: JSX.CSSProperties
 	bondWidth?: number
+	/** In 2.0 this receives the v2 `LayoutJSON` format instead of `LayoutTree` (v1 layouts passed to `layoutTree` keep loading). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 	updateJSON?: (layoutTree: LayoutTree) => void
 	minTabHeight?: number
 	minTabWidth?: number
+	/** @deprecated No effect in 2.0: splitters update once per animation frame. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 	sliderUpdateTimeout?: number
 	windowResizeTimeout?: number
+	/** @deprecated No effect in 2.0: splitters update once per animation frame. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 	disableSliderTimeout?: boolean
 	disableResizeTimeout?: boolean
 	hoverElementStyles?: JSX.CSSProperties
