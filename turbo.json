@@ -16,7 +16,6 @@
 		},
 		"test": {
 			"dependsOn": ["^build"],
-			"env": ["UPDATE_V1_FIXTURES"],
 			"outputs": []
 		},
 		"dev": {

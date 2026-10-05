@@ -58,8 +58,7 @@
 		"access": "public"
 	},
 	"engines": {
-		"node": ">=22.16.0",
-		"pnpm": ">=10.13.1"
+		"node": ">=18"
 	},
 	"scripts": {
 		"dev": "vite build --watch",
