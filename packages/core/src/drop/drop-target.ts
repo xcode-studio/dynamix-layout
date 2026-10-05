@@ -32,7 +32,15 @@ const contains = (rect: Rect, point: Point) =>
 	point.y >= rect.y &&
 	point.y <= rect.y + rect.height
 
-/** Rect of the drop zone on one edge of the layout, centred on that edge. */
+/**
+ * Rect of the drop zone on one edge of the layout, centred on that edge.
+ * @param container - The layout's container rect (`snapshot.rects.container`).
+ * @param side - The edge.
+ * @param options - Zone length (share of the edge) and thickness.
+ * @returns The zone rect, in layout-root coordinates.
+ * @example
+ * const zone = getRootDropZoneRect(snapshot.rects.container, 'left')
+ */
 export function getRootDropZoneRect(
 	container: Rect,
 	side: Side,

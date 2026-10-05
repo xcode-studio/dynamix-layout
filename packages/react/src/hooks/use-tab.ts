@@ -31,6 +31,12 @@ export interface UseTabResult {
  *
  * @param tabId - The tab's id.
  * @throws When used outside a layout.
+ * @returns State, stable actions and prop getters.
+ * @example
+ * function MyTab({ tabId }: { tabId: string }) {
+ *   const { item, getTabProps } = useTab(tabId)
+ *   return <button {...getTabProps()}>{item?.title}</button>
+ * }
  */
 export function useTab(tabId: string): UseTabResult {
 	const { core, tabs } = useLayoutContext('useTab')

@@ -34,6 +34,12 @@ export interface UseSplitterResult {
  *
  * @param splitterId - The splitter's id (from `useDynamixLayout().splitters`).
  * @throws When used outside a layout.
+ * @returns State and the prop getter.
+ * @example
+ * function MySplitter({ splitterId }: { splitterId: string }) {
+ *   const { getSplitterProps } = useSplitter(splitterId)
+ *   return <div {...getSplitterProps({ className: 'my-splitter' })} />
+ * }
  */
 export function useSplitter(splitterId: string): UseSplitterResult {
 	const { core, tabs } = useLayoutContext('useSplitter')

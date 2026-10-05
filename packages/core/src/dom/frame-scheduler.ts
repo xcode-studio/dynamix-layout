@@ -10,6 +10,12 @@ export interface FrameScheduler<T> {
 /**
  * Coalesces bursts of updates (pointer events can fire several times per
  * frame) into at most one `onFlush` call per animation frame.
+ * @param onFlush - Called with the latest scheduled value, at most once per frame.
+ * @returns `schedule`, `flush` and `cancel`.
+ * @example
+ * const frame = createFrameScheduler((point: Point) => layout.updateDrag(point))
+ * element.addEventListener('pointermove', (e) => frame.schedule(toRootPoint(e)))
+ * element.addEventListener('pointerup', () => { frame.flush(); layout.endDrag() })
  */
 export function createFrameScheduler<T>(
 	onFlush: (value: T) => void

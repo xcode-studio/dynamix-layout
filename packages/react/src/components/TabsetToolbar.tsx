@@ -29,6 +29,12 @@ function Icon({ path, rotate }: { path: string; rotate: number }) {
 /**
  * Default `TabsetToolbar`: maximize/restore and fold/unfold buttons at the end
  * of a tab bar, shown on hover and always on folded strips.
+ * @param props - The tabset, what it can do, and the toggle handlers.
+ * @example
+ * function MyToolbar({ tabset, canMaximize, onToggleMaximize }: TabsetToolbarProps) {
+ *   return canMaximize ? <button onClick={onToggleMaximize}>{tabset.isMaximized ? 'Restore' : 'Maximize'}</button> : null
+ * }
+ * <DynamixLayout tabs={tabs} components={{ TabsetToolbar: MyToolbar }} />
  */
 export function TabsetToolbar({
 	tabset,

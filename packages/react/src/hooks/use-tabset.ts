@@ -30,6 +30,18 @@ const isInteractive = (target: EventTarget) =>
  *
  * @param tabsetId - The tabset's id.
  * @throws When used outside a layout.
+ * @returns State, stable actions and prop getters.
+ * @example
+ * function MyTabset({ tabsetId }: { tabsetId: string }) {
+ *   const { tabset, getPanelProps, getTabBarProps } = useTabset(tabsetId)
+ *   if (!tabset) return null
+ *   return (
+ *     <>
+ *       <div {...getPanelProps()} />
+ *       <div {...getTabBarProps()}>{tabset.tabIds.map((id) => <MyTab key={id} tabId={id} />)}</div>
+ *     </>
+ *   )
+ * }
  */
 export function useTabset(tabsetId: string): UseTabsetResult {
 	const { core } = useLayoutContext('useTabset')

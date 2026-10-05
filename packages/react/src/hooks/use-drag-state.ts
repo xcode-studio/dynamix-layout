@@ -7,6 +7,10 @@ import { useLayoutState } from './use-layout-state'
  * pointer move.
  *
  * @throws When used outside a layout.
+ * @returns The drag source, target and indicator rect, or `null`.
+ * @example
+ * const drag = useDragState()
+ * const isDraggingTab = drag?.source.type === 'tab'
  */
 export function useDragState(): DragState | null {
 	return useLayoutState((snapshot) => snapshot.drag)

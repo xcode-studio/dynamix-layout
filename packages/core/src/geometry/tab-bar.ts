@@ -15,6 +15,11 @@ export interface TabBarPlacement {
 /**
  * @param tabset - The tabset's rect and state.
  * @param tabBarHeight - Height of a horizontal tab bar.
+ * @returns The rect to give the tab bar element, and whether to rotate it.
+ * @example
+ * const { rect, isRotated } = getTabBarPlacement(snapshot.rects.tabsets.get(id)!, snapshot.tabsets.get(id)!, 40)
+ * applyRect(tabBar, rect)
+ * tabBar.style.transform = isRotated ? 'rotate(90deg)' : ''
  */
 export function getTabBarPlacement(
 	tabsetRect: Rect,
@@ -31,7 +36,14 @@ export function getTabBarPlacement(
 	return { rect: { x, y, width, height: tabBarHeight }, isRotated: false }
 }
 
-/** Area of a tabset below its tab bar; never negative when squeezed. */
+/**
+ * Area of a tabset below its tab bar; never negative when squeezed.
+ * @param tabsetRect - The tabset's rect.
+ * @param tabBarHeight - Height of its tab bar (0 without one).
+ * @returns The content area.
+ * @example
+ * applyRect(content, getTabContentRect(snapshot.rects.tabsets.get(tab.tabsetId)!, 40))
+ */
 export function getTabContentRect(
 	tabsetRect: Rect,
 	tabBarHeight: number

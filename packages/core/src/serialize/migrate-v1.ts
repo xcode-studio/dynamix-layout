@@ -4,7 +4,13 @@ import { layoutFromJSON } from './from-json'
 import type { LayoutJSON, LayoutTreeV1, RowJSON, TabsetJSON } from './schema'
 import { toLayoutJSON } from './to-json'
 
-/** @returns `true` when `input` looks like a layout saved by v1. */
+/**
+ * @returns `true` when `input` looks like a layout saved by v1.
+ * @param input - Anything, e.g. parsed JSON from storage.
+ * @example
+ * const saved = JSON.parse(localStorage.getItem('layout') ?? 'null')
+ * const layout = isLayoutV1(saved) ? migrateLayoutFromV1(saved) : saved
+ */
 export function isLayoutV1(input: unknown): input is LayoutTreeV1 {
 	return (
 		typeof input === 'object' &&

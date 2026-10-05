@@ -5,6 +5,13 @@ export type DynamixLayoutErrorCode =
 /**
  * Thrown for invalid input: malformed saved layouts, unsupported versions,
  * and duplicate tab ids in development. Actions never throw.
+ * @example
+ * try {
+ *   layout.load(JSON.parse(stored))
+ * } catch (error) {
+ *   if (error instanceof DynamixLayoutError) console.warn(error.code, error.path)
+ *   else throw error
+ * }
  */
 export class DynamixLayoutError extends Error {
 	readonly code: DynamixLayoutErrorCode

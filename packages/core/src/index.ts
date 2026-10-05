@@ -12,6 +12,10 @@ export {
 
 declare const __VERSION__: string
 
-/** The version of this package, for debugging (replaces v1's console banner). */
+/**
+ * The version of this package, for debugging (replaces v1's console banner).
+ * @example
+ * console.info('dynamix-layout', version)
+ */
 export const version: string =
 	typeof __VERSION__ === 'undefined' ? 'dev' : __VERSION__
