@@ -1,6 +1,10 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 
 const EXAMPLES = {
+	showcase: {
+		label: 'All features',
+		Component: lazy(() => import('./examples/ShowcaseExample')),
+	},
 	custom: {
 		label: 'Custom components',
 		Component: lazy(() => import('./examples/CustomComponentsExample')),
@@ -22,7 +26,7 @@ type ExampleKey = keyof typeof EXAMPLES
 
 const fromHash = (): ExampleKey => {
 	const key = window.location.hash.slice(1)
-	return key in EXAMPLES ? (key as ExampleKey) : 'custom'
+	return key in EXAMPLES ? (key as ExampleKey) : 'showcase'
 }
 
 /** One page per API level, picked by the URL hash (#basic, #headless, …). */
