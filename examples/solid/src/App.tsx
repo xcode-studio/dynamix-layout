@@ -4,7 +4,7 @@ import {
 	type LayoutJSON,
 	type TabItem,
 } from '@dynamix-layout/solid'
-import type { Layout } from '@dynamix-layout/core'
+import type { DropTarget, Layout } from '@dynamix-layout/core'
 import '@dynamix-layout/solid/style.css'
 import './App.css'
 
@@ -89,20 +89,25 @@ export default function App() {
 	const act = (name: string, done: boolean | undefined) => {
 		if (done === false) note(`${name}: not possible right now`)
 	}
-	const addTab = () => {
+	const addTab = (target?: DropTarget) => {
 		const id = `new-${++counter}`
-		setTabs([
-			...tabs(),
-			[
-				id,
-				panel('#ede7f6', `Tab ${id}`),
-				{ title: `New ${counter}`, closable: true },
-			],
-		])
+		const entry: TabItem = [
+			id,
+			panel('#ede7f6', `Tab ${id}`),
+			{ title: `New ${counter}`, closable: true },
+		]
+		// `tabs` places new tabs in the last active tabset; to drop one at a
+		// target, add it to the engine first and `tabs` keeps it where it is.
+		if (target) layout?.addTab({ id }, target)
+		setTabs([...tabs(), entry])
 	}
 
 	const actions: [string, () => void][] = [
-		['Add tab', addTab],
+		['Add tab', () => addTab()],
+		[
+			'Add tab at the bottom',
+			() => addTab({ type: 'root', position: 'bottom' }),
+		],
 		[
 			'Maximize / restore Editor',
 			() => act('Maximize', layout?.toggleMaximize(tabsetOf('editor'))),
