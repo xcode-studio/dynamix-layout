@@ -1,5 +1,13 @@
 # solidstart
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`a8295a7`](https://github.com/xcode-studio/dynamix-layout/commit/a8295a790a99cbf522ca68acd8057b666b401de4)]:
+    - @dynamix-layout/core@1.1.1
+    - @dynamix-layout/solid@1.0.3
+
 ## 0.0.4
 
 ### Patch Changes
