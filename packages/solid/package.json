@@ -1,6 +1,6 @@
 {
 	"name": "@dynamix-layout/solid",
-	"version": "1.1.0",
+	"version": "2.0.0",
 	"description": "A powerful SolidJS component for creating dynamic, resizable, and draggable layouts.",
 	"keywords": [
 		"solid",
