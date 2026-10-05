@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@solidjs/testing-library'
 import '@testing-library/jest-dom/vitest'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { LayoutJSON } from '@dynamix-layout/core'
+import type { Layout, LayoutJSON } from '@dynamix-layout/core'
 import type { JSX } from 'solid-js'
 import { DynamixLayout } from '..'
 
@@ -123,5 +123,70 @@ describe('Solid adapter on the v2 core', () => {
 			'730px'
 		)
 		expect(warn).toHaveBeenCalledWith(expect.stringContaining('v1 layout'))
+	})
+})
+
+describe('Solid additions for the feature showcase', () => {
+	it('adds and removes tabs reactively without remounting existing content', async () => {
+		const { createSignal } = await import('solid-js')
+		let mounts = 0
+		const Probe = (p: { id: string }) => {
+			mounts++
+			return <p>{`${p.id} body`}</p>
+		}
+		const [list, setList] = createSignal<[string, JSX.Element][]>([
+			['editor', <Probe id="editor" />],
+			['terminal', <Probe id="terminal" />],
+		])
+		render(() => <DynamixLayout tabs={list()} />)
+		expect(mounts).toBe(2)
+		setList([...list(), ['notes', <Probe id="notes" />]])
+		expect(screen.getByText('notes body')).toBeInTheDocument()
+		expect(
+			screen.getByText('notes', { selector: '[data-type="tab"]' })
+		).toBeInTheDocument()
+		setList(list().filter(([id]) => id !== 'terminal'))
+		expect(screen.queryByText('terminal body')).toBeNull()
+		expect(mounts).toBe(3)
+	})
+
+	it('closable tabs call onTabClose', () => {
+		const closed: string[] = []
+		render(() => (
+			<DynamixLayout
+				tabs={[
+					['editor', <p>editor body</p>],
+					[
+						'notes',
+						<p>notes body</p>,
+						{ title: 'Notes', closable: true },
+					],
+				]}
+				onTabClose={(id) => closed.push(id)}
+			/>
+		))
+		expect(screen.getByText('Notes')).toBeInTheDocument()
+		fireEvent.click(screen.getByRole('button', { name: 'Close notes' }))
+		expect(closed).toEqual(['notes'])
+		expect(
+			screen.queryByRole('button', { name: 'Close editor' })
+		).toBeNull()
+	})
+
+	it('onReady gives the engine for actions from code', () => {
+		let engine: Layout | undefined
+		render(() => (
+			<DynamixLayout
+				tabs={tabs()}
+				onReady={(layout) => (engine = layout)}
+			/>
+		))
+		expect(engine).toBeDefined()
+		const [first] = engine!.getSnapshot().tabsets.keys()
+		engine!.maximize(first)
+		expect(engine!.getSnapshot().maximizedTabsetId).toBe(first)
+		expect(
+			document.querySelectorAll('[data-tabbar][data-dx-hidden]')
+		).toHaveLength(1)
 	})
 })

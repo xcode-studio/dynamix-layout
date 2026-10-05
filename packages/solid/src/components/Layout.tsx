@@ -4,7 +4,16 @@ import {
 	type Rect,
 	type Side,
 } from '@dynamix-layout/core'
-import { createMemo, For, Show, type JSX, type ParentComponent } from 'solid-js'
+import {
+	createEffect,
+	createMemo,
+	For,
+	on,
+	onMount,
+	Show,
+	type JSX,
+	type ParentComponent,
+} from 'solid-js'
 import {
 	DefaultHoverElement,
 	DefaultSliderElement,
@@ -39,7 +48,7 @@ const sameIds = (a: readonly string[], b: readonly string[]) =>
 export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 	let root: HTMLDivElement | undefined
 	/* eslint-disable solid/reactivity -- read once, like the v1 component */
-	const tabs = props.tabs
+	const initialTabs = props.tabs
 	const tabHeadHeight = props.tabHeadHeight ?? DEFAULT_SIZE
 	const enableTabbar = props.enableTabbar ?? true
 	const enableMaximize = props.enableMaximize ?? true
@@ -48,7 +57,7 @@ export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 	const rootId = props.rootId ?? 'dynamix-layout-root'
 
 	const layout = useDynamixLayout({
-		tabIds: tabs.map(([id]) => id),
+		tabIds: initialTabs.map(([id]) => id),
 		layoutTree: props.layoutTree,
 		updateJSON: props.updateJSON,
 		enableTabbar,
@@ -88,7 +97,19 @@ export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 	const splitterIds = createMemo(() => [...snapshot().splitters.keys()], [], {
 		equals: sameIds,
 	})
-	const title = (tabId: string) => props.tabNames?.get(tabId) ?? tabId
+	const entry = (tabId: string) => props.tabs.find(([id]) => id === tabId)
+	const title = (tabId: string) =>
+		entry(tabId)?.[2]?.title ?? props.tabNames?.get(tabId) ?? tabId
+
+	// `tabs` is reactive: push new or removed ids into the same engine.
+	createEffect(
+		on(
+			() => props.tabs.map(([id]) => id).join('\u0000'),
+			() => layout.engine.setTabs(props.tabs.map(([id]) => ({ id }))),
+			{ defer: true }
+		)
+	)
+	onMount(() => props.onReady?.(layout.engine))
 
 	return (
 		<div
@@ -224,6 +245,30 @@ export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 												}
 											>
 												{title(tabId)}
+												<Show
+													when={
+														entry(tabId)?.[2]
+															?.closable
+													}
+												>
+													<button
+														type="button"
+														class="DefaultTabClose"
+														aria-label={`Close ${tabId}`}
+														draggable={false}
+														onMouseDown={(e) =>
+															e.stopPropagation()
+														}
+														onClick={(e) => {
+															e.stopPropagation()
+															props.onTabClose?.(
+																tabId
+															)
+														}}
+													>
+														×
+													</button>
+												</Show>
 											</WrapTabLabel>
 										)}
 									</For>
@@ -253,7 +298,7 @@ export const DynamixLayout: ParentComponent<LayoutProps> = (props) => {
 				}}
 			</For>
 
-			<For each={tabs}>
+			<For each={props.tabs}>
 				{([tabId, content]) => {
 					const tab = () => snapshot().tabs.get(tabId)
 					const body = () => {

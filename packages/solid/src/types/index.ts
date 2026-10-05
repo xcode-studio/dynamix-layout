@@ -1,12 +1,39 @@
-import type { LayoutJSON, LayoutTreeV1, Rect } from '@dynamix-layout/core'
+import type {
+	Layout,
+	LayoutJSON,
+	LayoutTreeV1,
+	Rect,
+} from '@dynamix-layout/core'
 import { JSX } from 'solid-js'
 
 export type DivFC = (
 	props: { children?: JSX.Element } & JSX.HTMLAttributes<HTMLDivElement>
 ) => JSX.Element
 
+/** Per-tab options: the third element of a `tabs` entry. */
+export interface TabOptions {
+	/** Tab label. @default `tabNames.get(id)`, else the id */
+	title?: JSX.Element
+	/** Show a close button; clicking it calls `onTabClose`. @default false */
+	closable?: boolean
+}
+
+/** One tab: `[id, content]` or `[id, content, options]`. */
+export type TabItem = [id: string, content: JSX.Element, options?: TabOptions]
+
 export interface LayoutProps {
-	tabs: [string, JSX.Element][]
+	/**
+	 * The open tabs. Reactive: add an entry to open a tab, remove it to close
+	 * one; existing tabs keep their content mounted.
+	 */
+	tabs: TabItem[]
+	/** Called when a closable tab's close button is clicked; remove it from `tabs` to close it. */
+	onTabClose?: (tabId: string) => void
+	/**
+	 * Receives the layout engine once mounted, for actions from code:
+	 * `maximize`, `restore`, `fold`, `unfold`, `selectTab`, `moveTab`, `reset`, `toJSON`, …
+	 */
+	onReady?: (layout: Layout) => void
 	enableTabbar?: boolean
 	WrapTabPanel?: DivFC
 	WrapTabLabel?: (
