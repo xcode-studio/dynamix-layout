@@ -20,7 +20,7 @@
 
 ---
 
-![Demo](https://raw.githubusercontent.com/akash-aman/dynamix-layout/main/assets/demo1.gif)
+![Demo](https://raw.githubusercontent.com/xcode-studio/dynamix-layout/main/assets/demo1.gif)
 
 ---
 
@@ -39,7 +39,7 @@ The easiest way to get started is by using the `<DynamixLayout />` component. Pr
 ```jsx
 import React from 'react'
 import { DynamixLayout } from '@dynamix-layout/react'
-import '@dynamix-layout/react/dist/layout.css' // Don't forget to import the default styles
+import '@dynamix-layout/react/style.css' // Don't forget to import the default styles
 
 function App() {
 	// 1. Define your tabs as an array of [id, component] tuples
@@ -180,7 +180,7 @@ The hook returns an object with everything you need to build your UI, including:
 import { tabs } from './comp'
 import { DynamixLayout } from '@dynamix-layout/react'
 import type { LayoutTree } from '@dynamix-layout/core'
-import '@dynamix-layout/solid/style.css'
+import '@dynamix-layout/react/style.css'
 
 function App() {
 

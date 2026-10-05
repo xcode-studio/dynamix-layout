@@ -6,11 +6,11 @@ First off, thank you for considering contributing to Dynamix Layout! It's people
 
 ### Reporting Bugs
 
-If you find a bug, please open an issue on our [GitHub Issues page](https://github.com/akash-aman/dynamix-layout/issues). Please include a clear title and description, as much relevant information as possible, and a code sample or an executable test case demonstrating the expected behavior that is not occurring.
+If you find a bug, please open an issue on our [GitHub Issues page](https://github.com/xcode-studio/dynamix-layout/issues). Please include a clear title and description, as much relevant information as possible, and a code sample or an executable test case demonstrating the expected behavior that is not occurring.
 
 ### Suggesting Enhancements
 
-If you have an idea for an enhancement, please open an issue on our [GitHub Issues page](https://github.com/akash-aman/dynamix-layout/issues). Please provide a clear title and a detailed description of your suggestion.
+If you have an idea for an enhancement, please open an issue on our [GitHub Issues page](https://github.com/xcode-studio/dynamix-layout/issues). Please provide a clear title and a detailed description of your suggestion.
 
 ### Pull Requests
 
