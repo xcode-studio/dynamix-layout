@@ -72,7 +72,9 @@ The `<DynamixLayout />` component is the primary way to use this package. It's h
 
 | Prop | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| **`tabs`** (required) | `[string, JSX.Element][]` | An array of `[id, component]` tuples for your tabs. | |
+| **`tabs`** (required) | `TabItem[]` | `[id, component, options?]` tuples. `options` is `{ title?, closable? }`. The array is reactive: add or remove entries and only those tabs mount or unmount. | |
+| `onTabClose` | `(tabId: string) => void` | Called by the × button of a `closable` tab. Remove the tab from `tabs` to close it. | `undefined` |
+| `onReady` | `(layout: Layout) => void` | Receives the core engine once mounted, for `toggleMaximize`, `toggleFold`, `selectTab`, `moveTab`, `reset` and the rest of the [core API](../../docs/api/create-layout.md). | `undefined` |
 | `layoutTree` | `LayoutJSON \| LayoutTreeV1` | A saved layout to restore. Layouts saved by v1 are migrated automatically. | `undefined` |
 | `tabNames` | `Map<string, string \| JSX.Element>` | Display names for your tabs, keyed by tab id. | `undefined` |
 | `enableTabbar` | `boolean` | If `true`, renders the draggable tab bar on top of each tab panel. | `true` |

@@ -94,4 +94,4 @@ Without measurements, drops onto tab bars aren't available, but panels and layou
 - **A rotated tab bar** (`isRotated`) is an element `rect.width` wide and `rect.height` tall, rotated 90° around its top-left corner (`transform-origin: 0 0`). It covers the folded strip.
 - **Hidden tabsets** (`isHidden`, while another tabset is maximized) should stay mounted but invisible.
 
-The [Solid adapter](../../packages/solid/src/hooks/useLayout.ts) is a complete example in about 250 lines.
+[`examples/vanilla`](../../examples/vanilla) is a complete plain-DOM renderer in about 500 lines ([`dom-layout.ts`](../../examples/vanilla/src/dom-layout.ts)): tab and tab bar drags with measurements, splitters, close buttons, fold and maximize toolbars, keyboard support and persistence. The [Solid adapter](../../packages/solid/src/hooks/useLayout.ts) is another one.

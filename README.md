@@ -101,7 +101,12 @@ To save the layout, store what `onLayoutChange` gives you and pass it back as `d
   - [Using the core without React](./docs/guides/core-without-react.md)
   - [Performance](./docs/guides/performance.md)
 - [Migrating from v1](./docs/migration-v1-to-v2.md).
-- [Examples](./examples): React (basic, custom components, headless, controlled), Next.js, Solid and SolidStart.
+- [Examples](./examples): every one has an **all-features showcase** (drag, split, resize, close, add, fold, maximize, restore, persist, reset):
+  - [React](./examples/react) (plus custom components, headless and controlled demos)
+  - [Next.js](./examples/nextjs)
+  - [Solid](./examples/solid)
+  - [SolidStart](./examples/solidstart)
+  - [Plain JavaScript](./examples/vanilla) on `@dynamix-layout/core`, no framework
 
 ## Contributing
 
