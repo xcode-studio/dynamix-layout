@@ -26,25 +26,32 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/xcode-studio/dynamix-layout",
+		"url": "git+https://github.com/xcode-studio/dynamix-layout.git",
 		"directory": "packages/solid"
 	},
 	"bugs": {
 		"url": "https://github.com/xcode-studio/dynamix-layout/issues"
 	},
 	"homepage": "https://github.com/xcode-studio/dynamix-layout#readme",
-	"main": "./dist/index.cjs.js",
+	"main": "./dist/index.cjs",
 	"module": "./dist/index.es.js",
 	"types": "./dist/types/index.d.ts",
 	"typings": "./dist/types/index.d.ts",
 	"style": "./dist/index.css",
 	"exports": {
 		".": {
-			"types": "./dist/types/index.d.ts",
-			"import": "./dist/index.es.js",
-			"require": "./dist/index.cjs.js"
+			"import": {
+				"types": "./dist/types/index.d.ts",
+				"default": "./dist/index.es.js"
+			},
+			"require": {
+				"types": "./dist/types/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
 		},
-		"./style.css": "./dist/index.css"
+		"./style.css": "./dist/index.css",
+		"./styles.css": "./dist/index.css",
+		"./package.json": "./package.json"
 	},
 	"files": [
 		"dist",
@@ -61,8 +68,7 @@
 	},
 	"type": "module",
 	"engines": {
-		"node": ">=22.16.0",
-		"pnpm": ">=10.13.1"
+		"node": ">=18"
 	},
 	"scripts": {
 		"dev": "vite build --watch",
@@ -84,10 +90,13 @@
 		"typescript": "^5.9.3",
 		"vite": "^7.3.6",
 		"vite-plugin-solid": "2.11.14",
-		"vitest": "^4.1.11"
+		"vitest": "^4.1.11",
+		"solid-js": "^1.9.15"
 	},
 	"dependencies": {
-		"@dynamix-layout/core": "workspace:*",
-		"solid-js": "^1.9.15"
+		"@dynamix-layout/core": "workspace:*"
+	},
+	"peerDependencies": {
+		"solid-js": "^1.8.0"
 	}
 }

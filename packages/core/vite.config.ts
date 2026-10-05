@@ -16,13 +16,24 @@ export default defineConfig({
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),
 			name: 'dynamix.layout.core',
-			fileName: (format) => `core.${format}.js`,
+			// `.cjs` so Node loads the CommonJS build as CommonJS in this `"type": "module"` package.
+			fileName: (format) => (format === 'cjs' ? 'core.cjs' : `core.${format}.js`),
 			formats: ['cjs', 'es', 'iife', 'umd'],
 		},
 	},
 	plugins: [
 		dts({
 			outDir: 'dist/types',
+			// Types-only modules never reach the bundle graph; list sources explicitly.
+			include: ['src'],
+			// One self-contained declaration file (Node16 resolution can't follow
+			// extensionless imports), copied to index.d.cts for `require`.
+			rollupTypes: true,
+			afterBuild: () =>
+				fs.copyFileSync(
+					resolve(__dirname, 'dist/types/index.d.ts'),
+					resolve(__dirname, 'dist/types/index.d.cts')
+				),
 			exclude: ['node_modules/**', 'src/test/**'],
 		}),
 		visualizer({
