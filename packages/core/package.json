@@ -28,21 +28,23 @@
 		"url": "https://github.com/xcode-studio/dynamix-layout/issues"
 	},
 	"homepage": "https://github.com/xcode-studio/dynamix-layout#readme",
-	"main": "./dist/core.cjs",
-	"module": "./dist/core.es.js",
-	"types": "./dist/types/index.d.ts",
-	"typings": "./dist/types/index.d.ts",
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"unpkg": "./dist/index.umd.js",
 	"exports": {
 		".": {
 			"import": {
-				"types": "./dist/types/index.d.ts",
-				"default": "./dist/core.es.js"
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
 			},
 			"require": {
-				"types": "./dist/types/index.d.cts",
-				"default": "./dist/core.cjs"
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
 			}
-		}
+		},
+		"./package.json": "./package.json"
 	},
 	"files": [
 		"dist",
@@ -55,7 +57,6 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"type": "module",
 	"engines": {
 		"node": ">=18"
 	},

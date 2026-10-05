@@ -1,0 +1,920 @@
+{
+	"name": "2 tabs, seed 2",
+	"tabs": ["editor", "terminal"],
+	"container": { "width": 1200, "height": 800 },
+	"initial": {
+		"tree": {
+			"direction": "horizontal",
+			"children": [
+				{ "tabs": ["editor"], "active": "editor" },
+				{ "tabs": ["terminal"], "active": "terminal" }
+			]
+		},
+		"tabsets": {
+			"editor": [0, 0, 595, 800],
+			"terminal": [605, 0, 595, 800]
+		},
+		"splitters": { "editor>terminal": [595, 0, 10, 800] },
+		"maximized": null
+	},
+	"initialSavedV1": {
+		"typNode": "row",
+		"nodPart": 100,
+		"nodName": "dynamix-layout-root",
+		"uidNode": "dynamix-layout-root",
+		"nodKids": [
+			{
+				"typNode": "tabset",
+				"nodPart": 100,
+				"nodName": "",
+				"uidNode": "id-2",
+				"nodOpen": "editor",
+				"nodKids": [
+					{
+						"typNode": "tab",
+						"nodPart": 100,
+						"nodName": "editor",
+						"uidNode": "id-4"
+					}
+				]
+			},
+			{
+				"typNode": "tabset",
+				"nodPart": 100,
+				"nodName": "",
+				"uidNode": "id-3",
+				"nodOpen": "terminal",
+				"nodKids": [
+					{
+						"typNode": "tab",
+						"nodPart": 100,
+						"nodName": "terminal",
+						"uidNode": "id-6"
+					}
+				]
+			}
+		]
+	},
+	"steps": [
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "terminal" },
+				"target": { "tab": "terminal", "position": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 595, 800],
+					"terminal": [605, 0, 595, 800]
+				},
+				"splitters": { "editor>terminal": [595, 0, 10, 800] },
+				"maximized": null
+			},
+			"accepted": false
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "terminal" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 595, 800],
+					"terminal": [0, 0, 1200, 800]
+				},
+				"splitters": { "editor>terminal": [595, 0, 10, 800] },
+				"maximized": "terminal"
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "resize", "width": 971, "height": 330 },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 481, 330],
+					"terminal": [0, 0, 971, 330]
+				},
+				"splitters": { "editor>terminal": [481, 0, 10, 330] },
+				"maximized": "terminal"
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "editor" },
+				"target": { "tabsetOf": "terminal", "area": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 481, 330],
+					"terminal": [491, 0, 480, 330]
+				},
+				"splitters": { "editor>terminal": [481, 0, 10, 330] },
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "editor" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 971, 330],
+					"terminal": [491, 0, 480, 330]
+				},
+				"splitters": { "editor>terminal": [481, 0, 10, 330] },
+				"maximized": "editor"
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodMaxd": "id-9",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-9",
+						"nodOpen": "editor",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "editor",
+								"uidNode": "id-4"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodOpen": "terminal",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-6"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "terminal" },
+				"target": { "tab": "terminal", "position": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 971, 330],
+					"terminal": [491, 0, 480, 330]
+				},
+				"splitters": { "editor>terminal": [481, 0, 10, 330] },
+				"maximized": "editor"
+			},
+			"accepted": false
+		},
+		{
+			"operation": { "op": "resize", "width": 1598, "height": 959 },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 1598, 959],
+					"terminal": [804, 0, 794, 959]
+				},
+				"splitters": { "editor>terminal": [794, 0, 10, 959] },
+				"maximized": "editor"
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "terminal" },
+				"target": { "root": "top" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor"], "active": "editor" }
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1598, 475],
+					"editor": [0, 485, 1598, 474]
+				},
+				"splitters": { "terminal>editor": [0, 475, 1598, 10] },
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "terminal" },
+				"target": { "tab": "editor", "position": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": { "editor|terminal": [0, 0, 1598, 959] },
+				"splitters": {},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "terminal" },
+				"target": { "tabsetOf": "terminal", "area": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 794, 959],
+					"terminal": [804, 0, 794, 959]
+				},
+				"splitters": { "editor>terminal": [794, 0, 10, 959] },
+				"maximized": null
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-9",
+						"nodOpen": "editor",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "editor",
+								"uidNode": "id-4"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-16",
+						"nodOpen": "terminal",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-6"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "terminal" },
+				"target": { "tabsetOf": "editor", "area": "top" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor"], "active": "editor" }
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1598, 475],
+					"editor": [0, 485, 1598, 474]
+				},
+				"splitters": { "terminal>editor": [0, 475, 1598, 10] },
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "terminal",
+				"after": "editor",
+				"point": { "x": 799, "y": 568 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor"], "active": "editor" }
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1598, 563],
+					"editor": [0, 573, 1598, 386]
+				},
+				"splitters": { "terminal>editor": [0, 563, 1598, 10] },
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "terminal",
+				"after": "editor",
+				"point": { "x": 799, "y": 616 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor"], "active": "editor" }
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1598, 611],
+					"editor": [0, 621, 1598, 338]
+				},
+				"splitters": { "terminal>editor": [0, 611, 1598, 10] },
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "terminal",
+				"after": "editor",
+				"point": { "x": 799, "y": 622 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor"], "active": "editor" }
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1598, 617],
+					"editor": [0, 627, 1598, 332]
+				},
+				"splitters": { "terminal>editor": [0, 617, 1598, 10] },
+				"maximized": null
+			}
+		},
+		{
+			"operation": { "op": "fold", "tabsetOf": "editor" },
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{
+							"tabs": ["editor"],
+							"active": "editor",
+							"folded": true
+						}
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1598, 909],
+					"editor": [0, 919, 1598, 40]
+				},
+				"splitters": { "terminal>editor": [0, 909, 1598, 10] },
+				"maximized": null
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-9",
+						"nodOpen": "editor",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 132.7963176064442,
+								"nodName": "",
+								"uidNode": "id-16",
+								"nodOpen": "terminal",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-6"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 67.20368239355581,
+								"nodName": "",
+								"uidNode": "id-18",
+								"nodOpen": "editor",
+								"nodFold": true,
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "editor" },
+				"target": { "tab": "terminal", "position": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" }
+					]
+				},
+				"tabsets": { "editor|terminal": [0, 0, 1598, 959] },
+				"splitters": {},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "resize", "width": 1466, "height": 499 },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" }
+					]
+				},
+				"tabsets": { "editor|terminal": [0, 0, 1466, 499] },
+				"splitters": {},
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "terminal" },
+				"target": { "tabsetOf": "editor", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" }
+					]
+				},
+				"tabsets": { "editor|terminal": [0, 0, 1466, 499] },
+				"splitters": {},
+				"maximized": null
+			},
+			"accepted": false
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "terminal" },
+				"target": { "tabsetOf": "editor", "area": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" }
+					]
+				},
+				"tabsets": { "editor|terminal": [0, 0, 1466, 499] },
+				"splitters": {},
+				"maximized": null
+			},
+			"accepted": false
+		},
+		{
+			"operation": { "op": "fold", "tabsetOf": "terminal" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" }
+					]
+				},
+				"tabsets": { "editor|terminal": [0, 0, 1466, 499] },
+				"splitters": {},
+				"maximized": null
+			},
+			"accepted": false,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 132.7963176064442,
+						"nodName": "",
+						"uidNode": "id-16",
+						"nodOpen": "editor",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "editor",
+								"uidNode": "id-4"
+							},
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-6"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "terminal" },
+				"target": { "root": "bottom" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 1466, 273],
+					"terminal": [0, 283, 1466, 216]
+				},
+				"splitters": { "editor>terminal": [0, 273, 1466, 10] },
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "editor",
+				"after": "terminal",
+				"point": { "x": 733, "y": 288 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 1466, 283],
+					"terminal": [0, 293, 1466, 206]
+				},
+				"splitters": { "editor>terminal": [0, 283, 1466, 10] },
+				"maximized": null
+			}
+		},
+		{
+			"operation": { "op": "fold", "tabsetOf": "terminal" },
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{
+							"tabs": ["terminal"],
+							"active": "terminal",
+							"folded": true
+						}
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 1466, 449],
+					"terminal": [0, 459, 1466, 40]
+				},
+				"splitters": { "editor>terminal": [0, 449, 1466, 10] },
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "editor",
+				"after": "terminal",
+				"point": { "x": 733, "y": 481 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{
+							"tabs": ["terminal"],
+							"active": "terminal",
+							"folded": true
+						}
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 1466, 449],
+					"terminal": [0, 459, 1466, 40]
+				},
+				"splitters": { "editor>terminal": [0, 449, 1466, 10] },
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "editor",
+				"after": "terminal",
+				"point": { "x": 733, "y": 409 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{
+							"tabs": ["terminal"],
+							"active": "terminal",
+							"folded": true
+						}
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 1466, 449],
+					"terminal": [0, 459, 1466, 40]
+				},
+				"splitters": { "editor>terminal": [0, 449, 1466, 10] },
+				"maximized": null
+			},
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-23",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 138.31174860236172,
+								"nodName": "",
+								"uidNode": "id-16",
+								"nodOpen": "editor",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 94.48456900408249,
+								"nodName": "",
+								"uidNode": "id-21",
+								"nodOpen": "terminal",
+								"nodFold": true,
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-6"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "editor" },
+				"target": { "tabsetOf": "terminal", "area": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{
+							"tabs": ["terminal"],
+							"active": "terminal",
+							"folded": true
+						}
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 1416, 499],
+					"terminal": [1426, 0, 40, 499]
+				},
+				"splitters": { "editor>terminal": [1416, 0, 10, 499] },
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "editor" },
+				"target": { "tab": "terminal", "position": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["terminal", "editor"], "active": "editor" }
+					]
+				},
+				"tabsets": { "terminal|editor": [0, 0, 1466, 499] },
+				"splitters": {},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "editor" },
+				"target": { "tabsetOf": "terminal", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["terminal", "editor"], "active": "editor" }
+					]
+				},
+				"tabsets": { "terminal|editor": [0, 0, 1466, 499] },
+				"splitters": {},
+				"maximized": null
+			},
+			"accepted": false
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "terminal" },
+				"target": { "tabsetOf": "terminal", "area": "top" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["terminal", "editor"], "active": "editor" }
+					]
+				},
+				"tabsets": { "terminal|editor": [0, 0, 1466, 499] },
+				"splitters": {},
+				"maximized": null
+			},
+			"accepted": false
+		},
+		{
+			"operation": { "op": "resize", "width": 379, "height": 1010 },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["terminal", "editor"], "active": "editor" }
+					]
+				},
+				"tabsets": { "terminal|editor": [0, 0, 379, 1010] },
+				"splitters": {},
+				"maximized": null
+			},
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 94.48456900408249,
+						"nodName": "",
+						"uidNode": "id-21",
+						"nodOpen": "editor",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-6"
+							},
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "editor",
+								"uidNode": "id-4"
+							}
+						]
+					}
+				]
+			}
+		}
+	]
+}

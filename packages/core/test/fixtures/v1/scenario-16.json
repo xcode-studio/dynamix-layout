@@ -1,0 +1,2577 @@
+{
+	"name": "7 tabs, seed 16",
+	"tabs": [
+		"editor",
+		"terminal",
+		"preview",
+		"console",
+		"files",
+		"search",
+		"git"
+	],
+	"container": { "width": 640, "height": 420 },
+	"initial": {
+		"tree": {
+			"direction": "horizontal",
+			"children": [
+				{ "tabs": ["editor"], "active": "editor" },
+				{
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"tabs": ["files"],
+													"active": "files"
+												},
+												{
+													"direction": "vertical",
+													"children": [
+														{
+															"tabs": ["search"],
+															"active": "search"
+														},
+														{
+															"tabs": ["git"],
+															"active": "git"
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		"tabsets": {
+			"editor": [0, 0, 265, 420],
+			"terminal": [275, 0, 365, 155],
+			"preview": [275, 165, 153, 255],
+			"console": [438, 165, 202, 98],
+			"files": [438, 273, 96, 147],
+			"search": [544, 273, 96, 69],
+			"git": [544, 352, 96, 68]
+		},
+		"splitters": {
+			"editor>terminal": [265, 0, 10, 420],
+			"terminal>preview": [275, 155, 365, 10],
+			"preview>console": [428, 165, 10, 255],
+			"console>files": [438, 263, 202, 10],
+			"files>search": [534, 273, 10, 147],
+			"search>git": [544, 342, 96, 10]
+		},
+		"maximized": null
+	},
+	"initialSavedV1": {
+		"typNode": "row",
+		"nodPart": 100,
+		"nodName": "dynamix-layout-root",
+		"uidNode": "dynamix-layout-root",
+		"nodKids": [
+			{
+				"typNode": "tabset",
+				"nodPart": 100,
+				"nodName": "",
+				"uidNode": "id-2",
+				"nodOpen": "editor",
+				"nodKids": [
+					{
+						"typNode": "tab",
+						"nodPart": 100,
+						"nodName": "editor",
+						"uidNode": "id-4"
+					}
+				]
+			},
+			{
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "",
+				"uidNode": "id-3",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-7",
+						"nodOpen": "terminal",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-9"
+							}
+						]
+					},
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-8",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-12",
+								"nodOpen": "preview",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "preview",
+										"uidNode": "id-14"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-13",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-17",
+										"nodOpen": "console",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "console",
+												"uidNode": "id-19"
+											}
+										]
+									},
+									{
+										"typNode": "row",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-18",
+										"nodKids": [
+											{
+												"typNode": "tabset",
+												"nodPart": 100,
+												"nodName": "",
+												"uidNode": "id-22",
+												"nodOpen": "files",
+												"nodKids": [
+													{
+														"typNode": "tab",
+														"nodPart": 100,
+														"nodName": "files",
+														"uidNode": "id-24"
+													}
+												]
+											},
+											{
+												"typNode": "row",
+												"nodPart": 100,
+												"nodName": "",
+												"uidNode": "id-23",
+												"nodKids": [
+													{
+														"typNode": "tabset",
+														"nodPart": 100,
+														"nodName": "",
+														"uidNode": "id-27",
+														"nodOpen": "search",
+														"nodKids": [
+															{
+																"typNode": "tab",
+																"nodPart": 100,
+																"nodName": "search",
+																"uidNode": "id-29"
+															}
+														]
+													},
+													{
+														"typNode": "tabset",
+														"nodPart": 100,
+														"nodName": "",
+														"uidNode": "id-28",
+														"nodOpen": "git",
+														"nodKids": [
+															{
+																"typNode": "tab",
+																"nodPart": 100,
+																"nodName": "git",
+																"uidNode": "id-31"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"steps": [
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "git" },
+				"target": { "tabsetOf": "files", "area": "bottom" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["terminal"], "active": "terminal" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["preview"],
+											"active": "preview"
+										},
+										{
+											"direction": "vertical",
+											"children": [
+												{
+													"tabs": ["console"],
+													"active": "console"
+												},
+												{
+													"direction": "horizontal",
+													"children": [
+														{
+															"direction": "vertical",
+															"children": [
+																{
+																	"tabs": [
+																		"files"
+																	],
+																	"active": "files"
+																},
+																{
+																	"tabs": [
+																		"git"
+																	],
+																	"active": "git"
+																}
+															]
+														},
+														{
+															"tabs": ["search"],
+															"active": "search"
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 265, 420],
+					"terminal": [275, 0, 365, 155],
+					"preview": [275, 165, 153, 255],
+					"console": [438, 165, 202, 98],
+					"search": [544, 273, 96, 147],
+					"files": [438, 273, 96, 69],
+					"git": [438, 352, 96, 68]
+				},
+				"splitters": {
+					"editor>terminal": [265, 0, 10, 420],
+					"terminal>preview": [275, 155, 365, 10],
+					"preview>console": [428, 165, 10, 255],
+					"console>files": [438, 263, 202, 10],
+					"files>search": [534, 273, 10, 147],
+					"files>git": [438, 342, 96, 10]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "git" },
+				"target": { "tab": "git", "position": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["terminal"], "active": "terminal" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["preview"],
+											"active": "preview"
+										},
+										{
+											"direction": "vertical",
+											"children": [
+												{
+													"tabs": ["console"],
+													"active": "console"
+												},
+												{
+													"direction": "horizontal",
+													"children": [
+														{
+															"direction": "vertical",
+															"children": [
+																{
+																	"tabs": [
+																		"files"
+																	],
+																	"active": "files"
+																},
+																{
+																	"tabs": [
+																		"git"
+																	],
+																	"active": "git"
+																}
+															]
+														},
+														{
+															"tabs": ["search"],
+															"active": "search"
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 265, 420],
+					"terminal": [275, 0, 365, 155],
+					"preview": [275, 165, 153, 255],
+					"console": [438, 165, 202, 98],
+					"search": [544, 273, 96, 147],
+					"files": [438, 273, 96, 69],
+					"git": [438, 352, 96, 68]
+				},
+				"splitters": {
+					"editor>terminal": [265, 0, 10, 420],
+					"terminal>preview": [275, 155, 365, 10],
+					"preview>console": [428, 165, 10, 255],
+					"console>files": [438, 263, 202, 10],
+					"files>search": [534, 273, 10, 147],
+					"files>git": [438, 342, 96, 10]
+				},
+				"maximized": null
+			},
+			"accepted": false
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "editor" },
+				"target": { "tabsetOf": "terminal", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"direction": "vertical",
+													"children": [
+														{
+															"tabs": ["files"],
+															"active": "files"
+														},
+														{
+															"tabs": ["git"],
+															"active": "git"
+														}
+													]
+												},
+												{
+													"tabs": ["search"],
+													"active": "search"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 155],
+					"preview": [0, 165, 290, 255],
+					"console": [300, 165, 340, 98],
+					"search": [475, 273, 165, 147],
+					"files": [300, 273, 165, 69],
+					"git": [300, 352, 165, 68]
+				},
+				"splitters": {
+					"editor>preview": [0, 155, 640, 10],
+					"preview>console": [290, 165, 10, 255],
+					"console>files": [300, 263, 340, 10],
+					"files>search": [465, 273, 10, 147],
+					"files>git": [300, 342, 165, 10]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "files" },
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"direction": "vertical",
+													"children": [
+														{
+															"tabs": ["files"],
+															"active": "files"
+														},
+														{
+															"tabs": ["git"],
+															"active": "git"
+														}
+													]
+												},
+												{
+													"tabs": ["search"],
+													"active": "search"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 155],
+					"preview": [0, 165, 290, 255],
+					"console": [300, 165, 340, 98],
+					"search": [475, 273, 165, 147],
+					"files": [0, 0, 640, 420],
+					"git": [300, 352, 165, 68]
+				},
+				"splitters": {
+					"editor>preview": [0, 155, 640, 10],
+					"preview>console": [290, 165, 10, 255],
+					"console>files": [300, 263, 340, 10],
+					"files>search": [465, 273, 10, 147],
+					"files>git": [300, 342, 165, 10]
+				},
+				"maximized": "files"
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "files",
+				"after": "git",
+				"point": { "x": 382.5, "y": 268 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"direction": "vertical",
+													"children": [
+														{
+															"tabs": ["files"],
+															"active": "files"
+														},
+														{
+															"tabs": ["git"],
+															"active": "git"
+														}
+													]
+												},
+												{
+													"tabs": ["search"],
+													"active": "search"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 155],
+					"preview": [0, 165, 290, 255],
+					"console": [300, 165, 340, 98],
+					"search": [475, 273, 165, 147],
+					"files": [0, 0, 640, 420],
+					"git": [300, 352, 165, 68]
+				},
+				"splitters": {
+					"editor>preview": [0, 155, 640, 10],
+					"preview>console": [290, 165, 10, 255],
+					"console>files": [300, 263, 340, 10],
+					"files>search": [465, 273, 10, 147],
+					"files>git": [300, 342, 165, 10]
+				},
+				"maximized": "files"
+			},
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodMaxd": "id-36",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-7",
+								"nodOpen": "editor",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									},
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-9"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-8",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-12",
+										"nodOpen": "preview",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "preview",
+												"uidNode": "id-14"
+											}
+										]
+									},
+									{
+										"typNode": "row",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-13",
+										"nodKids": [
+											{
+												"typNode": "tabset",
+												"nodPart": 100,
+												"nodName": "",
+												"uidNode": "id-17",
+												"nodOpen": "console",
+												"nodKids": [
+													{
+														"typNode": "tab",
+														"nodPart": 100,
+														"nodName": "console",
+														"uidNode": "id-19"
+													}
+												]
+											},
+											{
+												"typNode": "row",
+												"nodPart": 100,
+												"nodName": "",
+												"uidNode": "id-18",
+												"nodKids": [
+													{
+														"typNode": "row",
+														"nodPart": 100,
+														"nodName": "",
+														"uidNode": "id-22",
+														"nodOpen": "files",
+														"nodKids": [
+															{
+																"typNode": "tabset",
+																"nodPart": 100,
+																"nodName": "",
+																"uidNode": "id-36",
+																"nodOpen": "files",
+																"nodKids": [
+																	{
+																		"typNode": "tab",
+																		"nodPart": 100,
+																		"nodName": "files",
+																		"uidNode": "id-24"
+																	}
+																]
+															},
+															{
+																"typNode": "tabset",
+																"nodPart": 100,
+																"nodName": "",
+																"uidNode": "id-35",
+																"nodOpen": "git",
+																"nodKids": [
+																	{
+																		"typNode": "tab",
+																		"nodPart": 100,
+																		"nodName": "git",
+																		"uidNode": "id-31"
+																	}
+																]
+															}
+														]
+													},
+													{
+														"typNode": "tabset",
+														"nodPart": 100,
+														"nodName": "",
+														"uidNode": "id-27",
+														"nodOpen": "search",
+														"nodKids": [
+															{
+																"typNode": "tab",
+																"nodPart": 100,
+																"nodName": "search",
+																"uidNode": "id-29"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "files" },
+				"target": { "tabsetOf": "terminal", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{
+							"tabs": ["editor", "files", "terminal"],
+							"active": "files"
+						},
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"tabs": ["git"],
+													"active": "git"
+												},
+												{
+													"tabs": ["search"],
+													"active": "search"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|files|terminal": [0, 0, 640, 180],
+					"preview": [0, 190, 290, 230],
+					"console": [300, 190, 340, 110],
+					"git": [300, 310, 165, 110],
+					"search": [475, 310, 165, 110]
+				},
+				"splitters": {
+					"editor>preview": [0, 180, 640, 10],
+					"preview>console": [290, 190, 10, 230],
+					"console>git": [300, 300, 340, 10],
+					"git>search": [465, 310, 10, 110]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "files" },
+				"target": { "tabsetOf": "git", "area": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"tabs": ["git"],
+													"active": "git"
+												},
+												{
+													"tabs": ["files"],
+													"active": "files"
+												},
+												{
+													"tabs": ["search"],
+													"active": "search"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 180],
+					"preview": [0, 190, 265, 230],
+					"console": [275, 190, 365, 110],
+					"git": [275, 310, 115, 110],
+					"files": [400, 310, 115, 110],
+					"search": [525, 310, 115, 110]
+				},
+				"splitters": {
+					"editor>preview": [0, 180, 640, 10],
+					"preview>console": [265, 190, 10, 230],
+					"console>git": [275, 300, 365, 10],
+					"git>files": [390, 310, 10, 110],
+					"files>search": [515, 310, 10, 110]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "git" },
+				"target": { "tabsetOf": "console", "area": "bottom" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{ "tabs": ["git"], "active": "git" },
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"tabs": ["files"],
+													"active": "files"
+												},
+												{
+													"tabs": ["search"],
+													"active": "search"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 155],
+					"preview": [0, 165, 290, 255],
+					"console": [300, 165, 340, 78],
+					"git": [300, 253, 340, 79],
+					"files": [300, 342, 165, 78],
+					"search": [475, 342, 165, 78]
+				},
+				"splitters": {
+					"editor>preview": [0, 155, 640, 10],
+					"preview>console": [290, 165, 10, 255],
+					"console>git": [300, 243, 340, 10],
+					"git>files": [300, 332, 340, 10],
+					"files>search": [465, 342, 10, 78]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "fold", "tabsetOf": "console" },
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console",
+											"folded": true
+										},
+										{ "tabs": ["git"], "active": "git" },
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"tabs": ["files"],
+													"active": "files"
+												},
+												{
+													"tabs": ["search"],
+													"active": "search"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 155],
+					"preview": [0, 165, 290, 255],
+					"console": [300, 165, 340, 40],
+					"git": [300, 215, 340, 98],
+					"files": [300, 323, 165, 97],
+					"search": [475, 323, 165, 97]
+				},
+				"splitters": {
+					"editor>preview": [0, 155, 640, 10],
+					"preview>console": [290, 165, 10, 255],
+					"console>git": [300, 205, 340, 10],
+					"git>files": [300, 313, 340, 10],
+					"files>search": [465, 323, 10, 97]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "preview" },
+				"target": { "tabsetOf": "terminal", "area": "bottom" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{ "tabs": ["preview"], "active": "preview" },
+						{
+							"tabs": ["console"],
+							"active": "console",
+							"folded": true
+						},
+						{ "tabs": ["git"], "active": "git" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["files"], "active": "files" },
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 85],
+					"preview": [0, 95, 640, 85],
+					"console": [0, 190, 640, 40],
+					"git": [0, 240, 640, 85],
+					"files": [0, 335, 315, 85],
+					"search": [325, 335, 315, 85]
+				},
+				"splitters": {
+					"editor>preview": [0, 85, 640, 10],
+					"preview>console": [0, 180, 640, 10],
+					"console>git": [0, 230, 640, 10],
+					"git>files": [0, 325, 640, 10],
+					"files>search": [315, 335, 10, 85]
+				},
+				"maximized": null
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-7",
+								"nodOpen": "editor",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									},
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-9"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-49",
+								"nodOpen": "preview",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "preview",
+										"uidNode": "id-14"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-17",
+								"nodOpen": "console",
+								"nodFold": true,
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "console",
+										"uidNode": "id-19"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-35",
+								"nodOpen": "git",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "git",
+										"uidNode": "id-31"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-18",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-43",
+										"nodOpen": "files",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "files",
+												"uidNode": "id-24"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-27",
+										"nodOpen": "search",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "search",
+												"uidNode": "id-29"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "console" },
+				"target": { "tabsetOf": "files", "area": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{ "tabs": ["preview"], "active": "preview" },
+						{ "tabs": ["git"], "active": "git" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["files"], "active": "files" },
+								{ "tabs": ["console"], "active": "console" },
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 98],
+					"preview": [0, 108, 640, 97],
+					"git": [0, 215, 640, 98],
+					"files": [0, 323, 207, 97],
+					"console": [217, 323, 206, 97],
+					"search": [433, 323, 207, 97]
+				},
+				"splitters": {
+					"editor>preview": [0, 98, 640, 10],
+					"preview>git": [0, 205, 640, 10],
+					"git>files": [0, 313, 640, 10],
+					"files>console": [207, 323, 10, 97],
+					"console>search": [423, 323, 10, 97]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "editor",
+				"after": "preview",
+				"point": { "x": 320, "y": -19 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{ "tabs": ["preview"], "active": "preview" },
+						{ "tabs": ["git"], "active": "git" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["files"], "active": "files" },
+								{ "tabs": ["console"], "active": "console" },
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor|terminal": [0, 0, 640, 40],
+					"preview": [0, 50, 640, 155],
+					"git": [0, 215, 640, 98],
+					"files": [0, 323, 207, 97],
+					"console": [217, 323, 206, 97],
+					"search": [433, 323, 207, 97]
+				},
+				"splitters": {
+					"editor>preview": [0, 40, 640, 10],
+					"preview>git": [0, 205, 640, 10],
+					"git>files": [0, 313, 640, 10],
+					"files>console": [207, 323, 10, 97],
+					"console>search": [423, 323, 10, 97]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "git" },
+				"target": { "root": "top" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["git"], "active": "git" },
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{ "tabs": ["preview"], "active": "preview" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["files"], "active": "files" },
+								{ "tabs": ["console"], "active": "console" },
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"git": [0, 0, 640, 98],
+					"editor|terminal": [0, 108, 640, 40],
+					"preview": [0, 158, 640, 155],
+					"files": [0, 323, 207, 97],
+					"console": [217, 323, 206, 97],
+					"search": [433, 323, 207, 97]
+				},
+				"splitters": {
+					"git>editor": [0, 98, 640, 10],
+					"editor>preview": [0, 148, 640, 10],
+					"preview>files": [0, 313, 640, 10],
+					"files>console": [207, 323, 10, 97],
+					"console>search": [423, 323, 10, 97]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "resize", "width": 1111, "height": 969 },
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["git"], "active": "git" },
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{ "tabs": ["preview"], "active": "preview" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["files"], "active": "files" },
+								{ "tabs": ["console"], "active": "console" },
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"git": [0, 0, 1111, 235],
+					"editor|terminal": [0, 245, 1111, 40],
+					"preview": [0, 295, 1111, 429],
+					"files": [0, 734, 364, 235],
+					"console": [374, 734, 363, 235],
+					"search": [747, 734, 364, 235]
+				},
+				"splitters": {
+					"git>editor": [0, 235, 1111, 10],
+					"editor>preview": [0, 285, 1111, 10],
+					"preview>files": [0, 724, 1111, 10],
+					"files>console": [364, 734, 10, 235],
+					"console>search": [737, 734, 10, 235]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "preview" },
+				"target": { "tab": "search", "position": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["git"], "active": "git" },
+						{ "tabs": ["editor", "terminal"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["files"], "active": "files" },
+								{ "tabs": ["console"], "active": "console" },
+								{
+									"tabs": ["preview", "search"],
+									"active": "preview"
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"git": [0, 0, 1111, 455],
+					"editor|terminal": [0, 465, 1111, 40],
+					"files": [0, 515, 364, 454],
+					"console": [374, 515, 363, 454],
+					"preview|search": [747, 515, 364, 454]
+				},
+				"splitters": {
+					"git>editor": [0, 455, 1111, 10],
+					"editor>files": [0, 505, 1111, 10],
+					"files>console": [364, 515, 10, 454],
+					"console>preview": [737, 515, 10, 454]
+				},
+				"maximized": null
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-57",
+								"nodOpen": "git",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "git",
+										"uidNode": "id-31"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 0,
+								"nodName": "",
+								"uidNode": "id-7",
+								"nodOpen": "editor",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									},
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-9"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-18",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-43",
+										"nodOpen": "files",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "files",
+												"uidNode": "id-24"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-53",
+										"nodOpen": "console",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "console",
+												"uidNode": "id-19"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-27",
+										"nodOpen": "preview",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "preview",
+												"uidNode": "id-14"
+											},
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "search",
+												"uidNode": "id-29"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "search" },
+				"target": { "root": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"tabs": ["editor", "terminal"],
+									"active": "editor"
+								},
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"tabs": ["preview"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"search": [611, 0, 500, 969],
+					"git": [0, 0, 601, 455],
+					"editor|terminal": [0, 465, 601, 40],
+					"files": [0, 515, 194, 454],
+					"console": [204, 515, 193, 454],
+					"preview": [407, 515, 194, 454]
+				},
+				"splitters": {
+					"git>search": [601, 0, 10, 969],
+					"git>editor": [0, 455, 601, 10],
+					"editor>files": [0, 505, 601, 10],
+					"files>console": [194, 515, 10, 454],
+					"console>preview": [397, 515, 10, 454]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "git",
+				"after": "editor",
+				"point": { "x": 300.5, "y": 400 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"tabs": ["editor", "terminal"],
+									"active": "editor"
+								},
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"tabs": ["preview"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"search": [611, 0, 500, 969],
+					"git": [0, 0, 601, 395],
+					"editor|terminal": [0, 405, 601, 99],
+					"files": [0, 514, 194, 455],
+					"console": [204, 514, 193, 455],
+					"preview": [407, 514, 194, 455]
+				},
+				"splitters": {
+					"git>search": [601, 0, 10, 969],
+					"git>editor": [0, 395, 601, 10],
+					"editor>files": [0, 504, 601, 10],
+					"files>console": [194, 514, 10, 455],
+					"console>preview": [397, 514, 10, 455]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": { "op": "resize", "width": 610, "height": 1014 },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"tabs": ["editor", "terminal"],
+									"active": "editor"
+								},
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"tabs": ["preview"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"search": [360, 0, 250, 1014],
+					"git": [0, 0, 350, 414],
+					"editor|terminal": [0, 424, 350, 103],
+					"files": [0, 537, 110, 477],
+					"console": [120, 537, 110, 477],
+					"preview": [240, 537, 110, 477]
+				},
+				"splitters": {
+					"git>search": [350, 0, 10, 1014],
+					"git>editor": [0, 414, 350, 10],
+					"editor>files": [0, 527, 350, 10],
+					"files>console": [110, 537, 10, 477],
+					"console>preview": [230, 537, 10, 477]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": { "op": "resize", "width": 861, "height": 400 },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"tabs": ["editor", "terminal"],
+									"active": "editor"
+								},
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"tabs": ["preview"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"search": [486, 0, 375, 400],
+					"git": [0, 0, 476, 151],
+					"editor|terminal": [0, 161, 476, 59],
+					"files": [0, 230, 152, 170],
+					"console": [162, 230, 152, 170],
+					"preview": [324, 230, 152, 170]
+				},
+				"splitters": {
+					"git>search": [476, 0, 10, 400],
+					"git>editor": [0, 151, 476, 10],
+					"editor>files": [0, 220, 476, 10],
+					"files>console": [152, 230, 10, 170],
+					"console>preview": [314, 230, 10, 170]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "console" },
+				"target": { "root": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"tabs": ["editor", "terminal"],
+									"active": "editor"
+								},
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": ["preview"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["search"], "active": "search" },
+						{ "tabs": ["console"], "active": "console" }
+					]
+				},
+				"tabsets": {
+					"search": [324, 0, 263, 400],
+					"console": [597, 0, 264, 400],
+					"git": [0, 0, 314, 151],
+					"editor|terminal": [0, 161, 314, 59],
+					"files": [0, 230, 152, 170],
+					"preview": [162, 230, 152, 170]
+				},
+				"splitters": {
+					"git>search": [314, 0, 10, 400],
+					"search>console": [587, 0, 10, 400],
+					"git>editor": [0, 151, 314, 10],
+					"editor>files": [0, 220, 314, 10],
+					"files>preview": [152, 230, 10, 170]
+				},
+				"maximized": null
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 85.54216867469879,
+								"nodName": "",
+								"uidNode": "id-57",
+								"nodOpen": "git",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "git",
+										"uidNode": "id-31"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 14.457831325301203,
+								"nodName": "",
+								"uidNode": "id-7",
+								"nodOpen": "editor",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									},
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-9"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-18",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-43",
+										"nodOpen": "files",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "files",
+												"uidNode": "id-24"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-27",
+										"nodOpen": "preview",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "preview",
+												"uidNode": "id-14"
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-63",
+						"nodOpen": "search",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "search",
+								"uidNode": "id-29"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-53",
+						"nodOpen": "console",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "console",
+								"uidNode": "id-19"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "editor" },
+				"target": { "tabsetOf": "preview", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": [
+												"editor",
+												"terminal",
+												"preview"
+											],
+											"active": "terminal"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["search"], "active": "search" },
+						{ "tabs": ["console"], "active": "console" }
+					]
+				},
+				"tabsets": {
+					"search": [324, 0, 263, 400],
+					"console": [597, 0, 264, 400],
+					"git": [0, 0, 314, 183],
+					"files": [0, 193, 152, 207],
+					"editor|terminal|preview": [162, 193, 152, 207]
+				},
+				"splitters": {
+					"git>search": [314, 0, 10, 400],
+					"search>console": [587, 0, 10, 400],
+					"git>files": [0, 183, 314, 10],
+					"files>editor": [152, 193, 10, 207]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "search" },
+				"target": { "root": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": [
+												"editor",
+												"terminal",
+												"preview"
+											],
+											"active": "terminal"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"console": [324, 0, 263, 400],
+					"search": [597, 0, 264, 400],
+					"git": [0, 0, 314, 183],
+					"files": [0, 193, 152, 207],
+					"editor|terminal|preview": [162, 193, 152, 207]
+				},
+				"splitters": {
+					"git>console": [314, 0, 10, 400],
+					"console>search": [587, 0, 10, 400],
+					"git>files": [0, 183, 314, 10],
+					"files>editor": [152, 193, 10, 207]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "editor" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": [
+												"editor",
+												"terminal",
+												"preview"
+											],
+											"active": "terminal"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"console": [324, 0, 263, 400],
+					"search": [597, 0, 264, 400],
+					"git": [0, 0, 314, 183],
+					"files": [0, 193, 152, 207],
+					"editor|terminal|preview": [0, 0, 861, 400]
+				},
+				"splitters": {
+					"git>console": [314, 0, 10, 400],
+					"console>search": [587, 0, 10, 400],
+					"git>files": [0, 183, 314, 10],
+					"files>editor": [152, 193, 10, 207]
+				},
+				"maximized": "editor|terminal|preview"
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "terminal" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": [
+												"editor",
+												"terminal",
+												"preview"
+											],
+											"active": "terminal"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"console": [324, 0, 263, 400],
+					"search": [597, 0, 264, 400],
+					"git": [0, 0, 314, 183],
+					"files": [0, 193, 152, 207],
+					"editor|terminal|preview": [162, 193, 152, 207]
+				},
+				"splitters": {
+					"git>console": [314, 0, 10, 400],
+					"console>search": [587, 0, 10, 400],
+					"git>files": [0, 183, 314, 10],
+					"files>editor": [152, 193, 10, 207]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "preview" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": [
+												"editor",
+												"terminal",
+												"preview"
+											],
+											"active": "terminal"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"console": [324, 0, 263, 400],
+					"search": [597, 0, 264, 400],
+					"git": [0, 0, 314, 183],
+					"files": [0, 193, 152, 207],
+					"editor|terminal|preview": [0, 0, 861, 400]
+				},
+				"splitters": {
+					"git>console": [314, 0, 10, 400],
+					"console>search": [587, 0, 10, 400],
+					"git>files": [0, 183, 314, 10],
+					"files>editor": [152, 193, 10, 207]
+				},
+				"maximized": "editor|terminal|preview"
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodMaxd": "id-27",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 85.54216867469879,
+								"nodName": "",
+								"uidNode": "id-57",
+								"nodOpen": "git",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "git",
+										"uidNode": "id-31"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-18",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-43",
+										"nodOpen": "files",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "files",
+												"uidNode": "id-24"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-27",
+										"nodOpen": "terminal",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "editor",
+												"uidNode": "id-4"
+											},
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "terminal",
+												"uidNode": "id-9"
+											},
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "preview",
+												"uidNode": "id-14"
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-53",
+						"nodOpen": "console",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "console",
+								"uidNode": "id-19"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-70",
+						"nodOpen": "search",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "search",
+								"uidNode": "id-29"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "terminal" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": [
+												"editor",
+												"terminal",
+												"preview"
+											],
+											"active": "terminal"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"console": [324, 0, 263, 400],
+					"search": [597, 0, 264, 400],
+					"git": [0, 0, 314, 183],
+					"files": [0, 193, 152, 207],
+					"editor|terminal|preview": [162, 193, 152, 207]
+				},
+				"splitters": {
+					"git>console": [314, 0, 10, 400],
+					"console>search": [587, 0, 10, 400],
+					"git>files": [0, 183, 314, 10],
+					"files>editor": [152, 193, 10, 207]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "resize", "width": 1579, "height": 294 },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": [
+												"editor",
+												"terminal",
+												"preview"
+											],
+											"active": "terminal"
+										}
+									]
+								}
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"console": [563, 0, 503, 294],
+					"search": [1076, 0, 503, 294],
+					"git": [0, 0, 553, 134],
+					"files": [0, 144, 272, 150],
+					"editor|terminal|preview": [282, 144, 271, 150]
+				},
+				"splitters": {
+					"git>console": [553, 0, 10, 294],
+					"console>search": [1066, 0, 10, 294],
+					"git>files": [0, 134, 553, 10],
+					"files>editor": [272, 144, 10, 150]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "preview" },
+				"target": { "tabsetOf": "files", "area": "bottom" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{ "tabs": ["files"], "active": "files" },
+								{
+									"tabs": ["editor", "terminal", "preview"],
+									"active": "terminal"
+								}
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"console": [530, 0, 519, 294],
+					"search": [1059, 0, 520, 294],
+					"git": [0, 0, 520, 86],
+					"files": [0, 96, 520, 94],
+					"editor|terminal|preview": [0, 200, 520, 94]
+				},
+				"splitters": {
+					"git>console": [520, 0, 10, 294],
+					"console>search": [1049, 0, 10, 294],
+					"git>files": [0, 86, 520, 10],
+					"files>editor": [0, 190, 520, 10]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "editor" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{ "tabs": ["files"], "active": "files" },
+								{
+									"tabs": ["editor", "terminal", "preview"],
+									"active": "terminal"
+								}
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" }
+					]
+				},
+				"tabsets": {
+					"console": [530, 0, 519, 294],
+					"search": [1059, 0, 520, 294],
+					"git": [0, 0, 520, 86],
+					"files": [0, 96, 520, 94],
+					"editor|terminal|preview": [0, 0, 1579, 294]
+				},
+				"splitters": {
+					"git>console": [520, 0, 10, 294],
+					"console>search": [1049, 0, 10, 294],
+					"git>files": [0, 86, 520, 10],
+					"files>editor": [0, 190, 520, 10]
+				},
+				"maximized": "editor|terminal|preview"
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "preview" },
+				"target": { "root": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["git"], "active": "git" },
+								{ "tabs": ["files"], "active": "files" }
+							]
+						},
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" },
+						{
+							"tabs": ["editor", "terminal", "preview"],
+							"active": "terminal"
+						}
+					]
+				},
+				"tabsets": {
+					"console": [397, 0, 388, 294],
+					"search": [795, 0, 387, 294],
+					"editor|terminal|preview": [1192, 0, 387, 294],
+					"git": [0, 0, 387, 134],
+					"files": [0, 144, 387, 150]
+				},
+				"splitters": {
+					"git>console": [387, 0, 10, 294],
+					"console>search": [785, 0, 10, 294],
+					"search>editor": [1182, 0, 10, 294],
+					"git>files": [0, 134, 387, 10]
+				},
+				"maximized": null
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 85.54216867469879,
+								"nodName": "",
+								"uidNode": "id-57",
+								"nodOpen": "git",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "git",
+										"uidNode": "id-31"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-43",
+								"nodOpen": "files",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "files",
+										"uidNode": "id-24"
+									}
+								]
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-53",
+						"nodOpen": "console",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "console",
+								"uidNode": "id-19"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-70",
+						"nodOpen": "search",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "search",
+								"uidNode": "id-29"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-27",
+						"nodOpen": "terminal",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "editor",
+								"uidNode": "id-4"
+							},
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-9"
+							},
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "preview",
+								"uidNode": "id-14"
+							}
+						]
+					}
+				]
+			}
+		}
+	]
+}

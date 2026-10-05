@@ -1,0 +1,2117 @@
+{
+	"name": "6 tabs, seed 6",
+	"tabs": ["editor", "terminal", "preview", "console", "files", "search"],
+	"container": { "width": 1200, "height": 800 },
+	"initial": {
+		"tree": {
+			"direction": "horizontal",
+			"children": [
+				{ "tabs": ["editor"], "active": "editor" },
+				{
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["preview"], "active": "preview" },
+								{
+									"direction": "vertical",
+									"children": [
+										{
+											"tabs": ["console"],
+											"active": "console"
+										},
+										{
+											"direction": "horizontal",
+											"children": [
+												{
+													"tabs": ["files"],
+													"active": "files"
+												},
+												{
+													"tabs": ["search"],
+													"active": "search"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		"tabsets": {
+			"editor": [0, 0, 545, 800],
+			"terminal": [555, 0, 645, 370],
+			"preview": [555, 380, 293, 420],
+			"console": [858, 380, 342, 205],
+			"files": [858, 595, 166, 205],
+			"search": [1034, 595, 166, 205]
+		},
+		"splitters": {
+			"editor>terminal": [545, 0, 10, 800],
+			"terminal>preview": [555, 370, 645, 10],
+			"preview>console": [848, 380, 10, 420],
+			"console>files": [858, 585, 342, 10],
+			"files>search": [1024, 595, 10, 205]
+		},
+		"maximized": null
+	},
+	"initialSavedV1": {
+		"typNode": "row",
+		"nodPart": 100,
+		"nodName": "dynamix-layout-root",
+		"uidNode": "dynamix-layout-root",
+		"nodKids": [
+			{
+				"typNode": "tabset",
+				"nodPart": 100,
+				"nodName": "",
+				"uidNode": "id-2",
+				"nodOpen": "editor",
+				"nodKids": [
+					{
+						"typNode": "tab",
+						"nodPart": 100,
+						"nodName": "editor",
+						"uidNode": "id-4"
+					}
+				]
+			},
+			{
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "",
+				"uidNode": "id-3",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-7",
+						"nodOpen": "terminal",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-9"
+							}
+						]
+					},
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-8",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-12",
+								"nodOpen": "preview",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "preview",
+										"uidNode": "id-14"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-13",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-17",
+										"nodOpen": "console",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "console",
+												"uidNode": "id-19"
+											}
+										]
+									},
+									{
+										"typNode": "row",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-18",
+										"nodKids": [
+											{
+												"typNode": "tabset",
+												"nodPart": 100,
+												"nodName": "",
+												"uidNode": "id-22",
+												"nodOpen": "files",
+												"nodKids": [
+													{
+														"typNode": "tab",
+														"nodPart": 100,
+														"nodName": "files",
+														"uidNode": "id-24"
+													}
+												]
+											},
+											{
+												"typNode": "tabset",
+												"nodPart": 100,
+												"nodName": "",
+												"uidNode": "id-23",
+												"nodOpen": "search",
+												"nodKids": [
+													{
+														"typNode": "tab",
+														"nodPart": 100,
+														"nodName": "search",
+														"uidNode": "id-26"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"steps": [
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "preview" },
+				"target": { "tabsetOf": "console", "area": "top" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["terminal"], "active": "terminal" },
+								{ "tabs": ["preview"], "active": "preview" },
+								{ "tabs": ["console"], "active": "console" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files"
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 570, 800],
+					"terminal": [580, 0, 620, 193],
+					"preview": [580, 203, 620, 192],
+					"console": [580, 405, 620, 193],
+					"files": [580, 608, 305, 192],
+					"search": [895, 608, 305, 192]
+				},
+				"splitters": {
+					"editor>terminal": [570, 0, 10, 800],
+					"terminal>preview": [580, 193, 620, 10],
+					"preview>console": [580, 395, 620, 10],
+					"console>files": [580, 598, 620, 10],
+					"files>search": [885, 608, 10, 192]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "preview" },
+				"target": { "tabsetOf": "files", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["editor"], "active": "editor" },
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["terminal"], "active": "terminal" },
+								{ "tabs": ["console"], "active": "console" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["preview", "files"],
+											"active": "preview"
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"editor": [0, 0, 570, 800],
+					"terminal": [580, 0, 620, 260],
+					"console": [580, 270, 620, 260],
+					"preview|files": [580, 540, 305, 260],
+					"search": [895, 540, 305, 260]
+				},
+				"splitters": {
+					"editor>terminal": [570, 0, 10, 800],
+					"terminal>console": [580, 260, 620, 10],
+					"console>preview": [580, 530, 620, 10],
+					"preview>search": [885, 540, 10, 260]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "editor" },
+				"target": { "tabsetOf": "console", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor", "console"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{
+									"tabs": ["preview", "files"],
+									"active": "preview"
+								},
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1200, 260],
+					"editor|console": [0, 270, 1200, 260],
+					"preview|files": [0, 540, 595, 260],
+					"search": [605, 540, 595, 260]
+				},
+				"splitters": {
+					"terminal>editor": [0, 260, 1200, 10],
+					"editor>preview": [0, 530, 1200, 10],
+					"preview>search": [595, 540, 10, 260]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "terminal",
+				"after": "editor",
+				"point": { "x": 600, "y": 189 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor", "console"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{
+									"tabs": ["preview", "files"],
+									"active": "preview"
+								},
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1200, 184],
+					"editor|console": [0, 194, 1200, 336],
+					"preview|files": [0, 540, 595, 260],
+					"search": [605, 540, 595, 260]
+				},
+				"splitters": {
+					"terminal>editor": [0, 184, 1200, 10],
+					"editor>preview": [0, 530, 1200, 10],
+					"preview>search": [595, 540, 10, 260]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "terminal",
+				"after": "editor",
+				"point": { "x": 600, "y": 296 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor", "console"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{
+									"tabs": ["preview", "files"],
+									"active": "preview"
+								},
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1200, 291],
+					"editor|console": [0, 301, 1200, 229],
+					"preview|files": [0, 540, 595, 260],
+					"search": [605, 540, 595, 260]
+				},
+				"splitters": {
+					"terminal>editor": [0, 291, 1200, 10],
+					"editor>preview": [0, 530, 1200, 10],
+					"preview>search": [595, 540, 10, 260]
+				},
+				"maximized": null
+			},
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 114.0909090909091,
+								"nodName": "",
+								"uidNode": "id-7",
+								"nodOpen": "terminal",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-9"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 85.9090909090909,
+								"nodName": "",
+								"uidNode": "id-17",
+								"nodOpen": "editor",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									},
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "console",
+										"uidNode": "id-19"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-18",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-22",
+										"nodOpen": "preview",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "preview",
+												"uidNode": "id-14"
+											},
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "files",
+												"uidNode": "id-24"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-23",
+										"nodOpen": "search",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "search",
+												"uidNode": "id-26"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "terminal",
+				"after": "editor",
+				"point": { "x": 600, "y": 290 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor", "console"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{
+									"tabs": ["preview", "files"],
+									"active": "preview"
+								},
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1200, 285],
+					"editor|console": [0, 295, 1200, 235],
+					"preview|files": [0, 540, 595, 260],
+					"search": [605, 540, 595, 260]
+				},
+				"splitters": {
+					"terminal>editor": [0, 285, 1200, 10],
+					"editor>preview": [0, 530, 1200, 10],
+					"preview>search": [595, 540, 10, 260]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": { "op": "fold", "tabsetOf": "files" },
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["terminal"], "active": "terminal" },
+						{ "tabs": ["editor", "console"], "active": "editor" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{
+									"tabs": ["preview", "files"],
+									"active": "preview",
+									"folded": true
+								},
+								{ "tabs": ["search"], "active": "search" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"terminal": [0, 0, 1200, 285],
+					"editor|console": [0, 295, 1200, 235],
+					"preview|files": [0, 540, 40, 260],
+					"search": [50, 540, 1150, 260]
+				},
+				"splitters": {
+					"terminal>editor": [0, 285, 1200, 10],
+					"editor>preview": [0, 530, 1200, 10],
+					"preview>search": [40, 540, 10, 260]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "console" },
+				"target": { "root": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["terminal"], "active": "terminal" },
+								{ "tabs": ["editor"], "active": "editor" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["preview", "files"],
+											"active": "preview",
+											"folded": true
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 570, 800],
+					"terminal": [580, 0, 620, 285],
+					"editor": [580, 295, 620, 235],
+					"preview|files": [580, 540, 40, 260],
+					"search": [630, 540, 570, 260]
+				},
+				"splitters": {
+					"console>terminal": [570, 0, 10, 800],
+					"terminal>editor": [580, 285, 620, 10],
+					"editor>preview": [580, 530, 620, 10],
+					"preview>search": [620, 540, 10, 260]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "preview" },
+				"target": { "tab": "terminal", "position": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"direction": "vertical",
+							"children": [
+								{
+									"tabs": ["preview", "terminal"],
+									"active": "preview"
+								},
+								{ "tabs": ["editor"], "active": "editor" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files",
+											"folded": true
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 570, 800],
+					"preview|terminal": [580, 0, 620, 285],
+					"editor": [580, 295, 620, 235],
+					"files": [580, 540, 40, 260],
+					"search": [630, 540, 570, 260]
+				},
+				"splitters": {
+					"console>preview": [570, 0, 10, 800],
+					"preview>editor": [580, 285, 620, 10],
+					"editor>files": [580, 530, 620, 10],
+					"files>search": [620, 540, 10, 260]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "preview",
+				"after": "editor",
+				"point": { "x": 890, "y": 260 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"direction": "vertical",
+							"children": [
+								{
+									"tabs": ["preview", "terminal"],
+									"active": "preview"
+								},
+								{ "tabs": ["editor"], "active": "editor" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files",
+											"folded": true
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 570, 800],
+					"preview|terminal": [580, 0, 620, 255],
+					"editor": [580, 265, 620, 265],
+					"files": [580, 540, 40, 260],
+					"search": [630, 540, 570, 260]
+				},
+				"splitters": {
+					"console>preview": [570, 0, 10, 800],
+					"preview>editor": [580, 255, 620, 10],
+					"editor>files": [580, 530, 620, 10],
+					"files>search": [620, 540, 10, 260]
+				},
+				"maximized": null
+			},
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-35",
+						"nodOpen": "console",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "console",
+								"uidNode": "id-19"
+							}
+						]
+					},
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 97.72727272727273,
+								"nodName": "",
+								"uidNode": "id-7",
+								"nodOpen": "preview",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "preview",
+										"uidNode": "id-14"
+									},
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-9"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 102.27272727272727,
+								"nodName": "",
+								"uidNode": "id-17",
+								"nodOpen": "editor",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-18",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-22",
+										"nodOpen": "files",
+										"nodFold": true,
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "files",
+												"uidNode": "id-24"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-23",
+										"nodOpen": "search",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "search",
+												"uidNode": "id-26"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "editor" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"direction": "vertical",
+							"children": [
+								{
+									"tabs": ["preview", "terminal"],
+									"active": "preview"
+								},
+								{ "tabs": ["editor"], "active": "editor" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files",
+											"folded": true
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 570, 800],
+					"preview|terminal": [580, 0, 620, 255],
+					"editor": [0, 0, 1200, 800],
+					"files": [580, 540, 40, 260],
+					"search": [630, 540, 570, 260]
+				},
+				"splitters": {
+					"console>preview": [570, 0, 10, 800],
+					"preview>editor": [580, 255, 620, 10],
+					"editor>files": [580, 530, 620, 10],
+					"files>search": [620, 540, 10, 260]
+				},
+				"maximized": "editor"
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "preview" },
+				"target": { "tabsetOf": "files", "area": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["editor"], "active": "editor" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files",
+											"folded": true
+										},
+										{
+											"tabs": ["preview", "terminal"],
+											"active": "preview"
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 545, 800],
+					"editor": [555, 0, 645, 399],
+					"files": [555, 409, 40, 391],
+					"preview|terminal": [605, 409, 290, 391],
+					"search": [905, 409, 295, 391]
+				},
+				"splitters": {
+					"console>editor": [545, 0, 10, 800],
+					"editor>files": [555, 399, 645, 10],
+					"files>preview": [595, 409, 10, 391],
+					"preview>search": [895, 409, 10, 391]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "search" },
+				"target": { "tabsetOf": "console", "area": "top" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["search"], "active": "search" },
+								{ "tabs": ["console"], "active": "console" }
+							]
+						},
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["editor"], "active": "editor" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files",
+											"folded": true
+										},
+										{
+											"tabs": ["preview", "terminal"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"search": [0, 0, 570, 395],
+					"console": [0, 405, 570, 395],
+					"editor": [580, 0, 620, 399],
+					"files": [580, 409, 40, 391],
+					"preview|terminal": [630, 409, 570, 391]
+				},
+				"splitters": {
+					"search>editor": [570, 0, 10, 800],
+					"search>console": [0, 395, 570, 10],
+					"editor>files": [580, 399, 620, 10],
+					"files>preview": [620, 409, 10, 391]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "search" },
+				"target": { "tabsetOf": "files", "area": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["editor"], "active": "editor" },
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files",
+											"folded": true
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										},
+										{
+											"tabs": ["preview", "terminal"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 545, 800],
+					"editor": [555, 0, 645, 399],
+					"files": [555, 409, 40, 391],
+					"search": [605, 409, 295, 391],
+					"preview|terminal": [910, 409, 290, 391]
+				},
+				"splitters": {
+					"console>editor": [545, 0, 10, 800],
+					"editor>files": [555, 399, 645, 10],
+					"files>search": [595, 409, 10, 391],
+					"search>preview": [900, 409, 10, 391]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "fold", "tabsetOf": "editor" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"direction": "vertical",
+							"children": [
+								{
+									"tabs": ["editor"],
+									"active": "editor",
+									"folded": true
+								},
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files",
+											"folded": true
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										},
+										{
+											"tabs": ["preview", "terminal"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 545, 800],
+					"editor": [555, 0, 645, 40],
+					"files": [555, 50, 40, 750],
+					"search": [605, 50, 295, 750],
+					"preview|terminal": [910, 50, 290, 750]
+				},
+				"splitters": {
+					"console>editor": [545, 0, 10, 800],
+					"editor>files": [555, 40, 645, 10],
+					"files>search": [595, 50, 10, 750],
+					"search>preview": [900, 50, 10, 750]
+				},
+				"maximized": null
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-41",
+						"nodOpen": "console",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "console",
+								"uidNode": "id-19"
+							}
+						]
+					},
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-3",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 102.27272727272727,
+								"nodName": "",
+								"uidNode": "id-17",
+								"nodOpen": "editor",
+								"nodFold": true,
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-18",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-22",
+										"nodOpen": "files",
+										"nodFold": true,
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "files",
+												"uidNode": "id-24"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-44",
+										"nodOpen": "search",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "search",
+												"uidNode": "id-26"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 97.72727272727273,
+										"nodName": "",
+										"uidNode": "id-7",
+										"nodOpen": "preview",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "preview",
+												"uidNode": "id-14"
+											},
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "terminal",
+												"uidNode": "id-9"
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "console" },
+				"target": { "tabsetOf": "console", "area": "left" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"direction": "vertical",
+							"children": [
+								{
+									"tabs": ["editor"],
+									"active": "editor",
+									"folded": true
+								},
+								{
+									"direction": "horizontal",
+									"children": [
+										{
+											"tabs": ["files"],
+											"active": "files",
+											"folded": true
+										},
+										{
+											"tabs": ["search"],
+											"active": "search"
+										},
+										{
+											"tabs": ["preview", "terminal"],
+											"active": "preview"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 545, 800],
+					"editor": [555, 0, 645, 40],
+					"files": [555, 50, 40, 750],
+					"search": [605, 50, 295, 750],
+					"preview|terminal": [910, 50, 290, 750]
+				},
+				"splitters": {
+					"console>editor": [545, 0, 10, 800],
+					"editor>files": [555, 40, 645, 10],
+					"files>search": [595, 50, 10, 750],
+					"search>preview": [900, 50, 10, 750]
+				},
+				"maximized": null
+			},
+			"accepted": false
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "editor" },
+				"target": { "tabsetOf": "preview", "area": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"tabs": ["files"],
+							"active": "files",
+							"folded": true
+						},
+						{ "tabs": ["search"], "active": "search" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{ "tabs": ["editor"], "active": "editor" }
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 281, 800],
+					"files": [291, 0, 40, 800],
+					"search": [341, 0, 282, 800],
+					"preview|terminal": [633, 0, 276, 800],
+					"editor": [919, 0, 281, 800]
+				},
+				"splitters": {
+					"console>files": [281, 0, 10, 800],
+					"files>search": [331, 0, 10, 800],
+					"search>preview": [623, 0, 10, 800],
+					"preview>editor": [909, 0, 10, 800]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "search",
+				"after": "preview",
+				"point": { "x": 654, "y": 400 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"tabs": ["files"],
+							"active": "files",
+							"folded": true
+						},
+						{ "tabs": ["search"], "active": "search" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{ "tabs": ["editor"], "active": "editor" }
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 281, 800],
+					"files": [291, 0, 40, 800],
+					"search": [341, 0, 308, 800],
+					"preview|terminal": [659, 0, 250, 800],
+					"editor": [919, 0, 281, 800]
+				},
+				"splitters": {
+					"console>files": [281, 0, 10, 800],
+					"files>search": [331, 0, 10, 800],
+					"search>preview": [649, 0, 10, 800],
+					"preview>editor": [909, 0, 10, 800]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "console" },
+				"target": { "tabsetOf": "files", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console", "files"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{ "tabs": ["editor"], "active": "editor" }
+					]
+				},
+				"tabsets": {
+					"console|files": [0, 0, 294, 800],
+					"search": [304, 0, 321, 800],
+					"preview|terminal": [635, 0, 261, 800],
+					"editor": [906, 0, 294, 800]
+				},
+				"splitters": {
+					"console>search": [294, 0, 10, 800],
+					"search>preview": [625, 0, 10, 800],
+					"preview>editor": [896, 0, 10, 800]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "files" },
+				"target": { "tabsetOf": "editor", "area": "bottom" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["editor"], "active": "editor" },
+								{ "tabs": ["files"], "active": "files" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 294, 800],
+					"search": [304, 0, 321, 800],
+					"preview|terminal": [635, 0, 261, 800],
+					"editor": [906, 0, 294, 395],
+					"files": [906, 405, 294, 395]
+				},
+				"splitters": {
+					"console>search": [294, 0, 10, 800],
+					"search>preview": [625, 0, 10, 800],
+					"preview>editor": [896, 0, 10, 800],
+					"editor>files": [906, 395, 294, 10]
+				},
+				"maximized": null
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-22",
+						"nodOpen": "console",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "console",
+								"uidNode": "id-19"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 110.85964244960063,
+						"nodName": "",
+						"uidNode": "id-44",
+						"nodOpen": "search",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "search",
+								"uidNode": "id-26"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 86.86763027767212,
+						"nodName": "",
+						"uidNode": "id-7",
+						"nodOpen": "preview",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "preview",
+								"uidNode": "id-14"
+							},
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-9"
+							}
+						]
+					},
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-48",
+						"nodOpen": "editor",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-52",
+								"nodOpen": "editor",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "editor",
+										"uidNode": "id-4"
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-51",
+								"nodOpen": "files",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "files",
+										"uidNode": "id-24"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "splitter",
+				"before": "editor",
+				"after": "files",
+				"point": { "x": 1053, "y": 571 }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["search"], "active": "search" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{
+							"direction": "vertical",
+							"children": [
+								{ "tabs": ["editor"], "active": "editor" },
+								{ "tabs": ["files"], "active": "files" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 294, 800],
+					"search": [304, 0, 321, 800],
+					"preview|terminal": [635, 0, 261, 800],
+					"editor": [906, 0, 294, 566],
+					"files": [906, 576, 294, 224]
+				},
+				"splitters": {
+					"console>search": [294, 0, 10, 800],
+					"search>preview": [625, 0, 10, 800],
+					"preview>editor": [896, 0, 10, 800],
+					"editor>files": [906, 566, 294, 10]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "search" },
+				"target": { "tab": "editor", "position": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{
+							"direction": "vertical",
+							"children": [
+								{
+									"tabs": ["editor", "search"],
+									"active": "search"
+								},
+								{ "tabs": ["files"], "active": "files" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 410, 800],
+					"preview|terminal": [420, 0, 360, 800],
+					"editor|search": [790, 0, 410, 566],
+					"files": [790, 576, 410, 224]
+				},
+				"splitters": {
+					"console>preview": [410, 0, 10, 800],
+					"preview>editor": [780, 0, 10, 800],
+					"editor>files": [790, 566, 410, 10]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "files" },
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{
+							"direction": "vertical",
+							"children": [
+								{
+									"tabs": ["editor", "search"],
+									"active": "search"
+								},
+								{ "tabs": ["files"], "active": "files" }
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 410, 800],
+					"preview|terminal": [420, 0, 360, 800],
+					"editor|search": [790, 0, 410, 566],
+					"files": [0, 0, 1200, 800]
+				},
+				"splitters": {
+					"console>preview": [410, 0, 10, 800],
+					"preview>editor": [780, 0, 10, 800],
+					"editor>files": [790, 566, 410, 10]
+				},
+				"maximized": "files"
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "editor" },
+				"target": { "tabsetOf": "console", "area": "right" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["editor", "search"], "active": "search" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{ "tabs": ["files"], "active": "files" }
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 301, 800],
+					"editor|search": [311, 0, 427, 800],
+					"preview|terminal": [748, 0, 267, 800],
+					"files": [1025, 0, 175, 800]
+				},
+				"splitters": {
+					"console>editor": [301, 0, 10, 800],
+					"editor>preview": [738, 0, 10, 800],
+					"preview>files": [1015, 0, 10, 800]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "search" },
+				"target": { "tabsetOf": "editor", "area": "contain" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "horizontal",
+					"children": [
+						{ "tabs": ["console"], "active": "console" },
+						{ "tabs": ["editor", "search"], "active": "search" },
+						{
+							"tabs": ["preview", "terminal"],
+							"active": "preview"
+						},
+						{ "tabs": ["files"], "active": "files" }
+					]
+				},
+				"tabsets": {
+					"console": [0, 0, 301, 800],
+					"editor|search": [311, 0, 427, 800],
+					"preview|terminal": [748, 0, 267, 800],
+					"files": [1025, 0, 175, 800]
+				},
+				"splitters": {
+					"console>editor": [301, 0, 10, 800],
+					"editor>preview": [738, 0, 10, 800],
+					"preview>files": [1015, 0, 10, 800]
+				},
+				"maximized": null
+			},
+			"accepted": false,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodKids": [
+					{
+						"typNode": "tabset",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-22",
+						"nodOpen": "console",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "console",
+								"uidNode": "id-19"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 148.16901408450704,
+						"nodName": "",
+						"uidNode": "id-52",
+						"nodOpen": "search",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "editor",
+								"uidNode": "id-4"
+							},
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "search",
+								"uidNode": "id-26"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 86.86763027767212,
+						"nodName": "",
+						"uidNode": "id-7",
+						"nodOpen": "preview",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "preview",
+								"uidNode": "id-14"
+							},
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "terminal",
+								"uidNode": "id-9"
+							}
+						]
+					},
+					{
+						"typNode": "tabset",
+						"nodPart": 51.83098591549295,
+						"nodName": "",
+						"uidNode": "id-51",
+						"nodOpen": "files",
+						"nodKids": [
+							{
+								"typNode": "tab",
+								"nodPart": 100,
+								"nodName": "files",
+								"uidNode": "id-24"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tabsetOf": "files" },
+				"target": { "root": "top" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["files"], "active": "files" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["console"], "active": "console" },
+								{
+									"tabs": ["editor", "search"],
+									"active": "search"
+								},
+								{
+									"tabs": ["preview", "terminal"],
+									"active": "preview"
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"files": [0, 0, 1200, 282],
+					"console": [0, 292, 356, 508],
+					"editor|search": [366, 292, 509, 508],
+					"preview|terminal": [885, 292, 315, 508]
+				},
+				"splitters": {
+					"files>console": [0, 282, 1200, 10],
+					"console>editor": [356, 292, 10, 508],
+					"editor>preview": [875, 292, 10, 508]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "files" },
+				"target": { "tabsetOf": "files", "area": "top" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["files"], "active": "files" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["console"], "active": "console" },
+								{
+									"tabs": ["editor", "search"],
+									"active": "search"
+								},
+								{
+									"tabs": ["preview", "terminal"],
+									"active": "preview"
+								}
+							]
+						}
+					]
+				},
+				"tabsets": {
+					"files": [0, 0, 1200, 282],
+					"console": [0, 292, 356, 508],
+					"editor|search": [366, 292, 509, 508],
+					"preview|terminal": [885, 292, 315, 508]
+				},
+				"splitters": {
+					"files>console": [0, 282, 1200, 10],
+					"console>editor": [356, 292, 10, 508],
+					"editor>preview": [875, 292, 10, 508]
+				},
+				"maximized": null
+			},
+			"accepted": false
+		},
+		{
+			"operation": {
+				"op": "move",
+				"source": { "tab": "terminal" },
+				"target": { "root": "bottom" }
+			},
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["files"], "active": "files" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["console"], "active": "console" },
+								{
+									"tabs": ["editor", "search"],
+									"active": "search"
+								},
+								{ "tabs": ["preview"], "active": "preview" }
+							]
+						},
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"files": [0, 0, 1200, 176],
+					"terminal": [0, 498, 1200, 302],
+					"console": [0, 186, 356, 302],
+					"editor|search": [366, 186, 509, 302],
+					"preview": [885, 186, 315, 302]
+				},
+				"splitters": {
+					"files>console": [0, 176, 1200, 10],
+					"console>terminal": [0, 488, 1200, 10],
+					"console>editor": [356, 186, 10, 302],
+					"editor>preview": [875, 186, 10, 302]
+				},
+				"maximized": null
+			},
+			"accepted": true
+		},
+		{
+			"operation": { "op": "resize", "width": 1492, "height": 674 },
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["files"], "active": "files" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["console"], "active": "console" },
+								{
+									"tabs": ["editor", "search"],
+									"active": "search"
+								},
+								{ "tabs": ["preview"], "active": "preview" }
+							]
+						},
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"files": [0, 0, 1492, 150],
+					"terminal": [0, 422, 1492, 252],
+					"console": [0, 160, 444, 252],
+					"editor|search": [454, 160, 637, 252],
+					"preview": [1101, 160, 391, 252]
+				},
+				"splitters": {
+					"files>console": [0, 150, 1492, 10],
+					"console>terminal": [0, 412, 1492, 10],
+					"console>editor": [444, 160, 10, 252],
+					"editor>preview": [1091, 160, 10, 252]
+				},
+				"maximized": null
+			}
+		},
+		{
+			"operation": { "op": "maximize", "tabsetOf": "search" },
+			"observation": {
+				"tree": {
+					"direction": "vertical",
+					"children": [
+						{ "tabs": ["files"], "active": "files" },
+						{
+							"direction": "horizontal",
+							"children": [
+								{ "tabs": ["console"], "active": "console" },
+								{
+									"tabs": ["editor", "search"],
+									"active": "search"
+								},
+								{ "tabs": ["preview"], "active": "preview" }
+							]
+						},
+						{ "tabs": ["terminal"], "active": "terminal" }
+					]
+				},
+				"tabsets": {
+					"files": [0, 0, 1492, 150],
+					"terminal": [0, 422, 1492, 252],
+					"console": [0, 160, 444, 252],
+					"editor|search": [0, 0, 1492, 674],
+					"preview": [1101, 160, 391, 252]
+				},
+				"splitters": {
+					"files>console": [0, 150, 1492, 10],
+					"console>terminal": [0, 412, 1492, 10],
+					"console>editor": [444, 160, 10, 252],
+					"editor>preview": [1091, 160, 10, 252]
+				},
+				"maximized": "editor|search"
+			},
+			"accepted": true,
+			"savedV1": {
+				"typNode": "row",
+				"nodPart": 100,
+				"nodName": "dynamix-layout-root",
+				"uidNode": "dynamix-layout-root",
+				"nodMaxd": "id-52",
+				"nodKids": [
+					{
+						"typNode": "row",
+						"nodPart": 100,
+						"nodName": "",
+						"uidNode": "id-61",
+						"nodKids": [
+							{
+								"typNode": "tabset",
+								"nodPart": 51.83098591549295,
+								"nodName": "",
+								"uidNode": "id-51",
+								"nodOpen": "files",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "files",
+										"uidNode": "id-24"
+									}
+								]
+							},
+							{
+								"typNode": "row",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-62",
+								"nodKids": [
+									{
+										"typNode": "tabset",
+										"nodPart": 100,
+										"nodName": "",
+										"uidNode": "id-22",
+										"nodOpen": "console",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "console",
+												"uidNode": "id-19"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 148.16901408450704,
+										"nodName": "",
+										"uidNode": "id-52",
+										"nodOpen": "search",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "editor",
+												"uidNode": "id-4"
+											},
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "search",
+												"uidNode": "id-26"
+											}
+										]
+									},
+									{
+										"typNode": "tabset",
+										"nodPart": 86.86763027767212,
+										"nodName": "",
+										"uidNode": "id-7",
+										"nodOpen": "preview",
+										"nodKids": [
+											{
+												"typNode": "tab",
+												"nodPart": 100,
+												"nodName": "preview",
+												"uidNode": "id-14"
+											}
+										]
+									}
+								]
+							},
+							{
+								"typNode": "tabset",
+								"nodPart": 100,
+								"nodName": "",
+								"uidNode": "id-64",
+								"nodOpen": "terminal",
+								"nodKids": [
+									{
+										"typNode": "tab",
+										"nodPart": 100,
+										"nodName": "terminal",
+										"uidNode": "id-9"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		}
+	]
+}

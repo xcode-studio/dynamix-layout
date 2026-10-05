@@ -1,0 +1,2259 @@
+[
+	{
+		"tabs": ["a"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [{ "tabs": ["a"], "active": "a" }]
+			},
+			"tabsets": { "a": [0, 0, 1200, 800] },
+			"splitters": {},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [{ "tabs": ["a"], "active": "a" }]
+			},
+			"tabsets": { "a": [0, 0, 1357, 911] },
+			"splitters": {},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [{ "tabs": ["a"], "active": "a" }]
+			},
+			"tabsets": { "a": [0, 0, 640, 420] },
+			"splitters": {},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [{ "tabs": ["a"], "active": "a" }]
+			},
+			"tabsets": { "a": [0, 0, 300, 200] },
+			"splitters": {},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [{ "tabs": ["a"], "active": "a" }]
+			},
+			"tabsets": { "a": [0, 0, 97, 61] },
+			"splitters": {},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{ "tabs": ["b"], "active": "b" }
+				]
+			},
+			"tabsets": { "a": [0, 0, 595, 800], "b": [605, 0, 595, 800] },
+			"splitters": { "a>b": [595, 0, 10, 800] },
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{ "tabs": ["b"], "active": "b" }
+				]
+			},
+			"tabsets": { "a": [0, 0, 674, 911], "b": [684, 0, 673, 911] },
+			"splitters": { "a>b": [674, 0, 10, 911] },
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{ "tabs": ["b"], "active": "b" }
+				]
+			},
+			"tabsets": { "a": [0, 0, 315, 420], "b": [325, 0, 315, 420] },
+			"splitters": { "a>b": [315, 0, 10, 420] },
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{ "tabs": ["b"], "active": "b" }
+				]
+			},
+			"tabsets": { "a": [0, 0, 145, 200], "b": [155, 0, 145, 200] },
+			"splitters": { "a>b": [145, 0, 10, 200] },
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{ "tabs": ["b"], "active": "b" }
+				]
+			},
+			"tabsets": { "a": [0, 0, 44, 61], "b": [54, 0, 43, 61] },
+			"splitters": { "a>b": [44, 0, 10, 61] },
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{ "tabs": ["c"], "active": "c" }
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 595, 800],
+				"b": [605, 0, 595, 395],
+				"c": [605, 405, 595, 395]
+			},
+			"splitters": {
+				"a>b": [595, 0, 10, 800],
+				"b>c": [605, 395, 595, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{ "tabs": ["c"], "active": "c" }
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 674, 911],
+				"b": [684, 0, 673, 451],
+				"c": [684, 461, 673, 450]
+			},
+			"splitters": {
+				"a>b": [674, 0, 10, 911],
+				"b>c": [684, 451, 673, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{ "tabs": ["c"], "active": "c" }
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 315, 420],
+				"b": [325, 0, 315, 205],
+				"c": [325, 215, 315, 205]
+			},
+			"splitters": {
+				"a>b": [315, 0, 10, 420],
+				"b>c": [325, 205, 315, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{ "tabs": ["c"], "active": "c" }
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 145, 200],
+				"b": [155, 0, 145, 95],
+				"c": [155, 105, 145, 95]
+			},
+			"splitters": {
+				"a>b": [145, 0, 10, 200],
+				"b>c": [155, 95, 145, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{ "tabs": ["c"], "active": "c" }
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 44, 90],
+				"b": [54, 0, 43, 40],
+				"c": [54, 50, 43, 40]
+			},
+			"splitters": { "a>b": [44, 0, 10, 90], "b>c": [54, 40, 43, 10] },
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{ "tabs": ["d"], "active": "d" }
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 570, 800],
+				"b": [580, 0, 620, 395],
+				"c": [580, 405, 305, 395],
+				"d": [895, 405, 305, 395]
+			},
+			"splitters": {
+				"a>b": [570, 0, 10, 800],
+				"b>c": [580, 395, 620, 10],
+				"c>d": [885, 405, 10, 395]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{ "tabs": ["d"], "active": "d" }
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 649, 911],
+				"b": [659, 0, 698, 451],
+				"c": [659, 461, 344, 450],
+				"d": [1013, 461, 344, 450]
+			},
+			"splitters": {
+				"a>b": [649, 0, 10, 911],
+				"b>c": [659, 451, 698, 10],
+				"c>d": [1003, 461, 10, 450]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{ "tabs": ["d"], "active": "d" }
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 290, 420],
+				"b": [300, 0, 340, 205],
+				"c": [300, 215, 165, 205],
+				"d": [475, 215, 165, 205]
+			},
+			"splitters": {
+				"a>b": [290, 0, 10, 420],
+				"b>c": [300, 205, 340, 10],
+				"c>d": [465, 215, 10, 205]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{ "tabs": ["d"], "active": "d" }
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 120, 200],
+				"b": [130, 0, 170, 95],
+				"c": [130, 105, 80, 95],
+				"d": [220, 105, 80, 95]
+			},
+			"splitters": {
+				"a>b": [120, 0, 10, 200],
+				"b>c": [130, 95, 170, 10],
+				"c>d": [210, 105, 10, 95]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{ "tabs": ["d"], "active": "d" }
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 40, 90],
+				"b": [50, 0, 90, 40],
+				"c": [50, 50, 40, 40],
+				"d": [100, 50, 40, 40]
+			},
+			"splitters": {
+				"a>b": [40, 0, 10, 90],
+				"b>c": [50, 40, 90, 10],
+				"c>d": [90, 50, 10, 40]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{ "tabs": ["e"], "active": "e" }
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 570, 800],
+				"b": [580, 0, 620, 370],
+				"c": [580, 380, 305, 420],
+				"d": [895, 380, 305, 205],
+				"e": [895, 595, 305, 205]
+			},
+			"splitters": {
+				"a>b": [570, 0, 10, 800],
+				"b>c": [580, 370, 620, 10],
+				"c>d": [885, 380, 10, 420],
+				"d>e": [895, 585, 305, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{ "tabs": ["e"], "active": "e" }
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 649, 911],
+				"b": [659, 0, 698, 426],
+				"c": [659, 436, 344, 475],
+				"d": [1013, 436, 344, 233],
+				"e": [1013, 679, 344, 232]
+			},
+			"splitters": {
+				"a>b": [649, 0, 10, 911],
+				"b>c": [659, 426, 698, 10],
+				"c>d": [1003, 436, 10, 475],
+				"d>e": [1013, 669, 344, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{ "tabs": ["e"], "active": "e" }
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 290, 420],
+				"b": [300, 0, 340, 180],
+				"c": [300, 190, 165, 230],
+				"d": [475, 190, 165, 110],
+				"e": [475, 310, 165, 110]
+			},
+			"splitters": {
+				"a>b": [290, 0, 10, 420],
+				"b>c": [300, 180, 340, 10],
+				"c>d": [465, 190, 10, 230],
+				"d>e": [475, 300, 165, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{ "tabs": ["e"], "active": "e" }
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 120, 200],
+				"b": [130, 0, 170, 70],
+				"c": [130, 80, 80, 120],
+				"d": [220, 80, 80, 55],
+				"e": [220, 145, 80, 55]
+			},
+			"splitters": {
+				"a>b": [120, 0, 10, 200],
+				"b>c": [130, 70, 170, 10],
+				"c>d": [210, 80, 10, 120],
+				"d>e": [220, 135, 80, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{ "tabs": ["e"], "active": "e" }
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 40, 140],
+				"b": [50, 0, 90, 40],
+				"c": [50, 50, 40, 90],
+				"d": [100, 50, 40, 40],
+				"e": [100, 100, 40, 40]
+			},
+			"splitters": {
+				"a>b": [40, 0, 10, 140],
+				"b>c": [50, 40, 90, 10],
+				"c>d": [90, 50, 10, 90],
+				"d>e": [100, 90, 40, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"tabs": ["f"],
+														"active": "f"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 545, 800],
+				"b": [555, 0, 645, 370],
+				"c": [555, 380, 293, 420],
+				"d": [858, 380, 342, 205],
+				"e": [858, 595, 166, 205],
+				"f": [1034, 595, 166, 205]
+			},
+			"splitters": {
+				"a>b": [545, 0, 10, 800],
+				"b>c": [555, 370, 645, 10],
+				"c>d": [848, 380, 10, 420],
+				"d>e": [858, 585, 342, 10],
+				"e>f": [1024, 595, 10, 205]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"tabs": ["f"],
+														"active": "f"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 624, 911],
+				"b": [634, 0, 723, 426],
+				"c": [634, 436, 332, 475],
+				"d": [976, 436, 381, 233],
+				"e": [976, 679, 186, 232],
+				"f": [1172, 679, 185, 232]
+			},
+			"splitters": {
+				"a>b": [624, 0, 10, 911],
+				"b>c": [634, 426, 723, 10],
+				"c>d": [966, 436, 10, 475],
+				"d>e": [976, 669, 381, 10],
+				"e>f": [1162, 679, 10, 232]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"tabs": ["f"],
+														"active": "f"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 265, 420],
+				"b": [275, 0, 365, 180],
+				"c": [275, 190, 153, 230],
+				"d": [438, 190, 202, 110],
+				"e": [438, 310, 96, 110],
+				"f": [544, 310, 96, 110]
+			},
+			"splitters": {
+				"a>b": [265, 0, 10, 420],
+				"b>c": [275, 180, 365, 10],
+				"c>d": [428, 190, 10, 230],
+				"d>e": [438, 300, 202, 10],
+				"e>f": [534, 310, 10, 110]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"tabs": ["f"],
+														"active": "f"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 95, 200],
+				"b": [105, 0, 195, 70],
+				"c": [105, 80, 68, 120],
+				"d": [183, 80, 117, 55],
+				"e": [183, 145, 54, 55],
+				"f": [247, 145, 53, 55]
+			},
+			"splitters": {
+				"a>b": [95, 0, 10, 200],
+				"b>c": [105, 70, 195, 10],
+				"c>d": [173, 80, 10, 120],
+				"d>e": [183, 135, 117, 10],
+				"e>f": [237, 145, 10, 55]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"tabs": ["f"],
+														"active": "f"
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 40, 140],
+				"b": [50, 0, 140, 40],
+				"c": [50, 50, 40, 90],
+				"d": [100, 50, 90, 40],
+				"e": [100, 100, 40, 40],
+				"f": [150, 100, 40, 40]
+			},
+			"splitters": {
+				"a>b": [40, 0, 10, 140],
+				"b>c": [50, 40, 140, 10],
+				"c>d": [90, 50, 10, 90],
+				"d>e": [100, 90, 90, 10],
+				"e>f": [140, 100, 10, 40]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"tabs": ["g"],
+																"active": "g"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 545, 800],
+				"b": [555, 0, 645, 345],
+				"c": [555, 355, 293, 445],
+				"d": [858, 355, 342, 193],
+				"e": [858, 558, 166, 242],
+				"f": [1034, 558, 166, 116],
+				"g": [1034, 684, 166, 116]
+			},
+			"splitters": {
+				"a>b": [545, 0, 10, 800],
+				"b>c": [555, 345, 645, 10],
+				"c>d": [848, 355, 10, 445],
+				"d>e": [858, 548, 342, 10],
+				"e>f": [1024, 558, 10, 242],
+				"f>g": [1034, 674, 166, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"tabs": ["g"],
+																"active": "g"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 624, 911],
+				"b": [634, 0, 723, 401],
+				"c": [634, 411, 332, 500],
+				"d": [976, 411, 381, 220],
+				"e": [976, 641, 186, 270],
+				"f": [1172, 641, 185, 130],
+				"g": [1172, 781, 185, 130]
+			},
+			"splitters": {
+				"a>b": [624, 0, 10, 911],
+				"b>c": [634, 401, 723, 10],
+				"c>d": [966, 411, 10, 500],
+				"d>e": [976, 631, 381, 10],
+				"e>f": [1162, 641, 10, 270],
+				"f>g": [1172, 771, 185, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"tabs": ["g"],
+																"active": "g"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 265, 420],
+				"b": [275, 0, 365, 155],
+				"c": [275, 165, 153, 255],
+				"d": [438, 165, 202, 98],
+				"e": [438, 273, 96, 147],
+				"f": [544, 273, 96, 69],
+				"g": [544, 352, 96, 68]
+			},
+			"splitters": {
+				"a>b": [265, 0, 10, 420],
+				"b>c": [275, 155, 365, 10],
+				"c>d": [428, 165, 10, 255],
+				"d>e": [438, 263, 202, 10],
+				"e>f": [534, 273, 10, 147],
+				"f>g": [544, 342, 96, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"tabs": ["g"],
+																"active": "g"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 95, 200],
+				"b": [105, 0, 195, 45],
+				"c": [105, 55, 68, 145],
+				"d": [183, 55, 117, 43],
+				"e": [183, 108, 54, 92],
+				"f": [247, 108, 53, 41],
+				"g": [247, 159, 53, 41]
+			},
+			"splitters": {
+				"a>b": [95, 0, 10, 200],
+				"b>c": [105, 45, 195, 10],
+				"c>d": [173, 55, 10, 145],
+				"d>e": [183, 98, 117, 10],
+				"e>f": [237, 108, 10, 92],
+				"f>g": [247, 149, 53, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"tabs": ["g"],
+																"active": "g"
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 40, 190],
+				"b": [50, 0, 140, 40],
+				"c": [50, 50, 40, 140],
+				"d": [100, 50, 90, 40],
+				"e": [100, 100, 40, 90],
+				"f": [150, 100, 40, 40],
+				"g": [150, 150, 40, 40]
+			},
+			"splitters": {
+				"a>b": [40, 0, 10, 190],
+				"b>c": [50, 40, 140, 10],
+				"c>d": [90, 50, 10, 140],
+				"d>e": [100, 90, 90, 10],
+				"e>f": [140, 100, 10, 90],
+				"f>g": [150, 140, 40, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"tabs": [
+																			"h"
+																		],
+																		"active": "h"
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 520, 800],
+				"b": [530, 0, 670, 345],
+				"c": [530, 355, 280, 445],
+				"d": [820, 355, 380, 193],
+				"e": [820, 558, 160, 242],
+				"f": [990, 558, 210, 116],
+				"g": [990, 684, 100, 116],
+				"h": [1100, 684, 100, 116]
+			},
+			"splitters": {
+				"a>b": [520, 0, 10, 800],
+				"b>c": [530, 345, 670, 10],
+				"c>d": [810, 355, 10, 445],
+				"d>e": [820, 548, 380, 10],
+				"e>f": [980, 558, 10, 242],
+				"f>g": [990, 674, 210, 10],
+				"g>h": [1090, 684, 10, 116]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"tabs": [
+																			"h"
+																		],
+																		"active": "h"
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 599, 911],
+				"b": [609, 0, 748, 401],
+				"c": [609, 411, 319, 500],
+				"d": [938, 411, 419, 220],
+				"e": [938, 641, 180, 270],
+				"f": [1128, 641, 229, 130],
+				"g": [1128, 781, 110, 130],
+				"h": [1248, 781, 109, 130]
+			},
+			"splitters": {
+				"a>b": [599, 0, 10, 911],
+				"b>c": [609, 401, 748, 10],
+				"c>d": [928, 411, 10, 500],
+				"d>e": [938, 631, 419, 10],
+				"e>f": [1118, 641, 10, 270],
+				"f>g": [1128, 771, 229, 10],
+				"g>h": [1238, 781, 10, 130]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"tabs": [
+																			"h"
+																		],
+																		"active": "h"
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 240, 420],
+				"b": [250, 0, 390, 155],
+				"c": [250, 165, 140, 255],
+				"d": [400, 165, 240, 98],
+				"e": [400, 273, 90, 147],
+				"f": [500, 273, 140, 69],
+				"g": [500, 352, 65, 68],
+				"h": [575, 352, 65, 68]
+			},
+			"splitters": {
+				"a>b": [240, 0, 10, 420],
+				"b>c": [250, 155, 390, 10],
+				"c>d": [390, 165, 10, 255],
+				"d>e": [400, 263, 240, 10],
+				"e>f": [490, 273, 10, 147],
+				"f>g": [500, 342, 140, 10],
+				"g>h": [565, 352, 10, 68]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"tabs": [
+																			"h"
+																		],
+																		"active": "h"
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 70, 200],
+				"b": [80, 0, 220, 45],
+				"c": [80, 55, 55, 145],
+				"d": [145, 55, 155, 43],
+				"e": [145, 108, 48, 92],
+				"f": [203, 108, 97, 41],
+				"g": [203, 159, 44, 41],
+				"h": [257, 159, 43, 41]
+			},
+			"splitters": {
+				"a>b": [70, 0, 10, 200],
+				"b>c": [80, 45, 220, 10],
+				"c>d": [135, 55, 10, 145],
+				"d>e": [145, 98, 155, 10],
+				"e>f": [193, 108, 10, 92],
+				"f>g": [203, 149, 97, 10],
+				"g>h": [247, 159, 10, 41]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"tabs": [
+																			"h"
+																		],
+																		"active": "h"
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 40, 190],
+				"b": [50, 0, 190, 40],
+				"c": [50, 50, 40, 140],
+				"d": [100, 50, 140, 40],
+				"e": [100, 100, 40, 90],
+				"f": [150, 100, 90, 40],
+				"g": [150, 150, 40, 40],
+				"h": [200, 150, 40, 40]
+			},
+			"splitters": {
+				"a>b": [40, 0, 10, 190],
+				"b>c": [50, 40, 190, 10],
+				"c>d": [90, 50, 10, 140],
+				"d>e": [100, 90, 140, 10],
+				"e>f": [140, 100, 10, 90],
+				"f>g": [150, 140, 90, 10],
+				"g>h": [190, 150, 10, 40]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
+		"container": { "width": 1200, "height": 800 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"direction": "vertical",
+																		"children": [
+																			{
+																				"tabs": [
+																					"h"
+																				],
+																				"active": "h"
+																			},
+																			{
+																				"tabs": [
+																					"i"
+																				],
+																				"active": "i"
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 520, 800],
+				"b": [530, 0, 670, 320],
+				"c": [530, 330, 280, 470],
+				"d": [820, 330, 380, 180],
+				"e": [820, 520, 160, 280],
+				"f": [990, 520, 210, 110],
+				"g": [990, 640, 100, 160],
+				"h": [1100, 640, 100, 75],
+				"i": [1100, 725, 100, 75]
+			},
+			"splitters": {
+				"a>b": [520, 0, 10, 800],
+				"b>c": [530, 320, 670, 10],
+				"c>d": [810, 330, 10, 470],
+				"d>e": [820, 510, 380, 10],
+				"e>f": [980, 520, 10, 280],
+				"f>g": [990, 630, 210, 10],
+				"g>h": [1090, 640, 10, 160],
+				"h>i": [1100, 715, 100, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
+		"container": { "width": 1357, "height": 911 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"direction": "vertical",
+																		"children": [
+																			{
+																				"tabs": [
+																					"h"
+																				],
+																				"active": "h"
+																			},
+																			{
+																				"tabs": [
+																					"i"
+																				],
+																				"active": "i"
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 599, 911],
+				"b": [609, 0, 748, 376],
+				"c": [609, 386, 319, 525],
+				"d": [938, 386, 419, 208],
+				"e": [938, 604, 180, 307],
+				"f": [1128, 604, 229, 124],
+				"g": [1128, 738, 110, 173],
+				"h": [1248, 738, 109, 82],
+				"i": [1248, 830, 109, 81]
+			},
+			"splitters": {
+				"a>b": [599, 0, 10, 911],
+				"b>c": [609, 376, 748, 10],
+				"c>d": [928, 386, 10, 525],
+				"d>e": [938, 594, 419, 10],
+				"e>f": [1118, 604, 10, 307],
+				"f>g": [1128, 728, 229, 10],
+				"g>h": [1238, 738, 10, 173],
+				"h>i": [1248, 820, 109, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
+		"container": { "width": 640, "height": 420 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"direction": "vertical",
+																		"children": [
+																			{
+																				"tabs": [
+																					"h"
+																				],
+																				"active": "h"
+																			},
+																			{
+																				"tabs": [
+																					"i"
+																				],
+																				"active": "i"
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 240, 420],
+				"b": [250, 0, 390, 130],
+				"c": [250, 140, 140, 280],
+				"d": [400, 140, 240, 85],
+				"e": [400, 235, 90, 185],
+				"f": [500, 235, 140, 63],
+				"g": [500, 308, 65, 112],
+				"h": [575, 308, 65, 51],
+				"i": [575, 369, 65, 51]
+			},
+			"splitters": {
+				"a>b": [240, 0, 10, 420],
+				"b>c": [250, 130, 390, 10],
+				"c>d": [390, 140, 10, 280],
+				"d>e": [400, 225, 240, 10],
+				"e>f": [490, 235, 10, 185],
+				"f>g": [500, 298, 140, 10],
+				"g>h": [565, 308, 10, 112],
+				"h>i": [575, 359, 65, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
+		"container": { "width": 300, "height": 200 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"direction": "vertical",
+																		"children": [
+																			{
+																				"tabs": [
+																					"h"
+																				],
+																				"active": "h"
+																			},
+																			{
+																				"tabs": [
+																					"i"
+																				],
+																				"active": "i"
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 70, 240],
+				"b": [80, 0, 220, 40],
+				"c": [80, 50, 55, 190],
+				"d": [145, 50, 155, 40],
+				"e": [145, 100, 48, 140],
+				"f": [203, 100, 97, 40],
+				"g": [203, 150, 44, 90],
+				"h": [257, 150, 43, 40],
+				"i": [257, 200, 43, 40]
+			},
+			"splitters": {
+				"a>b": [70, 0, 10, 240],
+				"b>c": [80, 40, 220, 10],
+				"c>d": [135, 50, 10, 190],
+				"d>e": [145, 90, 155, 10],
+				"e>f": [193, 100, 10, 140],
+				"f>g": [203, 140, 97, 10],
+				"g>h": [247, 150, 10, 90],
+				"h>i": [257, 190, 43, 10]
+			},
+			"maximized": null
+		}
+	},
+	{
+		"tabs": ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
+		"container": { "width": 97, "height": 61 },
+		"observation": {
+			"tree": {
+				"direction": "horizontal",
+				"children": [
+					{ "tabs": ["a"], "active": "a" },
+					{
+						"direction": "vertical",
+						"children": [
+							{ "tabs": ["b"], "active": "b" },
+							{
+								"direction": "horizontal",
+								"children": [
+									{ "tabs": ["c"], "active": "c" },
+									{
+										"direction": "vertical",
+										"children": [
+											{ "tabs": ["d"], "active": "d" },
+											{
+												"direction": "horizontal",
+												"children": [
+													{
+														"tabs": ["e"],
+														"active": "e"
+													},
+													{
+														"direction": "vertical",
+														"children": [
+															{
+																"tabs": ["f"],
+																"active": "f"
+															},
+															{
+																"direction": "horizontal",
+																"children": [
+																	{
+																		"tabs": [
+																			"g"
+																		],
+																		"active": "g"
+																	},
+																	{
+																		"direction": "vertical",
+																		"children": [
+																			{
+																				"tabs": [
+																					"h"
+																				],
+																				"active": "h"
+																			},
+																			{
+																				"tabs": [
+																					"i"
+																				],
+																				"active": "i"
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"tabsets": {
+				"a": [0, 0, 40, 240],
+				"b": [50, 0, 190, 40],
+				"c": [50, 50, 40, 190],
+				"d": [100, 50, 140, 40],
+				"e": [100, 100, 40, 140],
+				"f": [150, 100, 90, 40],
+				"g": [150, 150, 40, 90],
+				"h": [200, 150, 40, 40],
+				"i": [200, 200, 40, 40]
+			},
+			"splitters": {
+				"a>b": [40, 0, 10, 240],
+				"b>c": [50, 40, 190, 10],
+				"c>d": [90, 50, 10, 190],
+				"d>e": [100, 90, 140, 10],
+				"e>f": [140, 100, 10, 140],
+				"f>g": [150, 140, 90, 10],
+				"g>h": [190, 150, 10, 90],
+				"h>i": [200, 190, 40, 10]
+			},
+			"maximized": null
+		}
+	}
+]

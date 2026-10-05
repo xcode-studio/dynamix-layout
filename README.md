@@ -2,19 +2,19 @@
 
 # 🧩 Dynamix Layout
 
-**Create dynamic, dockable, and resizable layouts with ease, similar to editors like VS Code.**
+**Dockable, resizable tab layouts like VS Code's, for React and Solid, built on a framework-agnostic core.**
 
 </div>
 
 <p align="center">
-<a href="https://www.npmjs.com/package/@dynamix-layout/solid">
-<img src="https://img.shields.io/npm/v/@dynamix-layout/solid?style=for-the-badge&label=Solid" alt="NPM">
-</a>
 <a href="https://www.npmjs.com/package/@dynamix-layout/react">
-<img src="https://img.shields.io/npm/v/@dynamix-layout/react?style=for-the-badge&label=React" alt="NPM">
+<img src="https://img.shields.io/npm/v/@dynamix-layout/react?style=for-the-badge&label=React" alt="npm: @dynamix-layout/react">
+</a>
+<a href="https://www.npmjs.com/package/@dynamix-layout/solid">
+<img src="https://img.shields.io/npm/v/@dynamix-layout/solid?style=for-the-badge&label=Solid" alt="npm: @dynamix-layout/solid">
 </a>
 <a href="https://www.npmjs.com/package/@dynamix-layout/core">
-<img src="https://img.shields.io/npm/v/@dynamix-layout/core?style=for-the-badge&label=Core" alt="NPM">
+<img src="https://img.shields.io/npm/v/@dynamix-layout/core?style=for-the-badge&label=Core" alt="npm: @dynamix-layout/core">
 </a>
 <img src="https://img.shields.io/github/license/xcode-studio/dynamix-layout?style=for-the-badge" alt="License">
 </p>
@@ -31,156 +31,89 @@
 </a>
 </p>
 
-## Overview
-
-Dynamix Layout is a powerful JavaScript library designed to help you build complex, multi-panel user interfaces. It provides a core engine for managing the layout logic and a dedicated React wrapper for seamless integration into your React applications. If you've ever wanted to create a user experience with draggable tabs and resizable panels, Dynamix Layout is the tool for you.
-
----
-
-### Made with ❤️ by [Akash Aman](https://linktr.ee/akash_aman)
-
----
-
 <p align="center">
-	<a href="https://dx.xcode.cx" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+	<a href="https://dx.xcode.cx" target="_blank" rel="noopener noreferrer">
 		<img src="https://img.shields.io/badge/🌐%20Live%20Demo-Visit%20Now-4CAF50?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo"/>
 	</a>
 </p>
 
----
+![Dragging tabs between panels and resizing them](https://raw.githubusercontent.com/xcode-studio/dynamix-layout/main/assets/demo1.gif)
 
-![Demo](https://raw.githubusercontent.com/xcode-studio/dynamix-layout/main/assets/demo1.gif)
+Your tabs live in **tabsets**, arranged in **rows** and separated by draggable **splitters**. Users drag tabs to rearrange or split panels, resize them, and maximize or fold a panel. The layout is plain JSON you can save and restore.
 
----
+## Features
 
-## ✨ Key Features
+- **Drag tabs** onto another tab bar, onto a panel's side to split it, or onto a layout edge. Works with mouse, pen and touch.
+- **Resize** with splitters that respect minimum sizes. Only the two neighbouring panels move.
+- **Maximize** a panel, or **fold** it to a strip, and get back the exact previous size.
+- **Tab content never remounts** when tabs move, so editors, terminals and iframes keep their state.
+- **Save and restore** the layout as versioned JSON. Layouts saved by v1 load automatically.
+- **Accessible**: WAI-ARIA tabs and window splitter patterns, keyboard resizing, and a keyboard move mode.
+- **SSR-safe and fast**: deterministic server markup, and drags and resizes never re-render React.
+- **Three levels of API**: one component, headless hooks, or the framework-agnostic core.
 
-- **Draggable Tabs**: Easily drag and drop tabs to rearrange them or create new panel splits.
-- **Resizable Panels**: Users can click and drag the space between panels to resize them.
-- **Dynamic Splits**: Split any panel horizontally or vertically by dropping a tab onto its edge.
-- **Save & Restore**: Serialize the entire layout state to JSON and restore it later.
-- **Framework-Agnostic Core**: The core logic is written in pure TypeScript with zero dependencies.
-- **Official React Wrapper**: A feature-rich React component (`<Layout />`) and hook (`useLayout`) for easy integration.
+## Packages
 
----
+| Package | |
+|---|---|
+| [`@dynamix-layout/react`](./packages/react) | `<DynamixLayout>` and headless hooks for React 18 and 19 |
+| [`@dynamix-layout/solid`](./packages/solid) | `<DynamixLayout>` for SolidJS |
+| [`@dynamix-layout/core`](./packages/core) | The engine: tree, geometry, drag-and-drop and serialization, with no framework |
 
-## 📚 Packages in this Monorepo
-
-This repository contains the following packages:
-
-### │ 📦 @dynamix-layout/core
-
-The core, framework-agnostic layout engine. It handles all the complex logic of tree management, dimension calculation, and state updates. You can use this package to integrate Dynamix Layout with any framework (Vue, Svelte, Angular, etc.) or with vanilla JavaScript.
-
-➡️ **[View the detailed `@dynamix-layout/core` README](./packages/core/README.md)**
-
-### │ 🚀 @dynamix-layout/react
-
-The official React component library for Dynamix Layout. It provides a simple-to-use `<DynamixLayout />` component and an advanced `useDynamixLayout` hook that handles all the rendering, state management, and event binding for you. This is the recommended package for all React developers.
-
-➡️ **[View the detailed `@dynamix-layout/react` README](./packages/react/README.md)**
-
-### │ 🚀 @dynamix-layout/solid
-
-The official SolidJS wrapper for `@dynamix-layout/core`. It provides a flexible `<DynamixLayout />` component and an advanced `useDynamixLayout` hook to create fully dynamic, resizable, and draggable tab-based layouts with ease.
-
-➡️ **[View the detailed `@dynamix-layout/solid` README](./packages/solid/README.md)**
-
----
-
-## 📖 Examples
-
-This repository contains the following examples:
-
-| Example        | Source Link                | Live Demo Link                |
-|----------------|---------------------------|-------------------------------|
-| React          | [React](./examples/react)         | [dx.xcode.cx](https://dx.xcode.cx)                    |
-| Next.js        | [Next.js](./examples/nextjs)      | [nextjs.dx.xcode.cx](https://nextjs.dx.xcode.cx)      |
-| SolidJS          | [SolidJS](./examples/solid)         | [solidjs.dx.xcode.cx](https://solidjs.dx.xcode.cx)    |
-| SolidStart     | [SolidStart](./examples/solidstart)| [solidstart.dx.xcode.cx](https://solidstart.dx.xcode.cx) |
-
----
-
-## 📦 Installation
-
-For React applications, you will need both the `react` and `core` packages.
+## Quick start (React)
 
 ```bash
-npm install @dynamix-layout/react @dynamix-layout/core
+npm install @dynamix-layout/react
 ```
 
-For Solid applications, you will need both the `solid` and `core` packages.
-
-```bash
-npm install @dynamix-layout/solid @dynamix-layout/core
-```
-
----
-
-## 🏁 Basic Usage
-
-Here's how easy it is to get started with the React component:
-
-```jsx
+```tsx
 import { DynamixLayout } from '@dynamix-layout/react'
-import '@dynamix-layout/react/style.css'
+import '@dynamix-layout/react/styles.css'
 
-function App() {
+const tabs = [
+	{ id: 'editor', title: 'Editor', content: <Editor /> },
+	{ id: 'terminal', title: 'Terminal', content: <Terminal /> },
+	{ id: 'preview', title: 'Preview', content: <Preview /> },
+]
 
-	const tabList = [
-		['editor', <div style={{ background: '#c0ca33', height: '100%' }}>Editor</div>],
-		['preview', <div style={{ background: '#66bb6a', height: '100%' }}>Preview</div>],
-		['terminal', <div style={{ background: '#ffc400', height: '100%' }}>Terminal</div>],
-	]
-
+export function App() {
 	return (
-		<DynamixLayout tabs={tabList} style={{ height: '100vh', width: '100vw' }} />
+		<div style={{ height: '100vh' }}>
+			<DynamixLayout tabs={tabs} />
+		</div>
 	)
 }
-
-export default App
 ```
 
-Here's how easy it is to get started with the SolidJS component:
+To save the layout, store what `onLayoutChange` gives you and pass it back as `defaultLayout`; see [Persisting layouts](./docs/guides/persisting-layouts.md).
 
-```jsx
-import { DynamixLayout } from '@dynamix-layout/solid'
-import '@dynamix-layout/solid/style.css'
+## Documentation
 
-function App() {
+- [Getting started](./docs/getting-started.md): concepts, the first layout, and saving and restoring.
+- [API reference](./docs/api/README.md): every component, hook and function.
+- Guides:
+  - [Custom tabs and splitters](./docs/guides/custom-components.md)
+  - [Theming](./docs/guides/theming.md)
+  - [Persisting layouts](./docs/guides/persisting-layouts.md)
+  - [Next.js and SSR](./docs/guides/nextjs-and-ssr.md)
+  - [Keyboard and accessibility](./docs/guides/accessibility.md)
+  - [Multiple layouts](./docs/guides/multiple-layouts.md)
+  - [Using the core without React](./docs/guides/core-without-react.md)
+  - [Performance](./docs/guides/performance.md)
+- [Migrating from v1](./docs/migration-v1-to-v2.md).
+- [Examples](./examples): every one has an **all-features showcase** (drag, split, resize, close, add, fold, maximize, restore, persist, reset):
+  - [React](./examples/react) (plus custom components, headless and controlled demos)
+  - [Next.js](./examples/nextjs)
+  - [Solid](./examples/solid)
+  - [SolidStart](./examples/solidstart)
+  - [Plain JavaScript](./examples/vanilla) on `@dynamix-layout/core`, no framework
 
-	const tabList = [
-		['editor', <div style={{ background: '#c0ca33', height: '100%' }}>Editor</div>],
-		['preview', <div style={{ background: '#66bb6a', height: '100%' }}>Preview</div>],
-		['terminal', <div style={{ background: '#ffc400', height: '100%' }}>Terminal</div>],
-	];
+## Contributing
 
-	return (
-		<DynamixLayout tabs={tabList} style={{ height: '100vh', width: '100vw' }} />
-	)
-}
-
-export default App
-```
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome\! Feel free to check the [issues page](https://github.com/xcode-studio/dynamix-layout/issues).
-
-## 📝 License
-
-This project is [MIT](./LICENSE) licensed.
+Issues and pull requests are welcome; see [CONTRIBUTING.md](./CONTRIBUTING.md) and the [issue tracker](https://github.com/xcode-studio/dynamix-layout/issues).
 
 ---
-
-<div align="center">
-
-[![Patreon](https://img.shields.io/badge/Patreon-Support-F96854?style=for-the-badge&logo=patreon)](https://www.patreon.com/akashaman)
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-FFDD00?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/akashaman)
-[![Hire Me](https://img.shields.io/badge/Hire%20Me-Email-blue?style=for-the-badge&logo=gmail)](mailto:sir.akashaman@gmail.com)
 
 ### Made with ❤️ by [Akash Aman](https://linktr.ee/akash_aman)
 
-</div>
+[MIT License](./LICENSE)

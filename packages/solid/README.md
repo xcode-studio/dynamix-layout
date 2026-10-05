@@ -72,9 +72,11 @@ The `<DynamixLayout />` component is the primary way to use this package. It's h
 
 | Prop | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| **`tabs`** (required) | `[string, JSX.Element][]` | An array of `[id, component]` tuples for your tabs. | |
-| `layoutTree` | `LayoutTree` | A serialized layout object from a previous session to restore a saved layout. | `null` |
-| `tabNames` | `Map<string, string>` | An optional map to provide friendly display names for your tabs. | `new Map()` |
+| **`tabs`** (required) | `TabItem[]` | `[id, component, options?]` tuples. `options` is `{ title?, closable? }`. The array is reactive: add or remove entries and only those tabs mount or unmount. | |
+| `onTabClose` | `(tabId: string) => void` | Called by the × button of a `closable` tab. Remove the tab from `tabs` to close it. | `undefined` |
+| `onReady` | `(layout: Layout) => void` | Receives the core engine once mounted, for `toggleMaximize`, `toggleFold`, `selectTab`, `moveTab`, `reset` and the rest of the [core API](../../docs/api/create-layout.md). | `undefined` |
+| `layoutTree` | `LayoutJSON \| LayoutTreeV1` | A saved layout to restore. Layouts saved by v1 are migrated automatically. | `undefined` |
+| `tabNames` | `Map<string, string \| JSX.Element>` | Display names for your tabs, keyed by tab id. | `undefined` |
 | `enableTabbar` | `boolean` | If `true`, renders the draggable tab bar on top of each tab panel. | `true` |
 | `tabHeadHeight` | `number` | The height of the tab bar in pixels. | `40` |
 | `pad` | `{ t, b, l, r }` | Padding for the root layout container in pixels. | `{ t: 0, b: 0, l: 0, r: 0 }` |
@@ -83,9 +85,9 @@ The `<DynamixLayout />` component is the primary way to use this package. It's h
 | `bondWidth` | `number` | The width/height of the draggable slider between panels in pixels. | `10` |
 | `rootId` | `string` | The HTML `id` for the root `<div>` element of the layout. | `"dynamix-layout-root"` |
 | `disableResizeTimeout` | `boolean` | Disables debounce on window resize for faster updates. Can impact performance. | `true` |
-| `disableSliderTimeout` | `boolean` | Disables debounce when dragging a slider. | `true` |
+| `disableSliderTimeout` | `boolean` | No effect since 2.0: splitters update once per animation frame. | `true` |
 | `windowResizeTimeout` | `number` | Debounce timeout in milliseconds for window resize events. | `2` |
-| `sliderUpdateTimeout` | `number` | Debounce timeout in milliseconds for slider drag events. | `2` |
+| `sliderUpdateTimeout` | `number` | No effect since 2.0. | `2` |
 | `...props` | `JSX.HTMLAttributes` | Standard HTML attributes like `style` and `class` are passed to the root `<div>`. | |
 
 ### 🎨 Customization with Wrapper Components
@@ -106,7 +108,7 @@ You can completely change the look and feel of the layout by providing your own 
 ```jsx
 import { DynamixLayout } from '@dynamix-layout/solid';
 import type { Component, JSX } from 'solid-js';
-immport { MyCustomSlider } from "./compoments";
+import { MyCustomSlider } from './components';
 
 function App() {
     // ... (myTabs definition from "Getting Started")
@@ -137,43 +139,26 @@ For finer-grained control, you can pass `style` objects or `class` strings to th
 
 -----
 
-## ⚙️ Advanced Usage: The `useDynamixLayout` Hook
+## ⚙️ The `useDynamixLayout` hook
 
-For ultimate control, you can use the `useDynamixLayout` hook to build your own layout renderer from scratch. It contains all the state, refs, and event handlers needed to power the layout, fully integrated with Solid's reactive system.
-
-### Options
-
-The hook accepts an object with the same props as the `<DynamixLayout />` component, with two key differences:
-
-1.  It requires a `tabOutput` prop, generated from your `tabs` array using the exported `getTabOutput` helper.
-2.  It requires a `dimensions` prop, which is a **signal or function** that returns the layout container's size and position.
-
-### Return Value
-
-The hook returns an object with everything you need to build your UI, including:
-
-  - **Reactive State**: `tabsets` and `sliders` (Maps containing the layout data, wrapped in SolidJS signals).
-  - **Refs**: `tabsetsRef`, `slidersRef`, `hoverElementRef`, etc., which are Maps for you to populate with element references using Solid's `ref` directive.
-  - **Event Handlers**: `onDragStart`, `onDragEnd`, `onDragOver`, `onPointerDown`, `updateActiveTab`, etc.
-  - **Instance**: `layoutInstance` (A signal containing the raw instance of `@dynamix-layout/core` for advanced actions like saving state).
-
+The Solid `useDynamixLayout` binds a `@dynamix-layout/core` instance to Solid signals for `<DynamixLayout>`. Its shape changed in 2.0 and it is mainly an implementation detail of the component. For a custom renderer, build on [`createLayout`](https://github.com/xcode-studio/dynamix-layout/blob/main/docs/guides/core-without-react.md) directly. A headless Solid API, matching the React hooks, is planned.
 
 -----
 
 ### Example: Saving a Layout
 
-- `updateJSON`: A callback function that receives the complete layout state object (LayoutTree) every time a change occurs (like dragging a tab or resizing a panel). You can use this to save the state to localStorage, a database, or anywhere else.
+- `updateJSON` receives the layout as [`LayoutJSON`](https://github.com/xcode-studio/dynamix-layout/blob/main/docs/api/layout-json.md) (`version: 2`) once on mount and after every change (a drop, a splitter release, selecting a tab, maximize or fold). Its second argument says why: `'mount'` for the first call, then `'move'`, `'resize'`, `'select'`, `'fold'`, `'maximize'`, `'tabs'` or `'reset'`. Save it to localStorage, a database, or anywhere else, and pass it back as `layoutTree`.
 
 ```jsx
 import { tabs } from './comp'
 import { DynamixLayout } from '@dynamix-layout/solid'
-import type { LayoutTree } from '@dynamix-layout/core'
+import type { LayoutJSON } from '@dynamix-layout/solid'
 import '@dynamix-layout/solid/style.css'
 
 function App() {
 
-	const UpdateJSON = (layoutTree: LayoutTree) => {
-		console.log(layoutTree);
+	const UpdateJSON = (layout: LayoutJSON) => {
+		localStorage.setItem('layout', JSON.stringify(layout));
 	};
 
 	return (

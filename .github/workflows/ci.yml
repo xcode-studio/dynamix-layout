@@ -20,3 +20,21 @@ jobs:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/ci-setup
       - uses: ./.github/actions/ci-checks
+
+  react-18:
+    # The React package must work with React 18 as well as 19: install the
+    # packed packages into a project that only has React 18.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/ci-setup
+      - name: Build and pack
+        run: |
+          pnpm --filter @dynamix-layout/core --filter @dynamix-layout/react build
+          mkdir -p /tmp/pack
+          pnpm --filter @dynamix-layout/core --filter @dynamix-layout/react exec pnpm pack --pack-destination /tmp/pack
+      - name: Smoke test with React 18
+        working-directory: scripts/react18-smoke
+        run: |
+          npm install --no-audit --no-fund --no-save react@18 react-dom@18 jsdom@26 /tmp/pack/*.tgz
+          npm test

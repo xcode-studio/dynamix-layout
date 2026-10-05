@@ -10,9 +10,8 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"declaration": true,
-		"outDir": "./dist/types",
+		"outDir": "./dist",
 		"moduleResolution": "Node",
-		"rootDir": "src",
 		"allowSyntheticDefaultImports": true,
 		"noImplicitAny": true,
 		"paths": {
@@ -20,10 +19,8 @@
 			"@dynamix-layout/core/*": ["../core/src/*"]
 		},
 		"baseUrl": ".",
-		"types": ["vitest/globals", "@testing-library/jest-dom", "solid-js"],
-		"composite": true
+		"types": ["vitest/globals", "@testing-library/jest-dom", "solid-js"]
 	},
 	"include": ["src/**/*", "src/types/**/*"],
-	"exclude": ["node_modules"],
-	"references": [{ "path": "../core" }]
+	"exclude": ["node_modules"]
 }

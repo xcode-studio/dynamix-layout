@@ -3,7 +3,7 @@
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"paths": {},
-		"composite": false
+		"rootDir": "src"
 	},
 	"exclude": ["node_modules", "src/test"]
 }

@@ -1,38 +1,11 @@
-export const tabs: [string, React.ReactNode][] = [
-	[
-		'editor',
-		<div
-			key="editor"
-			style={{
-				background: '#c0ca33',
-				height: '100%',
-			}}
-		>
-			Editor
-		</div>,
-	],
-	[
-		'preview',
-		<div
-			key="preview"
-			style={{
-				background: '#66bb6a',
-				height: '100%',
-			}}
-		>
-			Preview
-		</div>,
-	],
-	[
-		'terminal',
-		<div
-			key="terminal"
-			style={{
-				background: '#ffc400',
-				height: '100%',
-			}}
-		>
-			Terminal
-		</div>,
-	],
+import type { TabItem } from '@dynamix-layout/react'
+
+const panel = (background: string, label: string) => (
+	<div style={{ background, height: '100%' }}>{label}</div>
+)
+
+export const tabs: TabItem[] = [
+	{ id: 'editor', title: 'Editor', content: panel('#c0ca33', 'Editor') },
+	{ id: 'preview', title: 'Preview', content: panel('#66bb6a', 'Preview') },
+	{ id: 'terminal', title: 'Terminal', content: panel('#ffc400', 'Terminal') },
 ]

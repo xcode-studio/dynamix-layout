@@ -1,657 +1,248 @@
 import {
-	LayoutTree,
-	DynamixLayoutCore,
-	Node,
-	NodeOptions,
-	DropPreview,
-	RootSide,
 	createFrameScheduler,
-	getNavbarDropPreview,
-	getRootSplitPreview,
-	getTabBodyRect,
-	getTabsetDropPreview,
-	getTabbarPlacement,
-	isSameDropPreview,
-	placeTabbar,
-	setElementRect,
+	createLayout,
+	type DragSource,
+	type DropMeasurements,
+	type Layout,
+	type LayoutSnapshot,
+	type Point,
+	type Rect,
+	type TabBarMeasurement,
 } from '@dynamix-layout/core'
-import { createSignal, onCleanup, onMount } from 'solid-js'
-import { useDynamixLayoutOptions } from '../types'
+import { createSignal, onCleanup, onMount, type Accessor } from 'solid-js'
+import type { useDynamixLayoutOptions } from '../types'
 
-export const useDynamixLayout = ({
-	tabOutput,
-	rootId,
-	layoutTree,
-	updateJSON,
-	dimensions,
-	tabHeadHeight,
-	enableTabbar,
-	bondWidth,
-	minTabHeight,
-	minTabWidth,
-	sliderUpdateTimeout,
-	windowResizeTimeout,
-	disableSliderTimeout,
-	disableResizeTimeout,
-	keyboardShortcuts = true,
-	enableDoubleClickMaximize = true,
-}: useDynamixLayoutOptions) => {
-	const tabsetsRef = new Map<string, HTMLDivElement>()
-	const slidersRef = new Map<string, HTMLDivElement>()
-	const panelsRef = new Map<string, HTMLDivElement>()
-	const tabsRef = new Map<string, HTMLDivElement>()
-	const hoverElementRef = { current: undefined as HTMLDivElement | undefined }
-	const rootSplitHoverEl: HTMLDivElement[] = []
-	const [layoutJSON, setLayoutJSON] = createSignal<LayoutTree | undefined>(
-		layoutTree
-	)
-	const [tabsets, setTabsets] = createSignal<Map<string, NodeOptions>>(
-		new Map()
-	)
-	const [sliders, setSliders] = createSignal<Map<string, NodeOptions>>(
-		new Map()
-	)
-	const [dragging, setDragging] = createSignal(false)
-	let animationFrameRef: number | null = null
-	const [isUpdating, setIsUpdating] = createSignal(false)
-	const dragElemRef: {
-		src?: HTMLDivElement
-		des?: HTMLDivElement
-		drag?: boolean
-		area?: 'top' | 'bottom' | 'left' | 'right' | 'contain'
-	} = {
-		src: undefined,
-		des: undefined,
-		area: undefined,
-		drag: false,
-	}
+/** What `useDynamixLayout` returns to the Solid `<DynamixLayout>`. */
+export interface DynamixLayoutState {
+	engine: Layout
+	/** The current snapshot; Solid updates only what reads the parts that changed. */
+	snapshot: Accessor<LayoutSnapshot>
+	/** A tab or tabset is being dragged (HTML5) or a splitter is moving. */
+	dragging: Accessor<boolean>
+	onDragStart: (event: DragEvent, source: DragSource) => void
+	onDragOver: (event: DragEvent) => void
+	onDragEnd: () => void
+	onDrop: (event: DragEvent) => void
+	onSliderPointerDown: (event: PointerEvent, splitterId: string) => void
+	onRootPointerDown: (event: PointerEvent) => void
+	onTabbarDoubleClick: (tabsetId: string) => void
+	selectTab: (tabId: string) => void
+	toggleMaximize: (tabsetId: string) => void
+	toggleFold: (tabsetId: string) => void
+}
 
-	const dragSliderRef: {
-		sliderId?: string
-		isSliding?: boolean
-	} = {
-		sliderId: undefined,
-		isSliding: false,
-	}
+const relativeRect = (rect: DOMRect, origin: Point): Rect => ({
+	x: rect.left - origin.x,
+	y: rect.top - origin.y,
+	width: rect.width,
+	height: rect.height,
+})
 
-	// A tabset can never be shorter than its tab bar, otherwise the bar spills
-	// over the slider below it and the tab body gets a negative height.
-	const minLayoutHeight = enableTabbar
-		? Math.max(minTabHeight, tabHeadHeight)
-		: minTabHeight
+/**
+ * The Solid adapter's engine binding: one `createLayout` instance per
+ * component, a snapshot signal, HTML5 drag-and-drop for tabs (drop targets
+ * come from the core), pointer drags for splitters, and window-resize
+ * tracking.
+ */
+export const useDynamixLayout = (
+	options: useDynamixLayoutOptions
+): DynamixLayoutState => {
+	const minHeight = options.enableTabbar
+		? Math.max(options.minTabHeight, options.tabHeadHeight)
+		: options.minTabHeight
 
-	const layoutInstance = new DynamixLayoutCore({
-		tabs: tabOutput.keys,
-		tree: layoutJSON(), // eslint-disable-line solid/reactivity
-		minW: minTabWidth,
-		minH: minLayoutHeight,
-		bond: bondWidth,
-		uqid: rootId,
-		tabsIds: tabOutput.name,
+	const engine = createLayout({
+		tabs: options.tabIds.map((id) => ({ id })),
+		initialLayout: options.layoutTree ?? null,
+		minPanelSize: { width: options.minTabWidth, height: minHeight },
+		splitterSize: options.bondWidth,
 		// A folded tabset shrinks to its tab bar.
-		collapsedSize: enableTabbar ? tabHeadHeight : minLayoutHeight,
+		foldedSize: options.enableTabbar ? options.tabHeadHeight : minHeight,
+		onLayoutChange: (json, reason) => options.updateJSON?.(json, reason),
 	})
 
-	const updateTabsets = (nodes: Map<string, NodeOptions>) => {
-		const newTabsets = new Map<string, NodeOptions>(nodes)
-		setTabsets(newTabsets)
+	const [snapshot, setSnapshot] = createSignal(engine.getSnapshot(), {
+		equals: false,
+	})
+	const [dragging, setDragging] = createSignal(false)
+	const unsubscribe = engine.subscribe(setSnapshot)
+
+	const toRootPoint = (clientX: number, clientY: number): Point => {
+		const root = options.getRoot()
+		if (!root) return { x: clientX, y: clientY }
+		const box = root.getBoundingClientRect()
+		return {
+			x: clientX - box.left - root.clientLeft,
+			y: clientY - box.top - root.clientTop,
+		}
 	}
 
-	const updateSliders = (nodes: Map<string, NodeOptions>) => {
-		const newSliders = new Map<string, NodeOptions>(nodes)
-		setSliders(newSliders)
-	}
-
-	const updateAllTabBodyStyles = () => {
-		const tabbarHeight = enableTabbar ? tabHeadHeight : 0
-
-		Node.cache.tabOpts.get().forEach((node: NodeOptions, id: string) => {
-			const tabEl = tabsRef.get(id)
-			if (!tabEl) return
-
-			const body = getTabBodyRect(node.nodDims, tabbarHeight)
-			setElementRect(tabEl, body)
-			// Empty bodies stay hidden so their borders/shadows don't bleed onto
-			// the slider below.
-			const visible =
-				node.nodOpen && !node.nodFold && !node.nodHidden && body.h > 0
-			tabEl.style.display = visible ? 'block' : 'none'
-		})
-	}
-
-	const offNodes = Node.cache.nodOpts.onChange(
-		(nodes: Map<string, NodeOptions>) => {
-			nodes.forEach((node: NodeOptions, id: string) => {
-				const panelEl = panelsRef.get(id)
-				if (panelEl) setElementRect(panelEl, node.nodDims)
-
-				const tabsetEl = tabsetsRef.get(id)
-				if (tabsetEl && enableTabbar) {
-					tabsetEl.toggleAttribute('data-dx-hidden', !!node.nodHidden)
-					placeTabbar(
-						tabsetEl,
-						getTabbarPlacement(node, tabHeadHeight)
+	const measure = (): DropMeasurements => {
+		const tabBars = new Map<string, TabBarMeasurement>()
+		const root = options.getRoot()
+		if (!root) return { tabBars }
+		const box = root.getBoundingClientRect()
+		const origin = {
+			x: box.left + root.clientLeft,
+			y: box.top + root.clientTop,
+		}
+		root.querySelectorAll<HTMLElement>('[data-tabbar]').forEach((bar) => {
+			const id = bar.dataset.uid
+			if (!id) return
+			tabBars.set(id, {
+				rect: relativeRect(bar.getBoundingClientRect(), origin),
+				isRotated: bar.hasAttribute('data-rotated'),
+				tabs: Array.from(
+					bar.querySelectorAll<HTMLElement>(
+						':scope > [data-type="tab"]'
 					)
-				}
+				).map((tab) => ({
+					id: tab.dataset.uid ?? '',
+					rect: relativeRect(tab.getBoundingClientRect(), origin),
+				})),
 			})
-		}
-	)
-
-	// Tab bodies must follow every engine update, including the deferred ones
-	// scheduled when the resize/slider timeouts are enabled.
-	const offTabs = Node.cache.tabOpts.onChange(() => updateAllTabBodyStyles())
-
-	const offBonds = Node.cache.bndOpts.onChange(
-		(nodes: Map<string, NodeOptions>) => {
-			nodes.forEach((node: NodeOptions, id: string) => {
-				const sliderEl = slidersRef.get(id)
-				if (!sliderEl) return
-				setElementRect(sliderEl, node.nodDims)
-				sliderEl.toggleAttribute('data-dx-hidden', !!node.nodHidden)
-				sliderEl.style.pointerEvents = node.nodLocked ? 'none' : ''
-			})
-		}
-	)
-
-	const sliderScheduler = createFrameScheduler(
-		({ id, point }: { id: string; point: { x: number; y: number } }) =>
-			layoutInstance.updateSlider(
-				id,
-				point,
-				disableSliderTimeout,
-				sliderUpdateTimeout
-			)
-	)
-
-	const onPointerMove = (e: PointerEvent) => {
-		const id = dragSliderRef.sliderId
-		if (!dragSliderRef.isSliding || !id) return
-
-		sliderScheduler.schedule({ id, point: { x: e.clientX, y: e.clientY } })
-	}
-
-	const onPointerUp = (e: PointerEvent) => {
-		if (!dragSliderRef.isSliding) return
-
-		sliderScheduler.flush()
-
-		const sliderElement = e.currentTarget as HTMLDivElement
-		dragSliderRef.isSliding = false
-		dragSliderRef.sliderId = undefined
-		setDragging(false)
-
-		if (updateJSON) updateJSON(DynamixLayoutCore._root.toJSON())
-		sliderElement.releasePointerCapture(e.pointerId)
-		sliderElement.removeEventListener('pointermove', onPointerMove)
-		sliderElement.removeEventListener('pointerup', onPointerUp)
-		sliderElement.removeEventListener('pointercancel', onPointerUp)
-	}
-
-	const onPointerDown = (e: PointerEvent) => {
-		e.preventDefault()
-
-		const sliderElement = e.currentTarget as HTMLDivElement
-		dragSliderRef.isSliding = true
-		dragSliderRef.sliderId = sliderElement.id
-		// Applies `.is-dragging`, so iframes and editors inside tab bodies
-		// cannot swallow pointer events while the slider is being dragged.
-		setDragging(true)
-
-		sliderElement.setPointerCapture(e.pointerId)
-
-		sliderElement.addEventListener('pointermove', onPointerMove)
-		sliderElement.addEventListener('pointerup', onPointerUp)
-		sliderElement.addEventListener('pointercancel', onPointerUp)
-	}
-
-	let lastHoverState: Partial<DropPreview> = {}
-
-	const findDropTargetTabset = (
-		clientX: number,
-		clientY: number,
-		target: HTMLDivElement
-	) => {
-		if (!hoverElementRef.current || !dragElemRef || !target) {
-			return null
-		}
-
-		const preview = getTabsetDropPreview(
-			target.getBoundingClientRect(),
-			clientX,
-			clientY
-		)
-		updateHoverElement(preview)
-		dragElemRef.des = target
-		dragElemRef.area = preview.area
-	}
-
-	const handleNavbarDragOver = (e: DragEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-
-		if (e.dataTransfer) {
-			e.dataTransfer.dropEffect = 'move'
-		}
-
-		const navbarElement = e.currentTarget as HTMLDivElement
-		// A folded strip shows its tab bar rotated; label boxes are vertical
-		// there, so the whole strip is the target and drops go into the tabset.
-		if (navbarElement.hasAttribute('data-rotated')) {
-			if (!hoverElementRef.current || !dragElemRef) return
-			const r = navbarElement.getBoundingClientRect()
-			updateHoverElement({
-				area: 'contain',
-				left: r.left,
-				top: r.top,
-				width: r.width,
-				height: r.height,
-			})
-			dragElemRef.des = navbarElement
-			dragElemRef.area = 'contain'
-			return
-		}
-
-		// Only tab labels: the tab bar also holds the maximize/fold toolbar.
-		const tabElems = Array.from(
-			navbarElement.querySelectorAll<HTMLDivElement>(
-				':scope > [data-type="tab"]'
-			)
-		)
-		if (!hoverElementRef.current || !dragElemRef) return
-
-		const preview = getNavbarDropPreview(
-			navbarElement.getBoundingClientRect(),
-			tabElems.map((tab) => tab.getBoundingClientRect()),
-			e.clientX,
-			e.clientY
-		)
-		if (!preview) return
-
-		updateHoverElement(preview)
-		dragElemRef.des = tabElems[preview.index]
-		dragElemRef.area = preview.area
-	}
-
-	const handleRootSplit = (e: DragEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-
-		if (e.dataTransfer) {
-			e.dataTransfer.dropEffect = 'move'
-		}
-
-		const target = e.currentTarget as HTMLDivElement
-		const { area, uid } = target.dataset
-		if (!area || !uid || !hoverElementRef.current || !dragElemRef) {
-			return
-		}
-
-		const side = area as RootSide
-		dragElemRef.des = target
-		dragElemRef.area = side
-		updateHoverElement(getRootSplitPreview(dimensions(), side))
-	}
-
-	const updateHoverElement = (preview: DropPreview) => {
-		const hoverEl = hoverElementRef.current
-		if (!hoverEl || isSameDropPreview(lastHoverState, preview)) return
-
-		Object.assign(hoverEl.style, {
-			left: `${preview.left}px`,
-			top: `${preview.top}px`,
-			width: `${preview.width}px`,
-			height: `${preview.height}px`,
-			display: 'block',
-			zIndex: '100',
 		})
-		lastHoverState = preview
+		return { tabBars }
+	}
+
+	// --- Tabs and tabsets: HTML5 drag-and-drop, targets from the core ---
+	let measurements: DropMeasurements | undefined
+	const dragFrame = createFrameScheduler<Point>((point) =>
+		engine.updateDrag(point, measurements)
+	)
+
+	const onDragStart = (event: DragEvent, source: DragSource) => {
+		event.stopPropagation()
+		measurements = measure()
+		if (!engine.startDrag(source)) return
+		setDragging(true)
+		if (event.dataTransfer) {
+			event.dataTransfer.effectAllowed = 'move'
+			// A blank drag image: the drop indicator shows where the tab goes.
+			const image = document.createElement('div')
+			image.style.cssText =
+				'width:1px;height:1px;position:absolute;top:-1000px'
+			document.body.appendChild(image)
+			event.dataTransfer.setDragImage(image, 0, 0)
+			setTimeout(() => image.remove(), 0)
+		}
+	}
+
+	const onDragOver = (event: DragEvent) => {
+		if (!snapshot().drag) return
+		event.preventDefault()
+		if (event.dataTransfer) event.dataTransfer.dropEffect = 'move'
+		dragFrame.schedule(toRootPoint(event.clientX, event.clientY))
+	}
+
+	const onDragEnd = () => {
+		dragFrame.flush()
+		engine.endDrag()
+		measurements = undefined
+		setDragging(false)
+	}
+
+	const onDrop = (event: DragEvent) => event.preventDefault()
+
+	// --- Splitters: pointer events ---
+	const sliderFrame = createFrameScheduler<Point>((point) =>
+		engine.updateDrag(point)
+	)
+	const onSliderPointerDown = (event: PointerEvent, splitterId: string) => {
+		event.preventDefault()
+		if (!engine.startDrag({ type: 'splitter', splitterId })) return
+		const element = event.currentTarget as HTMLElement
+		element.setPointerCapture?.(event.pointerId)
+		// `.is-dragging` stops iframes and editors in tab bodies swallowing events.
+		setDragging(true)
+		const move = (e: PointerEvent) =>
+			sliderFrame.schedule(toRootPoint(e.clientX, e.clientY))
+		const up = () => {
+			sliderFrame.flush()
+			engine.endDrag()
+			setDragging(false)
+			element.removeEventListener('pointermove', move)
+			element.removeEventListener('pointerup', up)
+			element.removeEventListener('pointercancel', up)
+		}
+		element.addEventListener('pointermove', move)
+		element.addEventListener('pointerup', up)
+		element.addEventListener('pointercancel', up)
 	}
 
 	// --- Maximize / fold ---
 	let activeTabset: string | null = null
-
-	const refreshViewState = () => {
-		updateTabsets(Node.cache.nodOpts.get())
-		updateSliders(Node.cache.bndOpts.get())
-		updateAllTabBodyStyles()
-		if (updateJSON) updateJSON(DynamixLayoutCore._root.toJSON())
-	}
-
-	const toggleMaximize = (tabsetId: string) => {
-		if (layoutInstance.toggleMaximize(tabsetId)) refreshViewState()
-	}
-
-	const toggleCollapse = (tabsetId: string) => {
-		if (layoutInstance.toggleCollapse(tabsetId)) refreshViewState()
-	}
-
-	/** Remembers which tabset the user last touched, for the shortcuts. */
-	const onRootPointerDown = (e: PointerEvent) => {
-		const el = (e.target as HTMLElement).closest<HTMLElement>('[data-uid]')
-		const node = el?.dataset.uid
-			? Node.cache.mapElem.get(el.dataset.uid)
-			: undefined
-		if (!(node instanceof Node)) return
-		if (node.type === 'tabset') activeTabset = node.unId
-		else if (node.type === 'tab' && node.host) activeTabset = node.host.unId
-	}
-
-	const onTabbarDoubleClick = (e: MouseEvent) => {
-		const id = (e.currentTarget as HTMLElement).dataset.uid
-		if (enableDoubleClickMaximize && id) toggleMaximize(id)
-	}
-
-	const onKeyDown = (e: KeyboardEvent) => {
-		if (!keyboardShortcuts || !e.altKey || e.ctrlKey || e.metaKey) return
-		const id = activeTabset ?? layoutInstance.maximizedId
+	const onRootPointerDown = (event: PointerEvent) => {
+		const element = (event.target as HTMLElement).closest<HTMLElement>(
+			'[data-uid]'
+		)
+		const id = element?.dataset.uid
 		if (!id) return
-
-		if (e.code === 'Equal' || e.code === 'NumpadAdd') {
-			e.preventDefault()
-			toggleMaximize(id)
-		} else if (e.code === 'Minus' || e.code === 'NumpadSubtract') {
-			e.preventDefault()
-			toggleCollapse(id)
-		}
+		const current = snapshot()
+		if (current.tabsets.has(id)) activeTabset = id
+		else if (current.tabs.has(id))
+			activeTabset = current.tabs.get(id)!.tabsetId
 	}
-
-	const onDragStart = (e: DragEvent) => {
-		e.stopPropagation()
-		// Every drop target must be visible while dragging.
-		if (layoutInstance.restore()) refreshViewState()
-		setDragging(true)
-		document.body.style.cursor = 'move'
-		if (e.currentTarget) {
-			if (e.dataTransfer) {
-				e.dataTransfer.effectAllowed = 'move'
-
-				const dragImage = document.createElement('div')
-				dragImage.style.width = '1px'
-				dragImage.style.height = '1px'
-				dragImage.style.backgroundColor = 'transparent'
-				dragImage.style.position = 'absolute'
-				dragImage.style.top = '-1000px'
-				document.body.appendChild(dragImage)
-
-				e.dataTransfer.setDragImage(dragImage, 0, 0)
-
-				setTimeout(() => {
-					if (dragImage.parentNode) {
-						dragImage.parentNode.removeChild(dragImage)
-					}
-				}, 0)
-			}
-
-			rootSplitHoverEl.forEach((el) => {
-				if (el) {
-					el.style.display = 'block'
-					el.style.zIndex = '99'
-				}
-			})
-
-			panelsRef.forEach((el) => {
-				if (el) {
-					el.style.display = 'block'
-					el.style.zIndex = '95'
-				}
-			})
-
-			dragElemRef.src = e.currentTarget as HTMLDivElement
-			dragElemRef.drag = true
-		}
+	const onTabbarDoubleClick = (tabsetId: string) => {
+		if (options.enableDoubleClickMaximize) engine.toggleMaximize(tabsetId)
 	}
-
-	const onDragOver = (e: DragEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-		document.body.style.cursor = 'move'
-
-		if (e.dataTransfer) {
-			e.dataTransfer.dropEffect = 'move'
-		}
-
-		if (!dragElemRef?.src) {
+	const onKeyDown = (event: KeyboardEvent) => {
+		if (
+			!options.keyboardShortcuts ||
+			!event.altKey ||
+			event.ctrlKey ||
+			event.metaKey
+		)
 			return
+		const id = activeTabset ?? snapshot().maximizedTabsetId
+		if (!id) return
+		if (event.code === 'Equal' || event.code === 'NumpadAdd') {
+			event.preventDefault()
+			engine.toggleMaximize(id)
+		} else if (event.code === 'Minus' || event.code === 'NumpadSubtract') {
+			event.preventDefault()
+			engine.toggleFold(id)
 		}
-
-		const target = e.currentTarget as HTMLDivElement
-		const clientX = e.clientX
-		const clientY = e.clientY
-
-		if (animationFrameRef) {
-			cancelAnimationFrame(animationFrameRef)
-		}
-
-		animationFrameRef = requestAnimationFrame(() => {
-			findDropTargetTabset(clientX, clientY, target)
-		})
-	}
-
-	const onDragEnd = () => {
-		document.body.style.cursor = 'default'
-		rootSplitHoverEl.forEach((el) => {
-			if (el) {
-				el.style.display = 'none'
-				el.style.zIndex = '-1'
-			}
-		})
-
-		if (animationFrameRef) {
-			cancelAnimationFrame(animationFrameRef)
-			animationFrameRef = null
-		}
-
-		if (hoverElementRef.current) {
-			hoverElementRef.current.style.display = 'none'
-			hoverElementRef.current.style.zIndex = '-1'
-		}
-
-		lastHoverState = {}
-		dragElemRef.drag = false
-
-		if (!dragElemRef?.src || !dragElemRef?.des) {
-			dragElemRef.area = undefined
-			dragElemRef.src = undefined
-			dragElemRef.des = undefined
-
-			setDragging(false)
-			return
-		}
-
-		if (dragElemRef.src === dragElemRef.des) {
-			dragElemRef.area = undefined
-			dragElemRef.src = undefined
-			dragElemRef.des = undefined
-
-			setDragging(false)
-			return
-		}
-
-		if (dragElemRef.src && dragElemRef.des) {
-			if (!dragElemRef.area) {
-				console.warn('No area specified for drag and drop')
-
-				setDragging(false)
-				return
-			}
-
-			const result = layoutInstance.updateTree(
-				dragElemRef.src.dataset.uid as string,
-				dragElemRef.des.dataset.uid as string,
-				dragElemRef.area || 'contain'
-			)
-
-			if (!result) {
-				console.warn('Failed to update layout tree')
-
-				setDragging(false)
-				return
-			}
-
-			requestAnimationFrame(() => {
-				updateTabsets(Node.cache.nodOpts.get())
-				updateSliders(Node.cache.bndOpts.get())
-				updateAllTabBodyStyles()
-				if (updateJSON) updateJSON(DynamixLayoutCore._root.toJSON())
-			})
-		}
-
-		dragElemRef.area = undefined
-		dragElemRef.src = undefined
-		dragElemRef.des = undefined
-
-		setDragging(false)
-	}
-
-	const onDragEnter = (e: DragEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-
-		if (e.dataTransfer) {
-			e.dataTransfer.dropEffect = 'move'
-		}
-	}
-
-	const onDragLeave = (e: DragEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-	}
-
-	const onDrop = (e: DragEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-
-		if (e.dataTransfer) {
-			e.dataTransfer.getData('text/plain')
-		}
-	}
-
-	const updateActiveTab = (e: MouseEvent) => {
-		const target = e.currentTarget as HTMLDivElement
-		const uid = target.dataset.uid
-
-		if (!uid) return
-
-		const node = Node.cache.mapElem.get(uid)
-
-		if (!(node instanceof Node)) {
-			console.warn(`Element with uid ${uid} is not a Node instance`)
-			return
-		}
-
-		if (!node || !node.host || !node.host.unId) {
-			console.warn(`Node with uid ${uid} not found in mapNode`)
-			return
-		}
-
-		if (node.host.open == node.name) {
-			console.warn(`Node ${node.name} is already open`)
-			return
-		}
-
-		const nodeOpts = Node.cache.nodOpts.get().get(node.host.unId)
-
-		if (!nodeOpts) return
-
-		if (nodeOpts.nodOpen && node?.open) {
-			return
-		}
-
-		// Update the state in the cache
-		node.host.open = node.name
-		nodeOpts.nodOpen = node.name
-		nodeOpts.nodKids?.forEach((kid: NodeOptions) => {
-			kid.nodOpen = kid.nodName === node.name
-		})
-
-		const childNodes = target?.parentElement
-			?.childNodes as NodeListOf<HTMLDivElement>
-
-		childNodes?.forEach((child) => {
-			if (child instanceof HTMLDivElement && child.dataset.uid !== uid) {
-				child.dataset.state = 'inactive'
-			} else {
-				child.dataset.state = 'active'
-			}
-		})
-
-		updateAllTabBodyStyles()
 	}
 
 	onMount(() => {
-		const updateDimension = (flag: boolean) => {
-			layoutInstance.updateDimension(
-				dimensions(),
-				flag,
-				windowResizeTimeout
-			)
+		let timer: ReturnType<typeof setTimeout> | undefined
+		const update = () => engine.setContainerRect(options.container())
+		const onResize = () => {
+			if (options.disableResizeTimeout) return update()
+			clearTimeout(timer)
+			timer = setTimeout(update, options.windowResizeTimeout)
 		}
-
-		updateDimension(true)
-
-		const handler = () => updateDimension(disableResizeTimeout ?? false)
-
-		window.addEventListener('resize', handler)
+		update()
+		window.addEventListener('resize', onResize)
 		window.addEventListener('keydown', onKeyDown)
-
-		updateTabsets(Node.cache.nodOpts.get())
-		updateSliders(Node.cache.bndOpts.get())
-
-		updateAllTabBodyStyles()
-
-		if (updateJSON) updateJSON(DynamixLayoutCore._root.toJSON())
+		// v1 behaviour, kept for the minimal port: report the layout once mounted.
+		options.updateJSON?.(engine.toJSON(), 'mount')
 
 		onCleanup(() => {
-			window.removeEventListener('resize', handler)
+			clearTimeout(timer)
+			window.removeEventListener('resize', onResize)
 			window.removeEventListener('keydown', onKeyDown)
-			offNodes()
-			offBonds()
-			offTabs()
-
-			sliderScheduler.cancel()
-
-			if (animationFrameRef) {
-				cancelAnimationFrame(animationFrameRef)
-			}
+			dragFrame.cancel()
+			sliderFrame.cancel()
+			unsubscribe()
+			engine.destroy()
 		})
 	})
 
 	return {
-		tabsets,
-		sliders,
-		tabsetsRef,
-		panelsRef,
-		tabsRef,
-		slidersRef,
-		layoutJSON,
-		layoutInstance,
-		hoverElementRef,
-		rootSplitHoverEl,
+		engine,
+		snapshot,
 		dragging,
-		isUpdating,
-		/** @deprecated Internal state setter; will be removed in v2. */
-		setIsUpdating,
-		/** @deprecated Internal state setter; will be removed in v2. */
-		setDragging,
-		/** @deprecated Internal state setter; will be removed in v2. */
-		setTabsets,
-		/** @deprecated Internal state setter; will be removed in v2. */
-		setSliders,
-		/** @deprecated Internal state setter; will be removed in v2. */
-		setLayoutJSON,
 		onDragStart,
 		onDragOver,
 		onDragEnd,
-		onDragEnter,
-		onDragLeave,
 		onDrop,
-		onPointerDown,
-		updateActiveTab,
-		handleRootSplit,
-		handleNavbarDragOver,
-		toggleMaximize,
-		toggleCollapse,
+		onSliderPointerDown,
 		onRootPointerDown,
 		onTabbarDoubleClick,
+		selectTab: (tabId) => void engine.selectTab(tabId),
+		toggleMaximize: (tabsetId) => void engine.toggleMaximize(tabsetId),
+		toggleFold: (tabsetId) => void engine.toggleFold(tabsetId),
 	}
 }

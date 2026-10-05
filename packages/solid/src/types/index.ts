@@ -1,45 +1,43 @@
-import type { LayoutTree, Dimension } from '@dynamix-layout/core'
+import type {
+	Layout,
+	LayoutChangeReason,
+	LayoutJSON,
+	LayoutTreeV1,
+	Rect,
+} from '@dynamix-layout/core'
 import { JSX } from 'solid-js'
 
-export interface DynamixLayoutProps {
-	children?: JSX.Element
-	layoutTree?: LayoutTree
-	tabs?: string[]
-	class?: string
-	style?: JSX.CSSProperties
-}
-
-export interface UseDynamixLayoutOptions {
-	initialLayoutTree?: LayoutTree
-	tabs?: string[]
-}
-
-export interface UseDynamixLayoutResult {
-	layoutTree: LayoutTree | undefined
-	tabs: string[]
-	setTabs: (tabs: string[]) => void
-	setLayoutTree: (layoutTree: LayoutTree) => void
-}
+/** Why `updateJSON` was called. */
+export type LayoutUpdateReason = LayoutChangeReason | 'mount'
 
 export type DivFC = (
 	props: { children?: JSX.Element } & JSX.HTMLAttributes<HTMLDivElement>
 ) => JSX.Element
 
-export type TabEntry = {
-	uqid: string
-	name: string
-	node: JSX.Element
+/** Per-tab options: the third element of a `tabs` entry. */
+export interface TabOptions {
+	/** Tab label. @default `tabNames.get(id)`, else the id */
+	title?: JSX.Element
+	/** Show a close button; clicking it calls `onTabClose`. @default false */
+	closable?: boolean
 }
 
-export type TabInput = [string, JSX.Element][]
-export type TabOutput = {
-	keys: string[]
-	maps: Map<string, TabEntry>
-	name: Map<string, string>
-}
+/** One tab: `[id, content]` or `[id, content, options]`. */
+export type TabItem = [id: string, content: JSX.Element, options?: TabOptions]
 
 export interface LayoutProps {
-	tabs: [string, JSX.Element][]
+	/**
+	 * The open tabs. Reactive: add an entry to open a tab, remove it to close
+	 * one; existing tabs keep their content mounted.
+	 */
+	tabs: TabItem[]
+	/** Called when a closable tab's close button is clicked; remove it from `tabs` to close it. */
+	onTabClose?: (tabId: string) => void
+	/**
+	 * Receives the layout engine once mounted, for actions from code:
+	 * `maximize`, `restore`, `fold`, `unfold`, `selectTab`, `moveTab`, `reset`, `toJSON`, …
+	 */
+	onReady?: (layout: Layout) => void
 	enableTabbar?: boolean
 	WrapTabPanel?: DivFC
 	WrapTabLabel?: (
@@ -58,7 +56,8 @@ export interface LayoutProps {
 		} & JSX.HTMLAttributes<HTMLDivElement>
 	) => JSX.Element
 	tabHeadHeight?: number
-	layoutTree?: LayoutTree
+	/** A saved layout: v2 JSON, or a v1 tree (migrated automatically). */
+	layoutTree?: LayoutJSON | LayoutTreeV1
 	pad?: {
 		t: number
 		b: number
@@ -68,14 +67,15 @@ export interface LayoutProps {
 	class?: string
 	style?: JSX.CSSProperties
 	bondWidth?: number
-	/** In 2.0 this receives the v2 `LayoutJSON` format instead of `LayoutTree` (v1 layouts passed to `layoutTree` keep loading). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
-	updateJSON?: (layoutTree: LayoutTree) => void
+	/**
+	 * Called with the v2 layout after every change, and once on mount.
+	 * `reason` says why: the core's `LayoutChangeReason`, or `'mount'`.
+	 */
+	updateJSON?: (layout: LayoutJSON, reason: LayoutUpdateReason) => void
 	minTabHeight?: number
 	minTabWidth?: number
-	/** @deprecated No effect in 2.0: splitters update once per animation frame. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 	sliderUpdateTimeout?: number
 	windowResizeTimeout?: number
-	/** @deprecated No effect in 2.0: splitters update once per animation frame. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 	disableSliderTimeout?: boolean
 	disableResizeTimeout?: boolean
 	hoverElementStyles?: JSX.CSSProperties
@@ -118,18 +118,17 @@ export interface TabsetToolbarProps {
 	onToggleFold: () => void
 }
 
+/** Options of the Solid `useDynamixLayout` (resolved by `<DynamixLayout>`). */
 export interface useDynamixLayoutOptions {
-	tabOutput: TabOutput
-	rootId: string
-	layoutTree?: LayoutTree
-	updateJSON?: (layoutTree: LayoutTree) => void
+	tabIds: string[]
+	layoutTree?: LayoutJSON | LayoutTreeV1
+	updateJSON?: (layout: LayoutJSON, reason: LayoutUpdateReason) => void
 	enableTabbar: boolean
-	dimensions: () => Dimension
-	sliderUpdateTimeout: number
+	/** The area to fill, relative to the root element. */
+	container: () => Rect
+	getRoot: () => HTMLElement | undefined
 	windowResizeTimeout: number
-	disableSliderTimeout: boolean
 	disableResizeTimeout: boolean
-	hoverElementStyles?: JSX.CSSProperties
 	bondWidth: number
 	minTabHeight: number
 	minTabWidth: number

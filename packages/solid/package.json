@@ -33,26 +33,29 @@
 		"url": "https://github.com/xcode-studio/dynamix-layout/issues"
 	},
 	"homepage": "https://github.com/xcode-studio/dynamix-layout#readme",
+	"type": "module",
 	"main": "./dist/index.cjs",
-	"module": "./dist/index.es.js",
-	"types": "./dist/types/index.d.ts",
-	"typings": "./dist/types/index.d.ts",
-	"style": "./dist/index.css",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"style": "./dist/styles.css",
 	"exports": {
 		".": {
 			"import": {
-				"types": "./dist/types/index.d.ts",
-				"default": "./dist/index.es.js"
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
 			},
 			"require": {
-				"types": "./dist/types/index.d.cts",
+				"types": "./dist/index.d.cts",
 				"default": "./dist/index.cjs"
 			}
 		},
-		"./style.css": "./dist/index.css",
-		"./styles.css": "./dist/index.css",
+		"./styles.css": "./dist/styles.css",
+		"./style.css": "./dist/styles.css",
 		"./package.json": "./package.json"
 	},
+	"sideEffects": [
+		"**/*.css"
+	],
 	"files": [
 		"dist",
 		"LICENSE",
@@ -60,13 +63,9 @@
 		"README.md",
 		"!**/*.map"
 	],
-	"sideEffects": [
-		"./dist/index.css"
-	],
 	"publishConfig": {
 		"access": "public"
 	},
-	"type": "module",
 	"engines": {
 		"node": ">=18"
 	},
@@ -94,7 +93,7 @@
 		"solid-js": "^1.9.15"
 	},
 	"dependencies": {
-		"@dynamix-layout/core": "workspace:*"
+		"@dynamix-layout/core": "workspace:^"
 	},
 	"peerDependencies": {
 		"solid-js": "^1.8.0"

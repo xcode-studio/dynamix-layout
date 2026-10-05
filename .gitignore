@@ -20,6 +20,7 @@ pids
 lib-cov
 react.html
 core.html
+solid.html
 # Coverage directory used by tools like istanbul
 coverage
 *.lcov
@@ -131,3 +132,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# macOS
+.DS_Store

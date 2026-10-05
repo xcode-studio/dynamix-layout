@@ -9,9 +9,8 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"declaration": true,
-		"outDir": "./dist/types",
+		"outDir": "./dist",
 		"moduleResolution": "Node",
-		"rootDir": "src",
 		"allowSyntheticDefaultImports": true,
 		"noImplicitAny": true,
 		"paths": {
@@ -23,10 +22,8 @@
 			"vitest/globals",
 			"@testing-library/jest-dom",
 			"@testing-library/react"
-		],
-		"composite": true
+		]
 	},
 	"include": ["src/**/*", "src/types/**/*"],
-	"exclude": ["node_modules"],
-	"references": [{ "path": "../core" }]
+	"exclude": ["node_modules"]
 }

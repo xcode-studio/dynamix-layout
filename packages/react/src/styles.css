@@ -1,0 +1,264 @@
+/*
+ * Default styles for @dynamix-layout/react. Every visual default is a CSS
+ * variable, so themes only need to set variables (or use `classNames`).
+ * Positions (left/top/width/height) are inline and set by the library.
+ */
+
+.dx-root {
+	--dx-font: inherit;
+	--dx-tab-bar-bg: #dfdfdf;
+	--dx-tab-bg: #dfdfdf;
+	--dx-tab-active-bg: #ffffff;
+	--dx-tab-color: inherit;
+	--dx-tab-radius: 4px;
+	--dx-tab-gap: 6px;
+	--dx-splitter-bg: #ffffff;
+	--dx-splitter-hover-bg: #e8f2ff;
+	--dx-grip-color: #9a9a9a;
+	--dx-drop-indicator-bg: rgba(0, 175, 249, 0.35);
+	--dx-drop-indicator-border: 2px dashed rgb(0, 196, 42);
+	--dx-root-drop-zone-bg: #0081f9;
+	--dx-focus-ring: 2px solid #0081f9;
+
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	box-sizing: border-box;
+	font-family: var(--dx-font);
+}
+
+/* Server render and first client render: nothing is measured yet. */
+.dx-root[data-dx-measuring] > * {
+	visibility: hidden;
+}
+
+.dx-root *,
+.dx-root *::before,
+.dx-root *::after {
+	box-sizing: border-box;
+}
+
+.dx-panel,
+.dx-tab-bar,
+.dx-tab-content,
+.dx-splitter,
+.dx-drop-indicator,
+.dx-root-drop-zone {
+	position: absolute;
+}
+
+.dx-panel {
+	z-index: 1;
+}
+
+/* --- Tab bar and tabs --- */
+.dx-tab-bar {
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	gap: var(--dx-tab-gap);
+	padding-left: 8px;
+	background: var(--dx-tab-bar-bg);
+	overflow-x: auto;
+	overflow-y: hidden;
+	scrollbar-width: none;
+	transform-origin: 0 0;
+	touch-action: pan-x;
+	cursor: default;
+}
+.dx-tab-bar::-webkit-scrollbar {
+	display: none;
+}
+.dx-tab-bar[data-dx-has-toolbar] {
+	padding-right: 64px;
+}
+
+.dx-tab {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 6px;
+	border-radius: var(--dx-tab-radius);
+	background: var(--dx-tab-bg);
+	color: var(--dx-tab-color);
+	font-size: 14px;
+	white-space: nowrap;
+	cursor: pointer;
+	user-select: none;
+}
+.dx-tab[data-state='active'] {
+	background: var(--dx-tab-active-bg);
+}
+.dx-tab:focus-visible,
+.dx-splitter:focus-visible,
+.dx-toolbar-button:focus-visible {
+	outline: var(--dx-focus-ring);
+	outline-offset: -2px;
+}
+
+.dx-tab-close {
+	display: grid;
+	place-items: center;
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	border: 0;
+	border-radius: 3px;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+}
+.dx-tab-close:hover {
+	background: rgba(0, 0, 0, 0.08);
+}
+
+/* --- Tab content --- */
+.dx-tab-content {
+	z-index: 2;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: none;
+}
+.dx-tab-content::-webkit-scrollbar {
+	display: none;
+}
+/* While dragging, iframes and editors inside tabs must not swallow pointer events. */
+.dx-root[data-dx-dragging] .dx-tab-content > * {
+	pointer-events: none;
+}
+.dx-root[data-dx-dragging],
+.dx-root[data-dx-dragging] * {
+	cursor: grabbing;
+}
+
+/* --- Splitters --- */
+.dx-splitter {
+	z-index: 4;
+	display: grid;
+	place-items: center;
+	background: var(--dx-splitter-bg);
+	touch-action: none;
+}
+.dx-splitter[data-dx-direction='horizontal'] {
+	cursor: ew-resize;
+}
+.dx-splitter[data-dx-direction='vertical'] {
+	cursor: ns-resize;
+}
+.dx-splitter:hover {
+	background: var(--dx-splitter-hover-bg);
+}
+.dx-splitter[data-dx-locked] {
+	pointer-events: none;
+}
+/* A grip of three dots across the bar. */
+.dx-splitter::after {
+	content: '';
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background: var(--dx-grip-color);
+	box-shadow:
+		0 -6px 0 var(--dx-grip-color),
+		0 6px 0 var(--dx-grip-color);
+}
+.dx-splitter[data-dx-direction='vertical']::after {
+	box-shadow:
+		-6px 0 0 var(--dx-grip-color),
+		6px 0 0 var(--dx-grip-color);
+}
+
+/* --- Drag feedback --- */
+.dx-drop-indicator {
+	z-index: 6;
+	background: var(--dx-drop-indicator-bg);
+	border: var(--dx-drop-indicator-border);
+	border-radius: 10px;
+	pointer-events: none;
+	transition: all 0.15s ease;
+}
+
+.dx-root-drop-zone {
+	z-index: 5;
+	background: var(--dx-root-drop-zone-bg);
+	opacity: 0.6;
+	pointer-events: none;
+}
+.dx-root-drop-zone[data-dx-active] {
+	opacity: 1;
+}
+.dx-root-drop-zone[data-dx-side='left'] {
+	border-radius: 0 16px 16px 0;
+}
+.dx-root-drop-zone[data-dx-side='right'] {
+	border-radius: 16px 0 0 16px;
+}
+.dx-root-drop-zone[data-dx-side='top'] {
+	border-radius: 0 0 16px 16px;
+}
+.dx-root-drop-zone[data-dx-side='bottom'] {
+	border-radius: 16px 16px 0 0;
+}
+
+/* --- Tabset toolbar (maximize / fold) --- */
+/* Shown while the tab bar is hovered or focused; folded strips always show it. */
+.dx-toolbar {
+	position: absolute;
+	top: 0;
+	right: 6px;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	padding-left: 6px;
+	/* Opaque, so overflowing tabs slide underneath instead of showing through. */
+	background: inherit;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+.dx-tab-bar:hover .dx-toolbar,
+.dx-tab-bar[data-dx-folded] .dx-toolbar,
+.dx-toolbar:focus-within {
+	opacity: 1;
+}
+@media (hover: none) {
+	.dx-toolbar {
+		opacity: 1;
+	}
+}
+
+.dx-toolbar-button {
+	display: grid;
+	place-items: center;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: 0;
+	border-radius: 4px;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+}
+.dx-toolbar-button:hover {
+	background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Hidden elements (another tabset is maximized, an inactive tab). An attribute,
+   not inline `display`, keeps each slot component's own display value intact. */
+.dx-root [data-dx-hidden] {
+	display: none !important;
+}
+
+.dx-visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
