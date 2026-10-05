@@ -19,7 +19,7 @@
   - a row stuck at its minimum next to a folded tabset;
   - the root staying oversized after the container shrank;
   - center drops inserting before the last tab (they now append).
-- **Packaging:** the CommonJS build loads with `require()` (it was ESM under a `.cjs.js` name), and exports maps give each condition its own types.
+- **Packaging:** the CommonJS build loads with `require()` (it was ESM under a `.cjs.js` name), exports maps give each condition its own types, and the package installs on Node 18 and later (it required Node 22).
 
 **Breaking:**
 - `DynamixLayoutCore`, `Node`, `Bond`, `Node.cache`, `Queue`, `createReactiveState`, the comparators, the drop-preview and DOM helpers, and the `LayoutTree`/`NodeOptions` types are removed.

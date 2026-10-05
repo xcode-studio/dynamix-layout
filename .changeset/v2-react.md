@@ -17,6 +17,8 @@
 - **SSR-safe and deterministic**, with a `'use client'` entry for the Next.js App Router. Works with React 18 and 19; the bundle no longer inlines React 19's JSX runtime.
 - **Fixed:** callback refs are honoured, `layoutTree` changes are no longer ignored, and duplicate DOM ids are gone.
 
+- **Installs on Node 18 and later** (1.x required Node 22).
+
 **Breaking:**
 - Removed:
   - the v1 props and wrapper components (`WrapTab*`, `SliderElement`, `HoverElement`, `RootSplitterHoverEl`);

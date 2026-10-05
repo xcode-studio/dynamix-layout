@@ -1,6 +1,6 @@
 # dynamix-layout v2 — Phase 2 design
 
-Status: **proposal, waiting for approval**. Builds on [01-audit.md](./01-audit.md); `F*`, `R*`, `P*` and `B*` refer to items there.
+Status: **approved and implemented** on the `v2` branch. The final API is documented in [`docs/api`](../api/README.md) and [the migration guide](../migration-v1-to-v2.md); where the implementation differs from this proposal, the docs are authoritative. Differences found during implementation are recorded in §0 and §2.2. Builds on [01-audit.md](./01-audit.md); `F*`, `R*`, `P*` and `B*` refer to items there.
 No source code changes in this phase.
 
 ---
