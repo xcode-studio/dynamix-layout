@@ -1,5 +1,22 @@
 # @dynamix-layout/solid
 
+## 1.1.0
+
+### Minor Changes
+
+- [#83](https://github.com/xcode-studio/dynamix-layout/pull/83) [`034fb0a`](https://github.com/xcode-studio/dynamix-layout/commit/034fb0afced4a7a1b4ca033cbf73771780f520d4) Thanks [@akash-aman](https://github.com/akash-aman)! - Maximize and fold tabsets (UI), on by default:
+
+    - Hover toolbar at the end of every tab bar with Maximize/Restore and Fold/Unfold buttons (accessible labels and tooltips), like LeetCode.
+    - Folded tabsets in side-by-side rows show their tab bar as a rotated vertical strip with the toolbar at the bottom; in stacked rows they shrink to their tab bar.
+    - Double-click a tab bar to maximize/restore; Alt/Option + `+` maximizes and Alt/Option + `-` folds the last touched tabset.
+    - New props: `enableMaximize`, `enableCollapse`, `enableDoubleClickMaximize`, `keyboardShortcuts`, and `TabsetToolbar` to replace the toolbar.
+    - Starting a drag while maximized restores the layout first; locked bonds next to folded tabsets ignore the pointer.
+
+### Patch Changes
+
+- Updated dependencies [[`4f01ca4`](https://github.com/xcode-studio/dynamix-layout/commit/4f01ca47e0ec6c28e68b157b2b2bed1522b92d0f)]:
+    - @dynamix-layout/core@1.2.0
+
 ## 1.0.3
 
 ### Patch Changes
