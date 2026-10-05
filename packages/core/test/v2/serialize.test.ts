@@ -311,6 +311,7 @@ describe('migrateLayoutFromV1', () => {
 		])
 		expect(warnings.map((w) => w.code)).toEqual([
 			'INVALID_ACTIVE_TAB',
+			'INVALID_WEIGHT',
 			'DUPLICATE_TAB_ID',
 		])
 	})

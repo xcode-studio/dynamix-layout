@@ -14,12 +14,8 @@ export function isLayoutV1(input: unknown): input is LayoutTreeV1 {
 	)
 }
 
-const weightOf = (node: LayoutTreeV1) =>
-	typeof node.nodPart === 'number' &&
-	Number.isFinite(node.nodPart) &&
-	node.nodPart >= 0
-		? node.nodPart
-		: 100
+const isValidWeight = (part: unknown): part is number =>
+	typeof part === 'number' && Number.isFinite(part) && part >= 0
 
 /**
  * Converts a layout saved by v1 to the v2 format, losslessly:
@@ -49,6 +45,15 @@ export function migrateLayoutFromV1(
 	options: { onWarning?: WarningHandler } = {}
 ): LayoutJSON {
 	const warn: WarningHandler = options.onWarning ?? (() => {})
+	const weightOf = (node: LayoutTreeV1, path: string) => {
+		if (isValidWeight(node.nodPart)) return node.nodPart
+		warn({
+			code: 'INVALID_WEIGHT',
+			message: 'Invalid weight replaced by 100',
+			path: `${path}.nodPart`,
+		})
+		return 100
+	}
 	if (!isLayoutV1(tree))
 		throw new DynamixLayoutError('INVALID_LAYOUT', 'Not a v1 layout', '')
 
@@ -99,7 +104,7 @@ export function migrateLayoutFromV1(
 		return {
 			type: 'tabset',
 			id: nodeId(node, 'ts'),
-			weight: weightOf(node),
+			weight: weightOf(node, path),
 			...(children.length > 0
 				? { activeTabId: hasOpen ? open : children[0].id }
 				: {}),
@@ -138,7 +143,7 @@ export function migrateLayoutFromV1(
 		return {
 			type: 'row',
 			id: nodeId(node, 'row'),
-			weight: weightOf(node),
+			weight: weightOf(node, path),
 			direction,
 			children,
 		}
