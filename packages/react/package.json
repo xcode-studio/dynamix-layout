@@ -1,6 +1,6 @@
 {
 	"name": "@dynamix-layout/react",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"description": "A powerful React component for creating dynamic, resizable, and draggable layouts.",
 	"keywords": [
 		"react",
