@@ -147,7 +147,7 @@ The Solid `useDynamixLayout` binds a `@dynamix-layout/core` instance to Solid si
 
 ### Example: Saving a Layout
 
-- `updateJSON` receives the layout as [`LayoutJSON`](https://github.com/xcode-studio/dynamix-layout/blob/main/docs/api/layout-json.md) (`version: 2`) once on mount and after every change (a drop, a splitter release, selecting a tab, maximize or fold). Save it to localStorage, a database, or anywhere else, and pass it back as `layoutTree`.
+- `updateJSON` receives the layout as [`LayoutJSON`](https://github.com/xcode-studio/dynamix-layout/blob/main/docs/api/layout-json.md) (`version: 2`) once on mount and after every change (a drop, a splitter release, selecting a tab, maximize or fold). Its second argument says why: `'mount'` for the first call, then `'move'`, `'resize'`, `'select'`, `'fold'`, `'maximize'`, `'tabs'` or `'reset'`. Save it to localStorage, a database, or anywhere else, and pass it back as `layoutTree`.
 
 ```jsx
 import { tabs } from './comp'

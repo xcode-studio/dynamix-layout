@@ -58,7 +58,7 @@ export const useDynamixLayout = (
 		splitterSize: options.bondWidth,
 		// A folded tabset shrinks to its tab bar.
 		foldedSize: options.enableTabbar ? options.tabHeadHeight : minHeight,
-		onLayoutChange: (json) => options.updateJSON?.(json),
+		onLayoutChange: (json, reason) => options.updateJSON?.(json, reason),
 	})
 
 	const [snapshot, setSnapshot] = createSignal(engine.getSnapshot(), {
@@ -217,7 +217,7 @@ export const useDynamixLayout = (
 		window.addEventListener('resize', onResize)
 		window.addEventListener('keydown', onKeyDown)
 		// v1 behaviour, kept for the minimal port: report the layout once mounted.
-		options.updateJSON?.(engine.toJSON())
+		options.updateJSON?.(engine.toJSON(), 'mount')
 
 		onCleanup(() => {
 			clearTimeout(timer)

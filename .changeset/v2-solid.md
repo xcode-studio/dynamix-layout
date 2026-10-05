@@ -10,6 +10,7 @@
 - `tabs` is reactive: add an entry to open a tab, remove it to close one. Existing tabs keep their content mounted.
 - Closable tabs: a third tuple element `{ title, closable }` and an `onTabClose` prop.
 - `onReady(layout)` gives the engine for actions from code (`maximize`, `fold`, `selectTab`, `moveTab`, `reset`, `toJSON`, …).
+- `updateJSON(layout, reason)` also says why it was called: `'move'`, `'resize'`, `'select'`, `'fold'`, `'maximize'`, `'tabs'`, `'reset'`, or `'mount'` for the first call (type `LayoutUpdateReason`).
 
 **Breaking:**
 - `layoutTree` accepts v2 JSON (v1 trees are migrated automatically), and `updateJSON` receives v2 `LayoutJSON`.

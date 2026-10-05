@@ -189,4 +189,20 @@ describe('Solid additions for the feature showcase', () => {
 			document.querySelectorAll('[data-tabbar][data-dx-hidden]')
 		).toHaveLength(1)
 	})
+
+	it('passes the change reason to updateJSON', () => {
+		const reasons: string[] = []
+		let engine: Layout | undefined
+		render(() => (
+			<DynamixLayout
+				tabs={tabs()}
+				onReady={(layout) => (engine = layout)}
+				updateJSON={(_, reason) => reasons.push(reason)}
+			/>
+		))
+		const [first] = engine!.getSnapshot().tabsets.keys()
+		engine!.maximize(first)
+		engine!.selectTab('terminal')
+		expect(reasons).toEqual(['mount', 'maximize', 'select'])
+	})
 })

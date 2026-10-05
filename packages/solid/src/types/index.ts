@@ -1,10 +1,14 @@
 import type {
 	Layout,
+	LayoutChangeReason,
 	LayoutJSON,
 	LayoutTreeV1,
 	Rect,
 } from '@dynamix-layout/core'
 import { JSX } from 'solid-js'
+
+/** Why `updateJSON` was called. */
+export type LayoutUpdateReason = LayoutChangeReason | 'mount'
 
 export type DivFC = (
 	props: { children?: JSX.Element } & JSX.HTMLAttributes<HTMLDivElement>
@@ -63,8 +67,11 @@ export interface LayoutProps {
 	class?: string
 	style?: JSX.CSSProperties
 	bondWidth?: number
-	/** Called with the v2 layout after every change, and once on mount. */
-	updateJSON?: (layout: LayoutJSON) => void
+	/**
+	 * Called with the v2 layout after every change, and once on mount.
+	 * `reason` says why: the core's `LayoutChangeReason`, or `'mount'`.
+	 */
+	updateJSON?: (layout: LayoutJSON, reason: LayoutUpdateReason) => void
 	minTabHeight?: number
 	minTabWidth?: number
 	sliderUpdateTimeout?: number
@@ -115,7 +122,7 @@ export interface TabsetToolbarProps {
 export interface useDynamixLayoutOptions {
 	tabIds: string[]
 	layoutTree?: LayoutJSON | LayoutTreeV1
-	updateJSON?: (layout: LayoutJSON) => void
+	updateJSON?: (layout: LayoutJSON, reason: LayoutUpdateReason) => void
 	enableTabbar: boolean
 	/** The area to fill, relative to the root element. */
 	container: () => Rect
