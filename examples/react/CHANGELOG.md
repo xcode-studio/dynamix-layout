@@ -1,5 +1,13 @@
 # shadcn
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [[`a31dc4c`](https://github.com/xcode-studio/dynamix-layout/commit/a31dc4c2aef4facb8b80f94b9e3d97c36e148ccc), [`a31dc4c`](https://github.com/xcode-studio/dynamix-layout/commit/a31dc4c2aef4facb8b80f94b9e3d97c36e148ccc)]:
+    - @dynamix-layout/core@2.0.0
+    - @dynamix-layout/react@2.0.0
+
 ## 0.0.6
 
 ### Patch Changes
