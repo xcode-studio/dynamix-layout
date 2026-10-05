@@ -6,7 +6,11 @@ import React, {
 	useRef,
 } from 'react'
 import { useDynamixLayout } from '../hooks/useLayout'
-import { DynamixLayoutCore, NodeOptions } from '@dynamix-layout/core'
+import {
+	DynamixLayoutCore,
+	NodeOptions,
+	getTabbarPlacement,
+} from '@dynamix-layout/core'
 import { LayoutProps, TabEntry, TabInput, TabOutput } from '../types'
 import {
 	DefaultHoverElement,
@@ -15,6 +19,7 @@ import {
 	DefaultWrapTabHead,
 	DefaultSliderElement,
 	DefaultWrapTabBody,
+	DefaultTabsetToolbar,
 	RootSplitterHoverEl,
 } from './Default'
 import './layout.css'
@@ -88,6 +93,11 @@ export const DynamixLayout: ForwardRefExoticComponent<
 			tabHeadElementClass,
 			tabLabelElementClass,
 			RootSplitterHoverElClass,
+			enableMaximize = true,
+			enableCollapse = true,
+			enableDoubleClickMaximize = true,
+			keyboardShortcuts = true,
+			TabsetToolbar = DefaultTabsetToolbar,
 			...props
 		}: LayoutProps,
 		ref?
@@ -129,6 +139,10 @@ export const DynamixLayout: ForwardRefExoticComponent<
 			handleRootSplit,
 			tabsRef,
 			isUpdating,
+			toggleMaximize,
+			toggleCollapse,
+			onRootPointerDown,
+			onTabbarDoubleClick,
 		} = useDynamixLayout({
 			tabOutput,
 			rootId,
@@ -145,7 +159,12 @@ export const DynamixLayout: ForwardRefExoticComponent<
 			disableSliderTimeout,
 			disableResizeTimeout,
 			hoverElementStyles,
+			keyboardShortcuts,
+			enableDoubleClickMaximize,
 		})
+
+		// Folding needs the tab bar: a folded tabset is only its tab bar.
+		const canFold = enableCollapse && enableTabbar
 
 		return (
 			<div
@@ -154,6 +173,7 @@ export const DynamixLayout: ForwardRefExoticComponent<
 				{...props}
 				data-testid={rootId}
 				className={dragging ? 'is-dragging' : ''}
+				onPointerDownCapture={onRootPointerDown}
 				style={{
 					position: 'relative',
 					width: '100%',
@@ -164,95 +184,154 @@ export const DynamixLayout: ForwardRefExoticComponent<
 			>
 				{enableTabbar &&
 					tabsets &&
-					Array.from(tabsets.values()).map((tabset) => (
-						<React.Fragment key={tabset.uidNode}>
-							<WrapTabPanel
-								ref={(el) => {
-									const id = tabset.uidNode
-									if (el) panelsRef.current.set(id, el)
-									else panelsRef.current.delete(id)
-								}}
-								onDragEnd={onDragEnd}
-								onDragOver={onDragOver}
-								onDragEnter={onDragEnter}
-								onDragLeave={onDragLeave}
-								onDrop={onDrop}
-								data-uid={tabset.uidNode}
-								data-type={tabset.typNode}
-								className={
-									'hide-scrollbar DefaultWrapTabPanel ' +
-									(tabPanelElementClass || '')
-								}
-								style={{
-									position: 'absolute',
-									...tabPanelElementStyles,
-									width: `${tabset.nodDims.w}px`,
-									height: `${tabset.nodDims.h}px`,
-									left: `${tabset.nodDims.x}px`,
-									top: `${tabset.nodDims.y}px`,
-									backgroundColor: 'transparent',
-								}}
-							/>
+					Array.from(tabsets.values()).map((tabset) => {
+						const placement = getTabbarPlacement(
+							tabset,
+							tabHeadHeight
+						)
+						const showMaximize =
+							enableMaximize && !!tabset.nodMaximizable
+						const showFold =
+							canFold && !!tabset.nodFoldable && !tabset.nodMaxd
+						const hasToolbar = showMaximize || showFold
 
-							<WrapTabHead
-								draggable={!isUpdating}
-								data-uid={tabset.uidNode}
-								data-type={'tabset'}
-								onDragOver={handleNavbarDragOver}
-								onDragStart={onDragStart}
-								onDragEnd={onDragEnd}
-								onDragEnter={onDragEnter}
-								onDragLeave={onDragLeave}
-								onDrop={onDrop}
-								ref={(el) => {
-									const id = tabset.uidNode
-									if (el) tabsetsRef.current.set(id, el)
-									else tabsetsRef.current.delete(id)
-								}}
-								className={
-									'hide-scrollbar ' +
-									(tabHeadElementClass || '')
-								}
-								style={{
-									...tabHeadElementStyles,
-									position: 'absolute',
-									zIndex: 99,
-									width: `${tabset.nodDims.w}px`,
-									height: `${tabHeadHeight}px`,
-									left: `${tabset.nodDims.x}px`,
-									top: `${tabset.nodDims.y}px`,
-									cursor: isUpdating ? 'wait' : 'pointer',
-								}}
-							>
-								{tabset.nodKids &&
-									tabset.nodKids.map((tab: NodeOptions) => (
-										<WrapTabLabel
-											key={tab.uidNode}
-											data-uid={tab.uidNode}
-											data-type={'tab'}
-											onDragStart={onDragStart}
-											onDragEnd={onDragEnd}
-											draggable={!isUpdating}
-											active={tab.nodOpen as boolean}
-											className={
-												'hide-scrollbar ' +
-												(tabLabelElementClass || '')
+						return (
+							<React.Fragment key={tabset.uidNode}>
+								<WrapTabPanel
+									ref={(el) => {
+										const id = tabset.uidNode
+										if (el) panelsRef.current.set(id, el)
+										else panelsRef.current.delete(id)
+									}}
+									onDragEnd={onDragEnd}
+									onDragOver={onDragOver}
+									onDragEnter={onDragEnter}
+									onDragLeave={onDragLeave}
+									onDrop={onDrop}
+									data-uid={tabset.uidNode}
+									data-type={tabset.typNode}
+									className={
+										'hide-scrollbar DefaultWrapTabPanel ' +
+										(tabPanelElementClass || '')
+									}
+									style={{
+										position: 'absolute',
+										...tabPanelElementStyles,
+										width: `${tabset.nodDims.w}px`,
+										height: `${tabset.nodDims.h}px`,
+										left: `${tabset.nodDims.x}px`,
+										top: `${tabset.nodDims.y}px`,
+										backgroundColor: 'transparent',
+									}}
+								/>
+
+								<WrapTabHead
+									draggable={!isUpdating}
+									data-uid={tabset.uidNode}
+									data-type={'tabset'}
+									data-tabbar=""
+									data-folded={
+										tabset.nodFold ? '' : undefined
+									}
+									data-maximized={
+										tabset.nodMaxd ? '' : undefined
+									}
+									data-dx-hidden={
+										tabset.nodHidden ? '' : undefined
+									}
+									data-rotated={
+										placement.rotated ? '' : undefined
+									}
+									onDoubleClick={onTabbarDoubleClick}
+									onDragOver={handleNavbarDragOver}
+									onDragStart={onDragStart}
+									onDragEnd={onDragEnd}
+									onDragEnter={onDragEnter}
+									onDragLeave={onDragLeave}
+									onDrop={onDrop}
+									ref={(el) => {
+										const id = tabset.uidNode
+										if (el) tabsetsRef.current.set(id, el)
+										else tabsetsRef.current.delete(id)
+									}}
+									className={
+										'hide-scrollbar ' +
+										(tabHeadElementClass || '')
+									}
+									style={{
+										...tabHeadElementStyles,
+										position: 'absolute',
+										zIndex: 99,
+										width: `${placement.rect.w}px`,
+										height: `${placement.rect.h}px`,
+										left: `${placement.rect.x}px`,
+										top: `${placement.rect.y}px`,
+										transformOrigin: '0 0',
+										// Only add keys when needed: an explicit `undefined`
+										// would wipe the tab bar component's own value.
+										...(placement.rotated
+											? { transform: 'rotate(90deg)' }
+											: {}),
+										...(hasToolbar
+											? { paddingRight: '64px' }
+											: {}),
+										cursor: isUpdating ? 'wait' : 'pointer',
+									}}
+								>
+									{tabset.nodKids &&
+										tabset.nodKids.map(
+											(tab: NodeOptions) => (
+												<WrapTabLabel
+													key={tab.uidNode}
+													data-uid={tab.uidNode}
+													data-type={'tab'}
+													onDragStart={onDragStart}
+													onDragEnd={onDragEnd}
+													draggable={!isUpdating}
+													active={
+														tab.nodOpen as boolean
+													}
+													className={
+														'hide-scrollbar ' +
+														(tabLabelElementClass ||
+															'')
+													}
+													style={{
+														cursor: isUpdating
+															? 'wait'
+															: 'pointer',
+														...tabLabelElementStyles,
+													}}
+													onClick={updateActiveTab}
+												>
+													{tabNames.get(
+														tab.nodName
+													) || tab.nodName}
+												</WrapTabLabel>
+											)
+										)}
+									{hasToolbar && (
+										<TabsetToolbar
+											maximized={!!tabset.nodMaxd}
+											folded={!!tabset.nodFold}
+											rotated={placement.rotated}
+											rowIsHorizontal={
+												tabset.nodeDir === false
 											}
-											style={{
-												cursor: isUpdating
-													? 'wait'
-													: 'pointer',
-												...tabLabelElementStyles,
-											}}
-											onClick={updateActiveTab}
-										>
-											{tabNames.get(tab.nodName) ||
-												tab.nodName}
-										</WrapTabLabel>
-									))}
-							</WrapTabHead>
-						</React.Fragment>
-					))}
+											showMaximize={showMaximize}
+											showFold={showFold}
+											onToggleMaximize={() =>
+												toggleMaximize(tabset.uidNode)
+											}
+											onToggleFold={() =>
+												toggleCollapse(tabset.uidNode)
+											}
+										/>
+									)}
+								</WrapTabHead>
+							</React.Fragment>
+						)
+					})}
 
 				{tabOutput.keys.map((key) => {
 					const tabId = tabOutput.maps.get(key)?.uqid
@@ -295,6 +374,7 @@ export const DynamixLayout: ForwardRefExoticComponent<
 							key={slider.uidNode}
 							id={slider.uidNode}
 							data-uid={slider.uidNode}
+							data-dx-hidden={slider.nodHidden ? '' : undefined}
 							direction={slider.nodeDir}
 							onPointerDown={onPointerDown}
 							className={
@@ -313,6 +393,9 @@ export const DynamixLayout: ForwardRefExoticComponent<
 								cursor: slider.nodeDir
 									? 'ns-resize'
 									: 'ew-resize',
+								...(slider.nodLocked
+									? { pointerEvents: 'none' as const }
+									: {}),
 								...sliderElementStyles,
 							}}
 						/>

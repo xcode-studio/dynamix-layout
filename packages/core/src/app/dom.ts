@@ -1,4 +1,4 @@
-import type { Dimension } from '../type'
+import type { Dimension, NodeOptions } from '../type'
 
 /** @deprecated Replaced in 2.0 by `applyRect(element, rect)`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export function setElementRect(el: HTMLElement, { x, y, w, h }: Dimension) {
@@ -22,6 +22,37 @@ export function getTabBodyRect(
 		w: tabset.w,
 		h: Math.max(0, tabset.h - tabbarHeight),
 	}
+}
+
+export interface TabbarPlacement {
+	/** Box to give the tab bar element before `rotated` is applied. */
+	rect: Dimension
+	/** Folded tabset in a side-by-side row: the bar is drawn as a vertical strip. */
+	rotated: boolean
+}
+
+/**
+ * Where a tabset's tab bar goes. A folded tabset in a side-by-side row shows
+ * its tab bar rotated 90 degrees: an element `h` wide and `w` tall, rotated
+ * around its top-left corner and placed at `x + w`, covers exactly the strip.
+ */
+export function getTabbarPlacement(
+	tabset: Pick<NodeOptions, 'nodDims' | 'nodFold' | 'nodeDir'>,
+	tabbarHeight: number
+): TabbarPlacement {
+	const { x, y, w, h } = tabset.nodDims
+	// A tabset's own direction is the opposite of its row's.
+	const rowIsHorizontal = tabset.nodeDir === false
+	if (tabset.nodFold && rowIsHorizontal) {
+		return { rect: { x: x + w, y, w: h, h: w }, rotated: true }
+	}
+	return { rect: { x, y, w, h: tabbarHeight }, rotated: false }
+}
+
+export function placeTabbar(el: HTMLElement, placement: TabbarPlacement) {
+	setElementRect(el, placement.rect)
+	el.style.transformOrigin = '0 0'
+	el.style.transform = placement.rotated ? 'rotate(90deg)' : ''
 }
 
 export interface FrameScheduler<T> {

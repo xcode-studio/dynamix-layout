@@ -86,6 +86,10 @@ export function updateTree(
 		return false
 	}
 
+	// Any move ends maximize, and a dragged tabset arrives unfolded.
+	layoutState.maximized = null
+	srcNode.collapsed = false
+
 	if (
 		desNode.type === 'tab' &&
 		(layout === 'contain' || layout === 'left' || layout === 'right')
@@ -160,6 +164,7 @@ export function moveNodeAsTab(
 		desHst.kids.insert(insertIdx, src)
 		src.host = desHst
 		desHst.open = src.name
+		desHst.collapsed = false
 	} else if (src.type == 'tabset') {
 		const kidFst = src.kids.peek()
 		const kidLst = src.kids.peekBack()
@@ -180,6 +185,7 @@ export function moveNodeAsTab(
 		}
 
 		desHst.open = kidLst ? kidLst.name : ''
+		desHst.collapsed = false
 	}
 
 	engine.updateChildDirections(desHst)

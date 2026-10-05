@@ -1,4 +1,5 @@
-import { JSX, createMemo, splitProps } from 'solid-js'
+import { JSX, createMemo, onCleanup, onMount, splitProps } from 'solid-js'
+import type { TabsetToolbarProps } from '../types'
 
 type DivProps = {
 	children?: JSX.Element
@@ -264,6 +265,91 @@ export const RootSplitterHoverEl = (
 			}}
 		>
 			{local.children}
+		</div>
+	)
+}
+
+const ToolbarIcon = (props: { path: string; rotate?: number }) => (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="14"
+		height="14"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		aria-hidden="true"
+		style={props.rotate ? { transform: `rotate(${props.rotate}deg)` } : {}}
+	>
+		<path d={props.path} />
+	</svg>
+)
+
+const ICON_MAXIMIZE =
+	'M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3'
+const ICON_RESTORE =
+	'M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3'
+const ICON_CHEVRON_LEFT = 'm15 18-6-6 6-6'
+
+export const DefaultTabsetToolbar = (props: TabsetToolbarProps) => {
+	// Fold points back along the row (left or up); unfold points the other way.
+	// Inside a rotated strip the icons are turned back so they read upright.
+	const chevronTurn = () =>
+		(props.rowIsHorizontal ? 0 : 90) + (props.folded ? 180 : 0)
+	const upright = () => (props.rotated ? -90 : 0)
+	let toolbar: HTMLDivElement | undefined
+
+	// Stay pinned to the visible end of the tab bar when its tabs overflow
+	// and it scrolls.
+	onMount(() => {
+		const bar = toolbar?.parentElement
+		if (!toolbar || !bar) return
+		const pin = () => {
+			toolbar!.style.transform = `translateX(${bar.scrollLeft}px)`
+		}
+		pin()
+		bar.addEventListener('scroll', pin, { passive: true })
+		onCleanup(() => bar.removeEventListener('scroll', pin))
+	})
+
+	return (
+		<div
+			ref={toolbar}
+			class="DefaultTabsetToolbar"
+			onDblClick={(e) => e.stopPropagation()}
+		>
+			{props.showMaximize && (
+				<button
+					type="button"
+					class="DefaultTabsetToolbarButton"
+					aria-label={props.maximized ? 'Restore' : 'Maximize'}
+					aria-pressed={props.maximized}
+					title={props.maximized ? 'Restore (⌥ +)' : 'Maximize (⌥ +)'}
+					onClick={() => props.onToggleMaximize()}
+				>
+					<ToolbarIcon
+						path={props.maximized ? ICON_RESTORE : ICON_MAXIMIZE}
+						rotate={upright()}
+					/>
+				</button>
+			)}
+			{props.showFold && (
+				<button
+					type="button"
+					class="DefaultTabsetToolbarButton"
+					aria-label={props.folded ? 'Unfold' : 'Fold'}
+					aria-expanded={!props.folded}
+					title={props.folded ? 'Unfold (⌥ -)' : 'Fold (⌥ -)'}
+					onClick={() => props.onToggleFold()}
+				>
+					<ToolbarIcon
+						path={ICON_CHEVRON_LEFT}
+						rotate={chevronTurn() + upright()}
+					/>
+				</button>
+			)}
 		</div>
 	)
 }

@@ -148,6 +148,28 @@ export function createBinaryNodeTreeFromQueue(
 		}
 		const dir = Node.cache.mapDirs.get(host.unId)
 
+		// A single tab gets one tabset; splitting would leave an empty row
+		// sibling taking half of the space.
+		if (queue.size() === 1) {
+			const name = queue.dequeue()
+			const only = new Node({ type: 'tabset', host })
+			const tab = new Node({
+				type: 'tab',
+				host: only,
+				name,
+				unId: engine.tabsIds.get(name ?? '') ?? layoutState.createId(),
+			})
+			only.open = tab.name
+			only.kids.enqueue(tab)
+			host.kids.enqueue(only)
+
+			Node.cache.mapDirs.set(only.unId, !dir!)
+			Node.cache.mapDirs.set(tab.unId, dir!)
+			Node.cache.mapElem.set(only.unId, only)
+			Node.cache.mapElem.set(tab.unId, tab)
+			break
+		}
+
 		if (queue.size() == 2) {
 			const leftName = queue.dequeue()
 			const rghtName = queue.dequeue()
@@ -228,6 +250,7 @@ export function createNodeFromJSON(engine: Layout, json: LayoutTree): Node {
 		dims: { w: 0, h: 0, x: 0, y: 0 },
 		open: typeof json.nodOpen === 'string' ? json.nodOpen : '',
 	})
+	newNode.collapsed = json.typNode === 'tabset' && json.nodFold === true
 
 	if (json.typNode === 'tab') {
 		newNode.unId = engine.tabsIds.get(json.nodName) || json.uidNode

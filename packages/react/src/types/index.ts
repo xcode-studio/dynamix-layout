@@ -133,6 +133,38 @@ export interface LayoutProps {
 	rootId?: string
 	/** @deprecated Replaced in v2 by `tabs: { id, title, content }[]`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 	tabNames?: Map<string, string | ReactNode>
+	/**
+	 * Show the maximize button on tab bars (default true).
+	 * @deprecated Replaced in v2 by `allowMaximize`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md
+	 */
+	enableMaximize?: boolean
+	/**
+	 * Show the fold button on tab bars (default true; needs the tab bar).
+	 * @deprecated Replaced in v2 by `allowFold`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md
+	 */
+	enableCollapse?: boolean
+	/**
+	 * Double-click a tab bar to maximize or restore it (default true).
+	 * @deprecated Replaced in v2 by `maximizeOnDoubleClick`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md
+	 */
+	enableDoubleClickMaximize?: boolean
+	/** Alt/Option + "+" maximizes, Alt/Option + "-" folds the active tabset (default true). */
+	keyboardShortcuts?: boolean
+	/** @deprecated Replaced in v2 by `components.TabsetToolbar` (its props become `{ tabset, isRotated, canMaximize, canFold, … }`). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
+	TabsetToolbar?: React.ComponentType<TabsetToolbarProps>
+}
+
+export interface TabsetToolbarProps {
+	maximized: boolean
+	folded: boolean
+	/** The tab bar is drawn as a rotated vertical strip (folded, side-by-side row). */
+	rotated: boolean
+	/** The tabset's row lays its children out side by side. */
+	rowIsHorizontal: boolean
+	showMaximize: boolean
+	showFold: boolean
+	onToggleMaximize: () => void
+	onToggleFold: () => void
 }
 
 /** @deprecated Internal; removed in 2.0. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
@@ -152,4 +184,6 @@ export interface useDynamixLayoutOptions {
 	minTabHeight: number
 	minTabWidth: number
 	tabHeadHeight: number
+	keyboardShortcuts?: boolean
+	enableDoubleClickMaximize?: boolean
 }

@@ -50,6 +50,12 @@ export function updateSliderDimension(
 		return
 	}
 
+	// Bonds next to a folded tabset are locked, and nothing moves while a
+	// tabset is maximized.
+	if (prev.collapsed || next.collapsed || layoutState.maximized) {
+		return
+	}
+
 	const prevMinDim = Node.cache.dimMins.get(prev.unId) || {
 		minWidth: 0,
 		minHeight: 0,
