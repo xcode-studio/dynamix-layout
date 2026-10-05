@@ -278,3 +278,37 @@ describe('headless hooks', () => {
 		)
 	})
 })
+
+describe('stability', () => {
+	it('keeps every function from useDynamixLayout and useTab stable across renders', () => {
+		const seen: unknown[][] = []
+		function Probe() {
+			const { getTabProps, getTabContentProps, select, close } =
+				useTab('a')
+			seen.push([getTabProps, getTabContentProps, select, close])
+			return null
+		}
+		function App({ tick }: { tick: number }) {
+			const layout = useDynamixLayout({
+				tabs: [{ id: 'a', title: `A${tick}` }, { id: 'b' }],
+			})
+			seen.push([layout.getRootProps, layout.controller, layout.actions])
+			return (
+				<DynamixLayoutProvider controller={layout.controller}>
+					<div {...layout.getRootProps()}>
+						<Probe />
+					</div>
+				</DynamixLayoutProvider>
+			)
+		}
+		const { rerender } = render(<App tick={0} />)
+		rerender(<App tick={1} />)
+		const layoutRenders = seen.filter((entry) => entry.length === 3)
+		const tabRenders = seen.filter((entry) => entry.length === 4)
+		expect(layoutRenders.length).toBeGreaterThan(1)
+		for (const entry of [...layoutRenders.slice(1)])
+			entry.forEach((fn, i) => expect(fn).toBe(layoutRenders[0][i]))
+		for (const entry of [...tabRenders.slice(1)])
+			entry.forEach((fn, i) => expect(fn).toBe(tabRenders[0][i]))
+	})
+})

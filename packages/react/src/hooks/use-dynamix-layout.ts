@@ -62,7 +62,7 @@ export function useDynamixLayout(
 	options: UseDynamixLayoutOptions
 ): UseDynamixLayoutResult {
 	const reactId = useId()
-	const { core, contextValue, rootRef, isMeasured, tabIds } = useController(
+	const { core, contextValue, rootRef, tabIds } = useController(
 		options,
 		options.id ?? reactId
 	)
@@ -81,7 +81,7 @@ export function useDynamixLayout(
 				className: 'dx-root',
 				// Positioned children need a containing block, with or without the stylesheet.
 				style: { position: 'relative' as const },
-				'data-dx-measuring': isMeasured ? undefined : '',
+				'data-dx-measuring': core.isMeasured ? undefined : '',
 				'data-dx-dragging': core.engine.getSnapshot().drag
 					? ''
 					: undefined,
@@ -92,7 +92,7 @@ export function useDynamixLayout(
 				onFocusCapture: (event: FocusEvent<HTMLDivElement>) =>
 					trackFocusedTabset(core, event.target),
 			}),
-		[core, rootRef, isMeasured]
+		[core, rootRef]
 	) as PropGetter
 
 	const indicatorRef = useCallback(

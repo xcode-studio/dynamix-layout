@@ -142,7 +142,8 @@ export function useController(
 	})
 
 	const [root, setRoot] = useState<HTMLElement | null>(null)
-	const [isMeasured, setMeasured] = useState(false)
+	// State only to re-render once measured; getters read `core.isMeasured`.
+	const [, setMeasured] = useState(false)
 	const rootRef = useCallback(
 		(element: HTMLElement | null) => {
 			core.root = element
@@ -154,6 +155,7 @@ export function useController(
 		if (!root) return
 		const stopObserving = observeContainer(core, root)
 		const stopWriting = startRectWriter(core)
+		core.isMeasured = true
 		setMeasured(true)
 		return () => {
 			stopObserving()
@@ -175,5 +177,5 @@ export function useController(
 	)
 	const tabIds = useMemo(() => (key === '' ? [] : key.split('\u0000')), [key])
 
-	return { core, contextValue, rootRef, isMeasured, tabIds }
+	return { core, contextValue, rootRef, tabIds }
 }

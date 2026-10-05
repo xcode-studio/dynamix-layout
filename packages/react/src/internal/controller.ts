@@ -46,6 +46,8 @@ export interface LayoutController {
 	options: ControllerOptions
 	/** The root element, once mounted. */
 	root: HTMLElement | null
+	/** The container has been measured (the first render can't know its size). */
+	isMeasured: boolean
 	/** Tabset the user last pointed at or focused (target of keyboard shortcuts). */
 	focusedTabsetId: string | null
 	/** Plain-text tab titles for announcements and ARIA labels (ids when titles aren't text). */
@@ -132,6 +134,7 @@ export function createController(
 		ids: createDomIds(init.idBase),
 		options: init.options,
 		root: null,
+		isMeasured: false,
 		focusedTabsetId: null,
 		labels: new Map(),
 		register(slot, id, element) {
