@@ -1,3 +1,4 @@
+/** @deprecated Internal; removed in 2.0. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 class Queue<T> {
 	private buffer: (T | undefined)[]
 	private head: number = 0

@@ -1,5 +1,6 @@
 import { Node, Bond } from '../app/dynamix'
 
+/** @deprecated Replaced in 2.0 by `Rect { x, y, width, height }`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export type Dimension = {
 	w: number
 	h: number
@@ -32,10 +33,12 @@ export interface BaseNode {
 	nodOpen?: string | boolean
 }
 
+/** @deprecated Replaced in 2.0 by `LayoutJSON` (v1 trees load automatically; `LayoutTreeV1` describes this shape). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export type LayoutTree = Omit<BaseNode, 'nodeDir' | 'nodDims'> & {
 	nodKids?: LayoutTree[]
 }
 
+/** @deprecated Replaced in 2.0 by `TabsetState`, `SplitterState`, `TabState` and `snapshot.rects`. See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export interface NodeOptions extends BaseNode {
 	nodKids?: BaseNode[]
 }

@@ -5,6 +5,7 @@ type DefaultWrapTabLabelProps = HTMLAttributes<HTMLDivElement> & {
 	children?: ReactNode
 }
 
+/** @deprecated Renamed in 2.0 to `Tab` (pass it as `components.Tab`). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const DefaultWrapTabLabel = forwardRef<
 	HTMLDivElement,
 	DefaultWrapTabLabelProps
@@ -28,6 +29,7 @@ export const DefaultWrapTabLabel = forwardRef<
 ))
 DefaultWrapTabLabel.displayName = 'DefaultWrapTabLabel'
 
+/** @deprecated Renamed in 2.0 to `TabContent` (pass it as `components.TabContent`). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const DefaultWrapTabBody = forwardRef<
 	HTMLDivElement,
 	{ children?: ReactNode } & HTMLAttributes<HTMLDivElement>
@@ -52,6 +54,7 @@ export const DefaultWrapTabBody = forwardRef<
 ))
 DefaultWrapTabBody.displayName = 'DefaultWrapTabBody'
 
+/** @deprecated Renamed in 2.0 to `TabBar` (pass it as `components.TabBar`). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const DefaultWrapTabHead = forwardRef<
 	HTMLDivElement,
 	{ children?: ReactNode } & HTMLAttributes<HTMLDivElement>
@@ -83,6 +86,7 @@ export const DefaultWrapTabHead = forwardRef<
 ))
 DefaultWrapTabHead.displayName = 'DefaultWrapTabHead'
 
+/** @deprecated Renamed in 2.0 to `Panel` (pass it as `components.Panel`). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const DefaultWrapTabPanel = forwardRef<
 	HTMLDivElement,
 	{ children?: ReactNode } & HTMLAttributes<HTMLDivElement>
@@ -106,6 +110,7 @@ export const DefaultWrapTabPanel = forwardRef<
 ))
 DefaultWrapTabPanel.displayName = 'DefaultWrapTabPanel'
 
+/** @deprecated Renamed in 2.0 to `DropIndicator` (pass it as `components.DropIndicator`). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const DefaultHoverElement = forwardRef<
 	HTMLDivElement,
 	{ children?: ReactNode } & HTMLAttributes<HTMLDivElement>
@@ -141,6 +146,7 @@ type DefaultSliderElementProps = HTMLAttributes<HTMLDivElement> & {
 	direction?: boolean
 }
 
+/** @deprecated Renamed in 2.0 to `Splitter` (pass it as `components.Splitter`). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const DefaultSliderElement = forwardRef<
 	HTMLDivElement,
 	DefaultSliderElementProps
@@ -216,6 +222,7 @@ export const DefaultSliderElement = forwardRef<
 ))
 DefaultSliderElement.displayName = 'DefaultSliderElement'
 
+/** @deprecated Renamed in 2.0 to `RootDropZone` (pass it as `components.RootDropZone`). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const RootSplitterHoverEl = forwardRef<
 	HTMLDivElement,
 	{

@@ -19,6 +19,7 @@ import {
 } from './Default'
 import './layout.css'
 
+/** @deprecated Internal; removed in 2.0 (tabs are objects with stable ids). See https://github.com/xcode-studio/dynamix-layout/blob/main/docs/migration-v1-to-v2.md */
 export const getTabOutput = (input: TabInput): TabOutput => {
 	const keys: string[] = []
 	const maps: Map<string, TabEntry> = new Map<string, TabEntry>()
